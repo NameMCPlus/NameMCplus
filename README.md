@@ -13,10 +13,8 @@ Manual Install:
 
 2. Extract the .zip file
 
-3. Go to browser settings -> Extensions or [Click Here](chrome://extensions)
+3. Go to browser settings -> Extensions or go to chrome://extensions
 
 4. Enable Developer Mode then Load unpacked extension
 
 5. Select the folder that you extracted
-
-[Test](https://m6.wtf)
