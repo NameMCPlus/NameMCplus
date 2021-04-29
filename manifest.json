@@ -1,0 +1,18 @@
+{
+    "name": "NameM6",
+    "description": "First test build",
+    "version": "0.1",
+    "author": "M6",
+    "manifest_version": 3,
+    "content_scripts": [
+        {
+            "matches": ["https://*.namemc.com/search*"],
+            "js": ["nameSearch.js"]
+        }
+    ],
+    "permissions": ["activeTab"],
+    "web_accessible_resources": [{
+        "resources": ["js/*"],
+        "matches": ["https://namemc.com/*"]
+    }]
+}
