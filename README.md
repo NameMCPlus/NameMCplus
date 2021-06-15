@@ -16,7 +16,7 @@ Planned:
 - Option to make I and l look the same
 - Marc Cape Easter Egg
 - Test profile / Cape Tester
-? - Third-party cosmetics render
+- Third-party cosmetics render ?
 
 # Installation
 
