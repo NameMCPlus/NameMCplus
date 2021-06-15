@@ -13,7 +13,7 @@ Manual Install:
 
 2. Extract the .zip file
 
-3. Go to browser settings -> Extensions or go to chrome://extensions
+3. Go to browser settings -> Extensions or go to chrome://extensions (browser://extensions)
 
 4. Enable Developer Mode then Load unpacked extension
 
