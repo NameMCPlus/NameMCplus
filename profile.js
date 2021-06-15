@@ -1,4 +1,7 @@
+//by M6 (M6yo) & Faav (withdrew)
+
 var username = document.querySelector("h1").innerHTML;
+var template = document.createElement("template");
 
 setStatus(username);
 
@@ -8,7 +11,6 @@ function setStatus(username) {
 .then(data => {
   var type = data.status;
   var uuid = data.uuid
-  var template = document.createElement("template");
   if (type == "msa") {
     accountType = "Microsoft";
   } else if (type == "migrated_msa") {
