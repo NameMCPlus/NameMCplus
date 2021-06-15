@@ -1,64 +1,34 @@
+//by M6 (M6yo) & Faav (withdrew)
 
-var theName = document.querySelector("#status-bar > div > div > div.col-md-7 > h1 > samp").innerHTML;
+var username = document.querySelector(".my-1, .px-3").firstElementChild.innerHTML;
+var namemcStatus = document.querySelector(".col-sm-6.my-1").lastElementChild.innerHTML;
 
-isBlocked(theName);
-
-function f() {
-    // removes fine print under name availability
-    var a = document.querySelector("body > main > div.mb-3 > small");
-    a.remove("d-block text-right");
-
+function removeFinePrint() {
+  // removes fine print under name availability
+  var a = document.querySelector("body > main > div.mb-3 > small");
+  a.remove("d-block text-right");
 }
 
-function isBlocked(theName) {
+betterNameMC(username);
 
-fetch( `https://api.gapple.pw/blocked/${theName}`  )
-.then( response => response.json() )
-.then( response => {
-    switch(response.status) {
+function betterNameMC(username) {
+  fetch(`https://api.gapple.pw/blocked/${username}`)
+    .then(response => {
+      if (response.ok) return response.json();
+      return response.json().then(response => response)
+    })
+    .then(data => {
+      var status = data.status;
 
-        case `blocked`:
-
-            f();
-
-            var availability = document.querySelector("#status-bar > div > div > div.col-md-5.text-center.my-1 > div > div:nth-child(1) > div:nth-child(2)");
-            availability.innerHTML = "Blocked";
-
-            var element = document.getElementById('status-bar');
-                element.classList.remove("bg-success");
-                element.style.backgroundColor = "grey";
-
-                console.log(`${theName} is blocked`);
-                    break;
-        case `invalid`:
-
-            console.log(`${theName} is invalid`);
-                break;
-                
-        case `taken`:
-        
-            console.log(`${theName} is not blocked`);
-                break;
-
-        case `available`:   
-
-            f();
-
-            var q = document.querySelector("#status-bar > div > div > div.col-md-5.text-center.my-1 > div > div:nth-child(1) > div:nth-child(2)");
-            q.innerHTML = "Available";
-            
-                console.log(`${theName} is available`);
-                    break;
-                    
-        case `soon`:
-
-            var q = document.querySelector("#status-bar > div > div > div.col-md-5.text-center.my-1 > div > div:nth-child(1) > div:nth-child(2)");
-            q.innerHTML = "Available Later*";
-            
-                console.log(`${theName} is dropping soon!`);
-                    break;
-
-    }
-});
-
+      if (status == "blocked" || status == "blocked_or_dropping" && namemcStatus == "Available*") {
+        removeFinePrint();
+        namemcStatus = "Blocked";
+        var element = document.getElementById('status-bar');
+        element.classList.remove("bg-success");
+        element.style.backgroundColor = "grey";
+      } else if (namemcStatus == "Available*") {
+        removeFinePrint();
+        namemcStatus = "Available";
+      }
+    });
 }
