@@ -1,10 +1,6 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-var username = document.querySelector("h1").innerHTML.toString();
-
-username = username.slice(0, username.indexOf("<"));
-
-console.log(`Username: ${username}`);
+var username = document.querySelector("div.col.order-lg-1.col-lg-4.text-nowrap").firstElementChild.innerHTML;
 var template = document.createElement("template");
 
 setStatus(username);
