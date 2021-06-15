@@ -13,6 +13,10 @@
         {
             "matches": ["https://*.namemc.com/search*"],
             "js": ["nameSearch.js"]
+        },
+        {
+            "matches": ["https://*.namemc.com/profile/*"],
+            "js": ["profile.js"]
         }
     ],
     "permissions": ["activeTab"],
