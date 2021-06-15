@@ -20,7 +20,7 @@ Planned:
 
 # Installation
 
-Automatic Install: 
+Automatic Install:
 (Not finished)
 
 Manual Install:
