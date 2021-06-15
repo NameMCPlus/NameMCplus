@@ -3,6 +3,21 @@ Browser Extension that adds cool features to NameMC.com
 
 Currently only works for Chromium-based browsers
 
+# Features
+
+- Checks if the name is blocked
+
+Planned:
+
+- Render Elytra Capes
+- Shows account status (Legacy, Mojang, Microsoft)
+- Shows hidden capes
+- Hide BLC stats option
+- Option to make I and l look the same
+- Marc Cape Easter Egg
+- Test profile / Cape Tester
+? - Third-party cosmetics render
+
 # Installation
 
 Automatic Install: 
