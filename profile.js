@@ -27,7 +27,7 @@ function setStatus(username) {
     accountType = "Legacy";
   }
   template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right">${accountType}</div></div>`;
-  var viewsElement = document.querySelectorAll(".row, .no-gutters")[5];
+  var viewsElement = document.querySelectorAll(".row, .no-gutters")[4];
   var accountTypeElement = template.content.children[0];
   viewsElement.parentNode.insertBefore(accountTypeElement, viewsElement.nextSibling);
 });
