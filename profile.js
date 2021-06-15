@@ -1,6 +1,10 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-var username = document.querySelector("h1").innerHTML;
+var username = document.querySelector("h1").innerHTML.toString();
+
+username = username.slice(0, username.indexOf("<"));
+
+console.log(`Username: ${username}`);
 var template = document.createElement("template");
 
 setStatus(username);
@@ -38,7 +42,7 @@ function setStatus(username) {
   if (uuid.toLowerCase() == "cc7ba16bb2c540fca18eb87b6949270e") { // homara- breaks the API lol)
     accountType = "Legacy";
   }
-  
+
   template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right">${accountType}</div></div>`;
   var viewsElement = document.querySelectorAll(".row, .no-gutters")[4];
   var accountTypeElement = template.content.children[0];
