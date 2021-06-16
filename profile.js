@@ -1,7 +1,8 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-// import { HideBLC } from './config.json';
-HideBLC = true;
+chrome.storage.local.get(['HideBLC']);
+
+console.log(`HideBLC is ${HideBLC}`);
 
 var username = document.querySelector("div.col.order-lg-1.col-lg-4.text-nowrap").firstElementChild.innerHTML;
 var template = document.createElement("template");
@@ -12,14 +13,12 @@ if (HideBLC == true) {
 
 setStatus(username);
 
-
 function setStatus(username) {
   fetch(`https://api.gapple.pw/status/${username}`)
     .then(response => response.json())
 .then(data => {
   var type = data.status;
   var uuid = data.uuid
-
 
   switch(type) {
 

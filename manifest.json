@@ -8,7 +8,7 @@
     "48": "icon48.png",
     "128": "icon128.png"
     },
-    "browser_action": {
+    "action": {
         "default_icon": {
           "16": "icon16.png",
           "48": "icon48.png"
@@ -29,9 +29,6 @@
             "json": ["config.json"]
         }
     ],
-    "permissions": ["activeTab", "storage", "contextMenus"],
-    "web_accessible_resources": [{
-        "resources": ["js/*"],
-        "matches": ["https://namemc.com/*"]
-    }]
+
+    "permissions": ["activeTab", "storage", "declarativeContent"]
 }
