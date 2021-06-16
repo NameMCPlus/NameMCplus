@@ -8,18 +8,28 @@
     "48": "icon48.png",
     "128": "icon128.png"
     },
+    "browser_action": {
+        "default_icon": {
+          "16": "icon16.png",
+          "48": "icon48.png"
+        },
+        "default_title": "NameMC+",
+        "default_popup": "popup.html"
+      },
     "manifest_version": 3,
     "content_scripts": [
         {
             "matches": ["https://*.namemc.com/search*"],
-            "js": ["nameSearch.js"]
+            "js": ["nameSearch.js"],
+            "json": ["config.json"]
         },
         {
             "matches": ["https://*.namemc.com/profile/*"],
-            "js": ["profile.js"]
+            "js": ["profile.js"],
+            "json": ["config.json"]
         }
     ],
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "storage", "contextMenus"],
     "web_accessible_resources": [{
         "resources": ["js/*"],
         "matches": ["https://namemc.com/*"]

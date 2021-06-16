@@ -1,6 +1,7 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-const { HideBLC } = require('./config.json');
+// import { HideBLC } from './config.json';
+HideBLC = true;
 
 var username = document.querySelector("div.col.order-lg-1.col-lg-4.text-nowrap").firstElementChild.innerHTML;
 var template = document.createElement("template");
