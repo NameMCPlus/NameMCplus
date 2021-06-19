@@ -33,3 +33,7 @@ Manual Install:
 4. Enable Developer Mode then Load unpacked extension
 
 5. Select the folder that you extracted
+
+# Discord
+
+[Click here join the discord](https://discord.gg/ZwxFpPTpjt)
