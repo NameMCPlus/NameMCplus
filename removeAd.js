@@ -2,5 +2,8 @@ try {
 nn_bfa_wrapper.remove();
 } catch {}
 try {
-document.body.style = "padding-top: 0 !important";
+nn_skinl.remove();
+} catch {}
+try {
+nn_skinr.remove();
 } catch {}
