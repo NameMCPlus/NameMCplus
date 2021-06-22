@@ -11,9 +11,21 @@ var username = document.querySelector("div.col.order-lg-1.col-lg-4.text-nowrap")
 var template = document.createElement("template");
 
 //Align follow button
-followingMenuButton.addEventListener("click", function() {
-$('[aria-labelledby=followingMenuButton]').attr("x-placement", "");
-$('[aria-labelledby=followingMenuButton]').attr("style", "");
+var observer = new MutationObserver(function (mutations, me) {
+  var element = document.getElementById('followingMenuButton');
+  if (element) {
+    element.addEventListener("click", function() {
+    $('[aria-labelledby=followingMenuButton]').attr("x-placement", "");
+    $('[aria-labelledby=followingMenuButton]').attr("style", "");
+    });
+    me.disconnect();
+    return;
+  }
+});
+
+observer.observe(document, {
+  childList: true,
+  subtree: true
 });
 
 $('body').tooltip({
