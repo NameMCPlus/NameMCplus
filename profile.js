@@ -1,15 +1,14 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-chrome.storage.local.get(['HideBLC']);
-
-console.log(`HideBLC is ${HideBLC}`);
+chrome.storage.sync.get(['HideBLC'], function(result) {
+  console.log(result.HideBLC);
+ if (result.HideBLC == true) {
+   document.querySelector(".badlion-card").remove();
+ }
+});
 
 var username = document.querySelector("div.col.order-lg-1.col-lg-4.text-nowrap").firstElementChild.innerHTML;
 var template = document.createElement("template");
-
-if (HideBLC == true) {
-  document.querySelector(".badlion-card").remove();
-}
 
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
