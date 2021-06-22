@@ -6,11 +6,11 @@ Currently only works for Chromium-based browsers
 # Features
 
 - Checks if the name is blocked
+- Shows account status (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
 
 Planned:
 
 - Render Elytra Capes
-- Shows account status (Legacy, Mojang, Microsoft)
 - Shows hidden capes
 - Hide BLC stats option
 - Option to make I and l look the same
