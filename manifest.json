@@ -42,6 +42,11 @@
             "matches": ["https://*.namemc.com/profile/*"],
             "js": ["profile.js"],
             "json": ["config.json"]
+        },
+        {
+            "matches": ["https://*.namemc.com/*"],
+            "js": ["fixDropdown.js"],
+            "json": ["config.json"]
         }
     ],
 
