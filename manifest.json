@@ -20,38 +20,32 @@
     "content_scripts": [
         {
             "matches": ["https://*.namemc.com/*"],
-            "js": ["jquery.min.js"],
-            "json": ["config.json"]
+            "js": ["jquery.min.js"]
         },
         {
             "matches": ["https://*.namemc.com/*"],
-            "js": ["bootstrap.bundle.min.js"],
-            "json": ["config.json"]
+            "js": ["bootstrap.bundle.min.js"]
+        },
+        {
+            "matches": ["https://*.namemc.com/*"],
+            "js": ["fixDropdown.js"]
         },
         {
             "matches": ["https://*.namemc.com/*"],
             "js": ["removeAd.js"],
-            "json": ["config.json"]
+            "css": ["removeAd.css"]
         },
         {
             "matches": ["https://*.namemc.com/skin/*"],
-            "js": ["skin.js"],
-            "json": ["config.json"]
+            "js": ["skin.js"]
         },
         {
             "matches": ["https://*.namemc.com/search*"],
-            "js": ["nameSearch.js"],
-            "json": ["config.json"]
+            "js": ["nameSearch.js"]
         },
         {
             "matches": ["https://*.namemc.com/profile/*"],
-            "js": ["profile.js"],
-            "json": ["config.json"]
-        },
-        {
-            "matches": ["https://*.namemc.com/*"],
-            "js": ["fixDropdown.js"],
-            "json": ["config.json"]
+            "js": ["profile.js"]
         }
     ],
 
