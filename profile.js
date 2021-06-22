@@ -10,6 +10,12 @@ chrome.storage.local.get(['HideBLC'], function(result) {
  }
 });
 
+//Align follow button
+followingMenuButton.addEventListener("click", function() {
+$('[aria-labelledby=followingMenuButton]').attr("x-placement", "");
+$('[aria-labelledby=followingMenuButton]').attr("style", "");
+});
+
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
 });
