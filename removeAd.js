@@ -7,3 +7,6 @@ nn_skinl.remove();
 try {
 nn_skinr.remove();
 } catch {}
+try {
+nn_mpu1.remove()
+} catch {}
