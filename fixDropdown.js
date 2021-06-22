@@ -1,3 +1,3 @@
-$('.dropdown-toggle').dropdown({
+$('[data-toggle=dropdown]').dropdown({
   selector: '[data-toggle=dropdown]'
 });
