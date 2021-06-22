@@ -29,6 +29,11 @@
             "json": ["config.json"]
         },
         {
+            "matches": ["https://*.namemc.com/*"],
+            "js": ["removeAd.js"],
+            "json": ["config.json"]
+        },
+        {
             "matches": ["https://*.namemc.com/search*"],
             "js": ["nameSearch.js"],
             "json": ["config.json"]
