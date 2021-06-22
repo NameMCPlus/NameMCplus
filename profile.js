@@ -10,6 +10,12 @@ chrome.storage.local.get(['HideBLC'], function(result) {
 var username = document.querySelector("div.col.order-lg-1.col-lg-4.text-nowrap").firstElementChild.innerHTML;
 var template = document.createElement("template");
 
+//Align follow button
+followingMenuButton.addEventListener("click", function() {
+$('[aria-labelledby=followingMenuButton]').attr("x-placement", "");
+$('[aria-labelledby=followingMenuButton]').attr("style", "");
+});
+
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
 });
