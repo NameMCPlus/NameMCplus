@@ -12,11 +12,24 @@ chrome.storage.local.get(['HideBLC'], function(result) {
 
 //Align follow button
 var observer = new MutationObserver(function (mutations, me) {
-  var element = document.getElementById('followingMenuButton');
-  if (element) {
-    element.addEventListener("click", function() {
+  var element1 = document.getElementById('followingMenuButton');
+  var element2 = document.getElementById('followMenuButton');
+  if (element1) {
+    console.log("observer");
+    element1.addEventListener("click", function() {
+    console.log("click");
     $('[aria-labelledby=followingMenuButton]').attr("x-placement", "");
     $('[aria-labelledby=followingMenuButton]').attr("style", "");
+    });
+    me.disconnect();
+    return;
+  }
+  if (element2) {
+    console.log("observer");
+    element2.addEventListener("click", function() {
+    console.log("click");
+    $('[aria-labelledby=followMenuButton]').attr("x-placement", "");
+    $('[aria-labelledby=followMenuButton]').attr("style", "");
     });
     me.disconnect();
     return;
