@@ -13,7 +13,6 @@ Planned:
 - Render Elytra Capes
 - Shows hidden capes
 - Hide BLC stats option
-- Option to make I and l look the same
 - Marc Cape Easter Egg
 - Test profile / Cape Tester
 - Third-party cosmetics render ?
