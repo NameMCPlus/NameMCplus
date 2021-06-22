@@ -34,6 +34,11 @@
             "json": ["config.json"]
         },
         {
+            "matches": ["https://*.namemc.com/skin/*"],
+            "js": ["skin.js"],
+            "json": ["config.json"]
+        },
+        {
             "matches": ["https://*.namemc.com/search*"],
             "js": ["nameSearch.js"],
             "json": ["config.json"]
