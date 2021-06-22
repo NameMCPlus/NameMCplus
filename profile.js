@@ -3,6 +3,13 @@
 var username = document.querySelector("div.col.order-lg-1.col-lg-4.text-nowrap").firstElementChild.innerHTML;
 var template = document.createElement("template");
 
+chrome.storage.local.get(['HideBLC'], function(result) {
+  console.log(result.HideBLC);
+ if (result.HideBLC == true) {
+   document.querySelector(".badlion-card").remove();
+ }
+});
+
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
 });
