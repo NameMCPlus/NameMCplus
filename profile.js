@@ -11,9 +11,21 @@ chrome.storage.local.get(['HideBLC'], function(result) {
 });
 
 //Align follow button
-followingMenuButton.addEventListener("click", function() {
-$('[aria-labelledby=followingMenuButton]').attr("x-placement", "");
-$('[aria-labelledby=followingMenuButton]').attr("style", "");
+var observer = new MutationObserver(function (mutations, me) {
+  var element = document.getElementById('followingMenuButton');
+  if (element) {
+    element.addEventListener("click", function() {
+    $('[aria-labelledby=followingMenuButton]').attr("x-placement", "");
+    $('[aria-labelledby=followingMenuButton]').attr("style", "");
+    });
+    me.disconnect();
+    return;
+  }
+});
+
+observer.observe(document, {
+  childList: true,
+  subtree: true
 });
 
 $('body').tooltip({
