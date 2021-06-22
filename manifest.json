@@ -19,6 +19,16 @@
     "manifest_version": 3,
     "content_scripts": [
         {
+            "matches": ["https://*.namemc.com/*"],
+            "js": ["jquery.min.js"],
+            "json": ["config.json"]
+        },
+        {
+            "matches": ["https://*.namemc.com/*"],
+            "js": ["bootstrap.bundle.min.js"],
+            "json": ["config.json"]
+        },
+        {
             "matches": ["https://*.namemc.com/search*"],
             "js": ["nameSearch.js"],
             "json": ["config.json"]
