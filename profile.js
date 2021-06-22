@@ -1,6 +1,6 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-chrome.storage.sync.get(['HideBLC'], function(result) {
+chrome.storage.local.get(['HideBLC'], function(result) {
   console.log(result.HideBLC);
  if (result.HideBLC == true) {
    document.querySelector(".badlion-card").remove();
