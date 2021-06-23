@@ -11,23 +11,6 @@ $("#blockedbutton").on('change', function () {
   toggleBlocked()
 });
 
-chrome.storage.local.get(function (result) {
-  var HideBLC = result.HideBLC;
-  var AccType = result.AccType;
-  var createdAt = result.createdAt;
-  var blockedNames = result.blockedNames;
-  if (HideBLC == undefined && AccType == undefined && createdAt == undefined && blockedNames == undefined) {
-    hideblcbutton.checked = false;
-    acctypebutton.checked = true;
-    creationbutton.checked = true;
-    blockedbutton.checked = true;
-    toggleBLC()
-    toggleAccType()
-    toggleCreation()
-    toggleBlocked()
-  }
-});
-
 function toggleBLC() {
   var HideBLC = hideblcbutton.checked;
 
@@ -82,6 +65,27 @@ function restore_options() {
     var AccType = result.AccType;
     var createdAt = result.createdAt;
     var blockedNames = result.blockedNames;
+
+    if (HideBLC == undefined) {
+      hideblcbutton.checked = false;
+      HideBLC = false;
+      toggleBLC()
+    }
+    if (AccType == undefined) {
+      acctypebutton.checked = true;
+      AccType = true;
+      toggleAccType()
+    }
+    if (createdAt == undefined) {
+      creationbutton.checked = true;
+      createdAt = true;
+      toggleCreation()
+    }
+    if (blockedNames == undefined) {
+      blockedbutton.checked = true;
+      blockedNames = true;
+      toggleBlocked()
+    }
 
     hideblcbutton.checked = HideBLC;
     console.log("Options loaded: " + HideBLC);
