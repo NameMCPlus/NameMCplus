@@ -8,6 +8,7 @@ Currently only works for Chromium-based browsers
 - Checks if the name is blocked
 - Shows account status (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
 - Hide BLC Option. (Hides the BLC Stats and the Install with BLC button)
+- Removes most ads. (If you don't want any ads at all try using a Adblocker)
 
 Planned:
 
