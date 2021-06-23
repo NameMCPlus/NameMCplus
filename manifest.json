@@ -1,7 +1,7 @@
 {
   "name": "NameMC+",
-  "description": "First test build",
-  "version": "0.2",
+  "description": "Browser Extension that adds cool features to NameMC.com",
+  "version": "1",
   "author": "M6 & Faav",
   "icons": {
     "16": "icons/icon16.png",
