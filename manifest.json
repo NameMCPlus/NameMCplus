@@ -4,17 +4,17 @@
   "version": "0.2",
   "author": "M6 & Faav",
   "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
   },
   "action": {
     "default_icon": {
-      "16": "icon16.png",
-      "48": "icon48.png"
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
     },
     "default_title": "NameMC+",
-    "default_popup": "popup.html"
+    "default_popup": "html/popup.html"
   },
   "manifest_version": 3,
   "content_scripts": [
@@ -23,12 +23,12 @@
         "https://*.namemc.com/*"
       ],
       "js": [
-        "jquery.min.js",
-        "bootstrap.bundle.min.js",
-        "fixDropdown.js"
+        "js/jquery.min.js",
+        "js/bootstrap.bundle.min.js",
+        "js/fixDropdown.js"
       ],
       "css": [
-        "removeAds.css"
+        "css/removeAds.css"
       ]
     },
     {
@@ -36,7 +36,7 @@
         "https://*.namemc.com/skin/*"
       ],
       "js": [
-        "skin.js"
+        "js/skin.js"
       ]
     },
     {
@@ -44,7 +44,7 @@
         "https://*.namemc.com/search*"
       ],
       "js": [
-        "nameSearch.js"
+        "js/nameSearch.js"
       ]
     },
     {
@@ -52,7 +52,7 @@
         "https://*.namemc.com/profile/*"
       ],
       "js": [
-        "profile.js"
+        "js/profile.js"
       ]
     }
   ],
