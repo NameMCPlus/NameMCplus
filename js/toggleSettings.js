@@ -11,10 +11,22 @@ $("#blockedbutton").on('change', function () {
   toggleBlocked()
 });
 
-toggleBLC()
-toggleAccType()
-toggleCreation()
-toggleBlocked()
+chrome.storage.local.get(function (result) {
+  var HideBLC = result.HideBLC;
+  var AccType = result.AccType;
+  var createdAt = result.createdAt;
+  var blockedNames = result.blockedNames;
+  if (HideBLC == undefined && AccType == undefined && createdAt == undefined && blockedNames == undefined) {
+    hideblcbutton.checked = false;
+    acctypebutton.checked = true;
+    creationbutton.checked = true;
+    blockedbutton.checked = true;
+    toggleBLC()
+    toggleAccType()
+    toggleCreation()
+    toggleBlocked()
+  }
+});
 
 function toggleBLC() {
   var HideBLC = hideblcbutton.checked;
