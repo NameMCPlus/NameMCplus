@@ -21,7 +21,6 @@ function betterNameMC(username) {
         chrome.storage.local.get(function (result) {
             var status = data.status;
             var blockedNameBtn = result.blockedNames;
-            console.log(blockedNameBtn);
             if (blockedNameBtn == true) {
               if (status == "blocked" || status == "blocked_or_dropping" && namemcStatus.innerHTML == "Available*") {
                 removeFinePrint();
