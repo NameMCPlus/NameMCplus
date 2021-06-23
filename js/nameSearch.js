@@ -18,17 +18,22 @@ function betterNameMC(username) {
       return response.json().then(response => response)
     })
     .then(data => {
-      var status = data.status;
-
-      if (status == "blocked" || status == "blocked_or_dropping" && namemcStatus.innerHTML == "Available*") {
-        removeFinePrint();
-        namemcStatus.innerHTML = "Blocked";
-        var element = document.getElementById('status-bar');
-        element.classList.remove("bg-success");
-        element.style.backgroundColor = "grey";
-      } else if (namemcStatus.innerHTML == "Available*") {
-        removeFinePrint();
-        namemcStatus.innerHTML = "Available";
-      }
+        chrome.storage.local.get(function (result) {
+            var status = data.status;
+            var blockedNameBtn = result.blockedNames;
+            if (blockedNameBtn == true) {
+              if (status == "blocked" || status == "blocked_or_dropping" && namemcStatus.innerHTML == "Available*") {
+                removeFinePrint();
+                namemcStatus.innerHTML = "Blocked";
+                var element = document.getElementById('status-bar');
+                element.classList.remove("bg-success");
+                element.style.backgroundColor = "grey";
+              } else if (namemcStatus.innerHTML == "Available*") {
+                removeFinePrint();
+                namemcStatus.innerHTML = "Available";
+              }
+            }
+          }
+        });
     });
 }
