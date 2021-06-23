@@ -22,6 +22,7 @@
       "matches": [
         "https://*.namemc.com/*"
       ],
+      "run_at": "document_start",
       "js": [
         "js/jquery.min.js",
         "js/bootstrap.bundle.min.js",
@@ -29,6 +30,14 @@
       ],
       "css": [
         "css/removeAds.css"
+      ]
+    },
+    {
+      "matches": [
+        "https://*.namemc.com/*"
+      ],
+      "js": [
+        "js/fixDropdown.js"
       ]
     },
     {
