@@ -1,52 +1,64 @@
 {
-    "name": "NameMC+",
-    "description": "First test build",
-    "version": "0.2",
-    "author": "M6 & Faav",
-    "icons": {
+  "name": "NameMC+",
+  "description": "First test build",
+  "version": "0.2",
+  "author": "M6 & Faav",
+  "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png"
     },
-    "action": {
-        "default_icon": {
-          "16": "icon16.png",
-          "48": "icon48.png"
-        },
-        "default_title": "NameMC+",
-        "default_popup": "popup.html"
-      },
-    "manifest_version": 3,
-    "content_scripts": [
-        {
-            "matches": ["https://*.namemc.com/*"],
-            "js": ["jquery.min.js"]
-        },
-        {
-            "matches": ["https://*.namemc.com/*"],
-            "js": ["bootstrap.bundle.min.js"]
-        },
-        {
-            "matches": ["https://*.namemc.com/*"],
-            "js": ["fixDropdown.js"]
-        },
-        {
-            "matches": ["https://*.namemc.com/*"],
-            "css": ["removeAd.css"]
-        },
-        {
-            "matches": ["https://*.namemc.com/skin/*"],
-            "js": ["skin.js"]
-        },
-        {
-            "matches": ["https://*.namemc.com/search*"],
-            "js": ["nameSearch.js"]
-        },
-        {
-            "matches": ["https://*.namemc.com/profile/*"],
-            "js": ["profile.js"]
-        }
-    ],
-
-    "permissions": ["activeTab", "storage", "declarativeContent"]
+    "default_title": "NameMC+",
+    "default_popup": "popup.html"
+  },
+  "manifest_version": 3,
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.namemc.com/*"
+      ],
+      "js": [
+        "jquery.min.js",
+        "bootstrap.bundle.min.js",
+        "fixDropdown.js"
+      ],
+      "css": [
+        "removeAds.css"
+      ]
+    },
+    {
+      "matches": [
+        "https://*.namemc.com/skin/*"
+      ],
+      "js": [
+        "skin.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://*.namemc.com/search*"
+      ],
+      "js": [
+        "nameSearch.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://*.namemc.com/profile/*"
+      ],
+      "js": [
+        "profile.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "storage",
+    "declarativeContent"
+  ]
 }
