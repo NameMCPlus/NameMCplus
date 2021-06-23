@@ -7,12 +7,12 @@ Currently only works for Chromium-based browsers
 
 - Checks if the name is blocked
 - Shows account status (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
+- Hide BLC Option. (Hides the BLC Stats and the Install with BLC button)
 
 Planned:
 
 - Render Elytra Capes
 - Shows hidden capes
-- Hide BLC stats option
 - Marc Cape Easter Egg
 - Test profile / Cape Tester
 - Third-party cosmetics render ?
@@ -32,6 +32,11 @@ Manual Install:
 4. Enable Developer Mode then Load unpacked extension
 
 5. Select the folder that you extracted
+
+# The Basics
+
+- If you hover on the account type it shows more info about it like Migrated from Mojang, Newly Created (Microsoft), etc.
+- To enable the Hide BLC feature you press on the NameMC+ icon on the top right of your browser. If you can't find it press on the extensions icon (A Puzzle Piece) in the top right and pin the NameMC+ extension, after that you close out the menu and press on the NameMC+ icon, then a settings menu should open with a option to Hide BLC (Badlion Client).
 
 # Discord
 
