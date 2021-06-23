@@ -11,6 +11,11 @@ $("#blockedbutton").on('change', function () {
   toggleBlocked()
 });
 
+toggleBLC()
+toggleAccType()
+toggleCreation()
+toggleBlocked()
+
 function toggleBLC() {
   var HideBLC = hideblcbutton.checked;
 
@@ -62,18 +67,19 @@ function toggleBlocked() {
 function restore_options() {
   chrome.storage.local.get(function (result) {
     var HideBLC = result.HideBLC;
+    var AccType = result.AccType;
+    var createdAt = result.createdAt;
+    var blockedNames = result.blockedNames;
+
     hideblcbutton.checked = HideBLC;
     console.log("Options loaded: " + HideBLC);
-    
-    var AccType = result.AccType;
+
     acctypebutton.checked = AccType;
     console.log("Options loaded: " + AccType);
-    
-    var createdAt = result.createdAt;
+
     creationbutton.checked = createdAt;
     console.log("Options loaded: " + createdAt);
-    
-    var blockedNames = result.blockedNames;
+
     blockedbutton.checked = blockedNames;
     console.log("Options loaded: " + blockedNames);
   });
