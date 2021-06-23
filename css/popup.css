@@ -1,0 +1,22 @@
+/* css by Faav */
+
+body {
+  text-align: center;
+  width: 185px;
+}
+
+h1 {
+  padding-top: 15px;
+}
+
+input {
+  margin-left: -1.5em !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+footer {
+  padding-bottom: 20px;
+}
