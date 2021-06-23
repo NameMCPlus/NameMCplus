@@ -9,32 +9,6 @@ chrome.storage.local.get(['HideBLC'], function(result) {
  }
 });
 
-//Align follow button
-var observer = new MutationObserver(function (mutations, me) {
-  var element1 = document.getElementById('followingMenuButton');
-  var element2 = document.getElementById('followMenuButton');
-  if (element1) {
-    element1.addEventListener("click", function() {
-    $('[aria-labelledby=followingMenuButton]').attr("x-placement", "");
-    $('[aria-labelledby=followingMenuButton]').attr("style", "");
-    });
-    me.disconnect();
-    return;
-  } else if (element2) {
-    element2.addEventListener("click", function() {
-    $('[aria-labelledby=followMenuButton]').attr("x-placement", "");
-    $('[aria-labelledby=followMenuButton]').attr("style", "");
-    });
-    me.disconnect();
-    return;
-  }
-});
-
-observer.observe(document, {
-  childList: true,
-  subtree: true
-});
-
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
 });
