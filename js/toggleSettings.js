@@ -62,30 +62,18 @@ function toggleBlocked() {
 function restore_options() {
   chrome.storage.local.get(function (result) {
     var HideBLC = result.HideBLC;
-    if (HideBLC == undefined) {
-      HideBLC = false;
-    }
     hideblcbutton.checked = HideBLC;
     console.log("Options loaded: " + HideBLC);
     
     var AccType = result.AccType;
-    if (AccType == undefined) {
-      AccType = true;
-    }
     acctypebutton.checked = AccType;
     console.log("Options loaded: " + AccType);
     
     var createdAt = result.createdAt;
-    if (createdAt == undefined) {
-      createdAt = true;
-    }
     creationbutton.checked = createdAt;
     console.log("Options loaded: " + createdAt);
     
     var blockedNames = result.blockedNames;
-    if (blockedNames == undefined) {
-      blockedNames = true;
-    }
     blockedbutton.checked = blockedNames;
     console.log("Options loaded: " + blockedNames);
   });
