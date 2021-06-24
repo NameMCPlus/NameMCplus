@@ -28,10 +28,10 @@ function setStatus(username) {
     .then(ashcon => {
       fetch(`https://api.gapple.pw/status/${username}`)
         .then(response => response.json())
-        .then(gapple => {
+        .then(data => {
           chrome.storage.local.get(function (result) {
-            var type = gapple.status;
-            var uuid = gapple.uuid
+            var type = data.status;
+            var uuid = data.uuid
             var createdAt = ashcon.created_at;
             var accountType;
             var tooltip;
@@ -71,15 +71,15 @@ function setStatus(username) {
             var AccTypeBtn = result.AccType;
             if (AccTypeBtn == true && createdAtBtn == true || AccTypeBtn == undefined && createdAtBtn == undefined) {
               if (createdAt) {
-                template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" gapple-toggle="tooltip" title="${tooltip}">${accountType}</div></div><div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Created At</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" gapple-toggle="tooltip" gapple-html="true" title="<b>Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return.</b>">${formatCreation(createdAt)}</div></div>`;
+                template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" title="${tooltip}">${accountType}</div></div><div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Created At</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" data-html="true" title="<b>Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return.</b>">${formatCreation(createdAt)}</div></div>`;
               } else {
-                template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" gapple-toggle="tooltip" title="${tooltip}">${accountType}</div></div>`;
+                template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" title="${tooltip}">${accountType}</div></div>`;
               }
             } else if (AccTypeBtn == true && createdAtBtn == false || AccTypeBtn == undefined && createdAtBtn == false) {
-              template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" gapple-toggle="tooltip" title="${tooltip}">${accountType}</div></div>`;
+              template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" title="${tooltip}">${accountType}</div></div>`;
             } else if (AccTypeBtn == false && createdAtBtn == true || AccTypeBtn == false && createdAtBtn == undefined) {
               if (createdAt) {
-                template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Created At</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" gapple-toggle="tooltip" gapple-html="true" title="<b>Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return.</b>">${formatCreation(createdAt)}</div></div>`;
+                template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Created At</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" data-html="true" title="<b>Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return.</b>">${formatCreation(createdAt)}</div></div>`;
               } else {
                 template.innerHTML = ``;
               }
