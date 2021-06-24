@@ -43,3 +43,8 @@ Manual Install:
 # Discord
 
 [Click here join the discord](https://discord.gg/ZwxFpPTpjt)
+
+# APIs Used
+
+- [Gapple API](https://api.gapple.pw/)
+- [Ashcon API](https://github.com/Electroid/mojang-api)
