@@ -16,6 +16,8 @@ body {
 #nn_mobile_mpu2,
 #mys-wrapper,
 #nn_mobile_lb1_wrap,
-#sticky_wrapper {
+#sticky_wrapper,
+#nn_mobile_lb1,
+#nn_1by1 {
   display: none !important;
 }
