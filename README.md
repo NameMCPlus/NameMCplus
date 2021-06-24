@@ -1,7 +1,7 @@
 # NameMC+
 Browser Extension that adds cool features to NameMC.com.
 
-Currently only works for Chromium-based browsers. (Like Goggle Chrome and Brave)
+Currently only works for Chromium-based browsers. (Like Google Chrome and Brave)
 
 # Features
 
