@@ -16,9 +16,9 @@ function betterNameMC(username) {
       if (response.ok) return response.json();
       return response.json().then(response => response)
     })
-    .then(data => {
+    .then(gapple => {
         chrome.storage.local.get(function (result) {
-            var status = data.status;
+            var status = gapple.status;
             var blockedNameBtn = result.blockedNames;
             if (blockedNameBtn !== false) {
               if (status == "blocked" || status == "blocked_or_dropping" && namemcStatus.innerHTML == "Available*") {
