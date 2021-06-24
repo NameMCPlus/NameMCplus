@@ -1,3 +1,9 @@
+@media screen and (min-width: 900px) {
+  body { 
+    padding-top: 0 !important; 
+  }
+}
+
 body {
   padding-top: 0 !important;
 }
