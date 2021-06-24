@@ -1,4 +1,4 @@
-chrome.storage.local.get(['HideBLC'], function (result) {
+chrome.storage.local.get(function (result) {
   console.log(result.HideBLC);
   if (result.HideBLC == true) {
     try {
