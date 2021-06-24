@@ -36,7 +36,8 @@
         "https://*.namemc.com/*"
       ],
       "js": [
-        "js/fixDropdown.js"
+        "js/fixDropdown.js",
+        "js/removeAds.js"
       ]
     },
     {
