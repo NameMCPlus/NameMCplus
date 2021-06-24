@@ -28,10 +28,10 @@ function setStatus(username) {
     .then(ashcon => {
       fetch(`https://api.gapple.pw/status/${username}`)
         .then(response => response.json())
-        .then(data => {
+        .then(gapple => {
           chrome.storage.local.get(function (result) {
-            var type = data.status;
-            var uuid = data.uuid
+            var type = gapple.status;
+            var uuid = gapple.uuid
             var createdAt = ashcon.created_at;
             var accountType;
             var tooltip;
