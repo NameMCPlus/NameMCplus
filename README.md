@@ -9,7 +9,7 @@ Currently only works for Chromium-based browsers. (Like Google Chrome and Brave)
 - Shows account type. (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
 - Displays Creations dates. (Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return)
 - Hide BLC Option. (Hides the BLC Stats and the Install with BLC button)
-- Removes most ads. (If you don't want any ads at all try using a Adblocker)
+- Removes most ads. (If you don't want any ads at all try using [uBlock Origin](https://ublockorigin.com))
 
 Planned:
 
