@@ -10,7 +10,7 @@ chrome.storage.local.get(function (result) {
 });
 
 $('body').tooltip({
-  selector: '[gapple-toggle=tooltip]'
+  selector: '[data-toggle=tooltip]'
 });
 
 //Formats Creation Dates
