@@ -28,7 +28,8 @@
         "js/bootstrap.bundle.min.js"
       ],
       "css": [
-        "css/removeAds.css"
+        "css/removeAds.css",
+        "css/followBtn.css"
       ]
     },
     {
