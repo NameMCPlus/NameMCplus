@@ -5,8 +5,7 @@ var namemcStatus = document.querySelector(".col-sm-6.my-1").lastElementChild;
 
 function removeFinePrint() {
   // removes fine print under name availability
-  var a = document.querySelector("body > main > div.mb-3 > small");
-  a.remove("d-block text-right");
+  document.querySelector(".mb-3").lastElementChild.remove();
 }
 
 betterNameMC(username);
