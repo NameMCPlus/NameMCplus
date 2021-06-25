@@ -21,3 +21,7 @@ body {
 #nn_1by1 {
   display: none !important;
 }
+
+div.ad-container {
+  display: none !important;
+}
