@@ -20,6 +20,13 @@ function formatCreation(date) {
   return date;
 }
 
+function removeAccents(invalidName) {
+  return encodeURIComponent(decodeURIComponent(invalidName).normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+}
+
+// Removes Accents from invalids LOL
+username = removeAccents(username);
+
 setStatus(username);
 
 function setStatus(username) {
