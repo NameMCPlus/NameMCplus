@@ -20,3 +20,11 @@ a {
 footer {
   padding-bottom: 20px;
 }
+
+.title {
+  color: white;
+}
+
+.title:hover, .title:active {
+  color: lightgray;
+}
