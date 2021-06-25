@@ -1,11 +1,11 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-var username = document.querySelector(".my-1, .px-3").firstElementChild.innerHTML;
-var namemcStatus = document.querySelector(".col-sm-6.my-1").lastElementChild;
+var username = document.querySelector(".text-center.pt-3 samp").innerHTML;
+var namemcStatus = document.querySelector("#status-bar div").firstElementChild.lastElementChild;
 
 function removeFinePrint() {
   // removes fine print under name availability
-  document.querySelector(".mb-3").lastElementChild.remove();
+  document.querySelector("#status-bar").parentElement.lastElementChild.remove();
 }
 
 betterNameMC(username);
