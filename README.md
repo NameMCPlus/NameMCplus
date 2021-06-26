@@ -15,7 +15,7 @@ Currently only works for Chromium-based browsers. (Like Google Chrome and Brave)
 Planned:
 
 - Render Elytras
-- Shows Hidden Capes (Not Possible ?)
+- Shows Hidden Capes
 - Marc Cape Easter Egg
 - Test profile / Cape Tester
 - Third-party cosmetics render ?
