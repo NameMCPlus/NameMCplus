@@ -1,6 +1,6 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-var username = document.querySelector(".text-center.pt-3 samp").innerText;
+var username = document.querySelector("#status-bar").parentElement.parentElement.firstElementChild.lastElementChild.innerText;
 var namemcStatus = document.querySelector("#status-bar div").firstElementChild.lastElementChild.innerHTML.replaceAll("*", "");
 var searches = document.querySelector(".tabular").innerText;
 var statusClass = document.querySelector("#status-bar").classList[1];
