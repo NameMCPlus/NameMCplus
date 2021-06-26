@@ -30,7 +30,8 @@
       ],
       "css": [
         "css/removeAds.css",
-        "css/followBtn.css"
+        "css/followBtn.css",
+        "css/fixDropdown.css"
       ]
     },
     {
