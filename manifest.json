@@ -25,7 +25,8 @@
       "run_at": "document_start",
       "js": [
         "js/jquery.min.js",
-        "js/bootstrap.bundle.min.js"
+        "js/bootstrap.bundle.min.js",
+        "js/icons.js"
       ],
       "css": [
         "css/removeAds.css",
@@ -55,6 +56,9 @@
       ],
       "js": [
         "js/nameSearch.js"
+      ],
+      "css": [
+        "css/blocked.css"
       ]
     },
     {
