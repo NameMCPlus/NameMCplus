@@ -10,6 +10,9 @@ $("#creationbutton").on('change', function () {
 $("#blockedbutton").on('change', function () {
   toggleBlocked()
 });
+$("#searchbutton").on('change', function () {
+  toggleBTSearch()
+});
 
 function toggleBLC() {
   var HideBLC = hideblcbutton.checked;
@@ -59,12 +62,25 @@ function toggleBlocked() {
   console.log(blockedNames);
 }
 
+function toggleBTSearch() {
+  var BTSearch = searchbutton.checked;
+
+  chrome.storage.local.set({
+    "BTSearch": BTSearch
+  }, function () {
+    console.log("Saved");
+  });
+
+  console.log(BTSearch);
+}
+
 function restore_options() {
   chrome.storage.local.get(function (result) {
     var HideBLC = result.HideBLC;
     var AccType = result.AccType;
     var createdAt = result.createdAt;
     var blockedNames = result.blockedNames;
+    var BTSearch = result.BTSearch;
 
     if (HideBLC == undefined) {
       hideblcbutton.checked = false;
@@ -86,6 +102,11 @@ function restore_options() {
       blockedNames = true;
       toggleBlocked()
     }
+    if (BTSearch == undefined) {
+      searchbutton.checked = true;
+      BTSearch = true;
+      toggleBTSearch()
+    }
 
     hideblcbutton.checked = HideBLC;
     console.log("Options loaded: " + HideBLC);
@@ -98,6 +119,9 @@ function restore_options() {
 
     blockedbutton.checked = blockedNames;
     console.log("Options loaded: " + blockedNames);
+
+    searchbutton.checked = BTSearch;
+    console.log("Options loaded: " + BTSearch);
   });
 }
 
