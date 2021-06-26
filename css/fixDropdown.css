@@ -1,0 +1,7 @@
+[data-toggle=dropdown] {
+  pointer-events: none;
+}
+
+.pointer-all {
+  pointer-events: all;
+}
