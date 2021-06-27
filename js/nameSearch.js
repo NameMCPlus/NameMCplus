@@ -73,7 +73,6 @@ function betterNameMC(username) {
         var blockedNameBtn = result.blockedNames;
         var BTSearchbtn = result.BTSearch;
         var main = document.querySelector("main.container");
-        console.log(namemcStatus);
         main.style = "display: block";
         if (BTSearchbtn !== false) {
           if (blockedNameBtn !== false) {
