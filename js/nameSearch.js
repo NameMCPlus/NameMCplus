@@ -1,5 +1,4 @@
 //by M6 (M6yo) & Faav (withdrew)
-/* jshint esversion: 10 */
 
 var username = document.querySelector("#status-bar").parentElement.parentElement.firstElementChild.lastElementChild.innerText;
 var namemcStatus = document.querySelector("#status-bar div").firstElementChild.lastElementChild.innerHTML.replaceAll("*", "");
