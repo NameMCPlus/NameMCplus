@@ -117,7 +117,6 @@ function betterNameMC(username) {
             });
           }
         } catch {}
-        removeFinePrint();
       });
     });
 }
