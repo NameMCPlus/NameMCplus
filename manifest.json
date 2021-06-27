@@ -26,6 +26,7 @@
       "js": [
         "js/jquery.min.js",
         "js/bootstrap.bundle.min.js",
+        "js/time.js",
         "js/icons.js"
       ],
       "css": [
