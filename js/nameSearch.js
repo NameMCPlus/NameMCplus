@@ -55,7 +55,9 @@ if (statusColor) {
 
 function removeFinePrint() {
   // removes fine print under name availability
-  document.querySelector("#status-bar").parentElement.lastElementChild.remove();
+  try {
+    document.querySelector("#status-bar").parentElement.lastElementChild.remove();
+  } catch {}
 }
 
 betterNameMC(username);
@@ -101,6 +103,8 @@ function betterNameMC(username) {
             } else if (namemcStatus.innerHTML == "Available") {
               removeFinePrint();
               namemcStatusNoReplace.innerHTML = "Available";
+            } else {
+              removeFinePrint();
             }
           }
         }
@@ -114,6 +118,7 @@ function betterNameMC(username) {
             });
           }
         } catch {}
+        removeFinePrint();
       });
     });
 }
