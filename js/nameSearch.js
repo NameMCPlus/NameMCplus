@@ -62,7 +62,7 @@ function removeFinePrint() {
 betterNameMC(username);
 
 function betterNameMC(username) {
-  fetch(`https://api.gapple.pw/blocked/${username}`)
+  fetch(`https://api.gapple.pw/blocked/${encodeURIComponent(username)}`)
     .then(response => {
       if (response.ok) return response.json();
       return response.json().then(response => response);
