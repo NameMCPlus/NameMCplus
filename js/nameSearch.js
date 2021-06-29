@@ -5,9 +5,7 @@ function nameSearch_fn() {
 var wlh_ = window.location.href; // gets the URL
 var wlh_tf = wlh_.includes("*"); //checks if the URL has a * in it (which means its a wildcard)
 
-// var wlh_qm = (wlh_.indexOf("?") == wlh_.lastIndexOf("?"))
-
-var wlh_qm = wlh_.includes("%3");
+var wlh_qm = wlh_.includes("%3F") || (!(wlh_.indexOf("?") == wlh_.lastIndexOf("?")));
 
 console.log(`wlh_qm is ${wlh_qm}`);
 
