@@ -1,8 +1,7 @@
-/*
 main.container {
   display: none; 
 }
-*/
+
 .bg-blocked {
   background-color: gray !important;
 }
