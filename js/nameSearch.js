@@ -38,19 +38,21 @@ function betterNameMC(username) {
   var dateTime = "";
 
   try {
-    results = document.querySelector("#status-bar").parentElement.parentElement.parentElement.children[2].querySelector("h6").innerHTML;
+    results = document.querySelector("#status-bar").parentElement.parentElement.parentElement.getElementsByTagName("h6")[1].innerText;
   } catch {}
 
   try {
-    profiles = document.querySelector("#bfa-scroll").innerHTML;
+    document.querySelectorAll(".card-header.py-2").forEach(function (element) {
+      profiles += element.parentElement.outerHTML
+    })
   } catch {}
 
   try {
-    serverCount = document.querySelector("#status-bar").parentElement.parentElement.parentElement.children[3].firstElementChild.innerHTML;
+    serverCount = document.querySelector(".table.table-sm.mb-0").parentElement.parentElement.parentElement.parentElement.querySelector("h6").innerText;
   } catch {}
 
   try {
-    servers = document.querySelector("#status-bar").parentElement.parentElement.parentElement.children[3].lastElementChild.innerHTML;
+    servers = document.querySelector(".table.table-sm.mb-0").parentElement.parentElement.parentElement.outerHTML;
   } catch {}
 
   try {
