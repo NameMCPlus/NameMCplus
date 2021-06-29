@@ -41,6 +41,10 @@ Manual Install:
 - If you hover on the account type it shows more info about it like Migrated from Mojang, Newly Created (Microsoft), etc.
 - To enable the Hide BLC feature you press on the NameMC+ icon on the top right of your browser. If you can't find it press on the extensions button in the top right and pin the NameMC+ extension, after that you close out the menu and press on the NameMC+ icon, then a settings menu should open with a option to Hide BLC (Badlion Client).
 
+# Warning
+
+Keep in mind the extension may break at anytime if NameMC ever changes there code, if this does happen we will try to fix it as fast as possible.
+
 # APIs Used
 
 - [Gapple API](https://api.gapple.pw/)
