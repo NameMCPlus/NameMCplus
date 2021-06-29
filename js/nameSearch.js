@@ -43,7 +43,7 @@ function betterNameMC(username) {
 
   try {
     document.querySelectorAll(".card-header.py-2").forEach(function (element) {
-      profiles += element.parentElement.outerHTML
+      profiles += element.parentElement.outerHTML;
     })
   } catch {}
 
