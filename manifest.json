@@ -54,7 +54,8 @@
     },
     {
       "matches": [
-        "https://*.namemc.com/search*"
+        "https://*.namemc.com/search*",
+        "https://*.namemc.com/name/*"
       ],
       "js": [
         "js/nameSearch.js"
