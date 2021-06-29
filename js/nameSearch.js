@@ -42,7 +42,7 @@ function betterNameMC(username) {
   } catch {}
 
   try {
-    profiles = document.querySelector("#status-bar").parentElement.parentElement.parentElement.children[2].lastElementChild.innerHTML;
+    profiles = document.querySelector("#bfa-scroll").innerHTML;
   } catch {}
 
   try {
