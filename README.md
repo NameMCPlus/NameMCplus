@@ -28,6 +28,7 @@ Automatic Install:
 
 Expiremental:
 You can try running the autoupdate.bat file by double clicking it, but at the moment its not 100% working and it might not
+(For the autoUpdate.bat file to work, make sure you have git installed)
 
 
 Manual Install:
