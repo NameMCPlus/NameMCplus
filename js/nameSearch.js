@@ -21,8 +21,8 @@ function removeFinePrint() {
 }
 
 function betterNameMC(username) {
-  var namemcStatus = document.querySelector("#search-box").getAttribute("value").replaceAll("*", "");
-  var namemcStatusNoReplace = document.querySelector("#search-box").getAttribute("value");
+  var namemcStatus = document.querySelector("#status-bar div").firstElementChild.lastElementChild.innerText.replaceAll("*", "");
+  var namemcStatusNoReplace = document.querySelector("#status-bar div").firstElementChild.lastElementChild;
   var searches = document.querySelector(".tabular").innerText;
   var statusClass = document.querySelector("#status-bar").classList[1];
   var statusColor = document.querySelector("#status-bar").classList[2];
@@ -136,7 +136,7 @@ function betterNameMC(username) {
 }
 
 if (isWildcard == false) {
-  var username = document.querySelector("#status-bar").parentElement.parentElement.firstElementChild.lastElementChild.innerText;
+  var username = document.querySelector("#search-box").getAttribute("value");
   betterNameMC(username);
 } else {
   unhide();
