@@ -21,8 +21,8 @@ function removeFinePrint() {
 }
 
 function betterNameMC(username) {
-  var namemcStatus = document.querySelector("#status-bar div").firstElementChild.lastElementChild.innerHTML.replaceAll("*", "");
-  var namemcStatusNoReplace = document.querySelector("#status-bar div").firstElementChild.lastElementChild;
+  var namemcStatus = document.querySelector("#search-box").getAttribute("value").replaceAll("*", "");
+  var namemcStatusNoReplace = document.querySelector("#search-box").getAttribute("value");
   var searches = document.querySelector(".tabular").innerText;
   var statusClass = document.querySelector("#status-bar").classList[1];
   var statusColor = document.querySelector("#status-bar").classList[2];
