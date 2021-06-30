@@ -1,6 +1,6 @@
 //by M6 (M6yo) & Faav (withdrew)
 
-var username = JSON.parse(document.querySelector('script[type="application/ld+json"]').innerHTML).itemListElement[1].item.name;
+var username = document.querySelector("[name='profile:username']").content;
 var template = document.createElement("template");
 
 chrome.storage.local.get(function (result) {
