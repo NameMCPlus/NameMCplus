@@ -2,6 +2,7 @@
 Browser Extension that adds cool features to NameMC.com.
 
 Currently only works for Chromium-based browsers. (Like Google Chrome and Brave)
+Support for other browsers is Coming Soon
 
 # Features
 
@@ -12,7 +13,7 @@ Currently only works for Chromium-based browsers. (Like Google Chrome and Brave)
 - Hide BLC Option. (Hides the BLC Stats and the Install with BLC button) (Hide BLC)
 - Removes most ads. (If you don't want any ads at all try using [uBlock Origin](https://ublockorigin.com))
 
-Planned:
+# Planned Features
 
 - Render Elytras
 - Shows Hidden Capes
@@ -23,7 +24,11 @@ Planned:
 # Installation
 
 Automatic Install:
-(Not finished)
+(Not finished, TBA)
+
+Expiremental:
+You can try running the autoupdate.bat file by double clicking it, but at the moment its not 100% working and it might not
+
 
 Manual Install:
 1. Press Code then download zip
