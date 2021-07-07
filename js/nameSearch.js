@@ -56,11 +56,11 @@ function betterNameMC(username) {
   } catch {}
 
   try {
-    Skin = document.querySelector("#status-bar").parentElement.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.lastElementChild.outerHTML;
+    Skin = document.querySelector("#status-bar").parentElement.parentElement.parentElement.parentElement.querySelector(".order-md-1").children[0].children[1].outerHTML;
   } catch {}
 
   try {
-    skinCount = document.querySelector("#status-bar").parentElement.parentElement.parentElement.parentElement.firstElementChild.firstElementChild.firstElementChild.innerHTML;
+    skinCount = document.querySelector("#status-bar").parentElement.parentElement.parentElement.parentElement.querySelector(".order-md-1").children[0].children[0].innerText;
   } catch {}
 
   try {
