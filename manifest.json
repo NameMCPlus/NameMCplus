@@ -69,7 +69,9 @@
         "https://*.namemc.com/profile/*"
       ],
       "js": [
-        "js/profile.js"
+        "js/profile.js",
+	      "js/contentScript.js",
+	      "js/skinview3d.bundle.js"
       ]
     }
   ],
