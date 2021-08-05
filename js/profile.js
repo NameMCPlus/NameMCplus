@@ -1,6 +1,7 @@
 //by M6 (M6yo) & Faav (withdrew)
 
 var username = document.querySelector("[name='profile:username']").content;
+var profileUUID = document.querySelector("body > main > div > div.col-md.order-md-2 > div:nth-child(1) > div.card-body.py-1 > div:nth-child(2) > div.col-12.order-lg-2.col-lg > samp").innerText
 var template = document.createElement("template");
 
 chrome.storage.local.get(function (result) {
@@ -27,14 +28,14 @@ function removeAccents(invalidName) {
 // Removes Accents from invalids LOL
 username = removeAccents(username);
 
-setStatus(username);
+setStatus(username, profileUUID);
 
-function setStatus(username) {
+function setStatus(username, profileUUID) {
   fetch(`https://api.gapple.pw/cors/username/${username}`)
     .then(response => response.json())
     .then(toUUID => {
       var uuid = toUUID.id;
-      fetch(`https://api.ashcon.app/mojang/v2/user/${uuid}`)
+      fetch(`https://api.ashcon.app/mojang/v2/user/${profileUUID}`)
         .then(response => response.json())
         .then(ashcon => {
           fetch(`https://api.gapple.pw/status/${username}`)
@@ -73,7 +74,7 @@ function setStatus(username) {
                     break;
                 }
 
-                if (uuid == "cc7ba16bb2c540fca18eb87b6949270e") { // homara- breaks the API lol)
+                if (profileUUID == "cc7ba16bb2c540fca18eb87b6949270e") { // homara- breaks the API lol)
                   accountType = "Legacy";
                   tooltip = "Unmigrated (2009 - Late 2012)";
                 }
