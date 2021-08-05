@@ -56,7 +56,7 @@ Keep in mind the extension may break at any time if NameMC ever changes their co
 
 # Credits
 
-- [@james090500](https://github.com/james090500) for letting us use some of the code from his (Skinview3d fork)[https://github.com/james090500/skinview3d] and (Chrome Extension)[https://github.com/james090500/minecraftcapes-for-namemc]
+- [james090500](https://github.com/james090500) for letting us use some of the code from his (Skinview3d fork)[https://github.com/james090500/skinview3d] and (Chrome Extension)[https://github.com/james090500/minecraftcapes-for-namemc]
 
 # Discord
 
