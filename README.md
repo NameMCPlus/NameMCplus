@@ -1,25 +1,26 @@
 # NameMC+
-Browser Extension that adds cool features to NameMC.com.
+A browser extension that adds cool features to NameMC!
 
-Currently only works for Chromium-based browsers. (Like Google Chrome and Brave)
-Support for other browsers is Coming Soon
+Currently only supports Chromium-based browsers. (Google Chrome, Microsoft Edge, and Brave)
+
+Support for other browsers will come in the future!
 
 # Features
 
-- [NEW!] Fixes NameMC's new search page. (Old Layout)
-- Checks if the name is blocked. (Blocked Names)
-- Shows account type. (Legacy, Mojang, Microsoft, Migrated Microsoft, etc) (Account Types)
-- Displays Creations dates. (Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return) (Created At)
-- Hide BLC Option. (Hides the BLC Stats and the Install with BLC button) (Hide BLC)
-- Removes most ads. (If you don't want any ads at all try using [uBlock Origin](https://ublockorigin.com))
+- [NEW] Marc Cape
+- __LabyMod__ and __MinecraftCapes Mod__ support
+- Renders users Elytras
+- Displays user creations dates (Inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang ([WEB-3367](https://bugs.mojang.com/browse/WEB-3367)) in order for accurate creation dates to return)
+- Shows users' account type (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
+- Can detect if a name is blocked (Blocked Names)
+- Hides Badlion Client stats (Hides the BLC Stats and the Install with BLC button) (Hide BLC)
+- Fixes NameMC's new search page (Old Layout)
+- Removes the majority of ads (If you don't want any ads at all, try using [uBlock Origin](https://ublockorigin.com))
 
 # Planned Features
 
-- Render Elytras
 - Shows Hidden Capes
-- Marc Cape Easter Egg
 - Test profile / Cape Tester
-- Third-party cosmetics render ?
 
 # Installation
 
@@ -27,29 +28,24 @@ Automatic Install:
 (Not finished, TBA)
 
 Expiremental:
-You can try running the autoupdate.bat file by double clicking it, but at the moment its not 100% working and it might not
+You can try running the autoUpdate.bat file by double clicking it, but at the moment it's not 100% working.
 (For the autoUpdate.bat file to work, make sure you have git installed)
 
-
 Manual Install:
-1. Press Code then download zip
-
+1. Press __Code__ then __Download Zip__
 2. Extract the .zip file
-
-3. Go to browser settings -> Extensions or go to chrome://extensions
-
-4. Enable Developer Mode then Load unpacked extension
-
-5. Select the folder that you extracted
+3. Go to chrome://extensions
+4. Enable __Developer Mode__ then select __Load Unpacked Extension__
+5. Select the extracted folder
 
 # The Basics
 
-- If you hover on the account type it shows more info about it like Migrated from Mojang, Newly Created (Microsoft), etc.
-- To enable the Hide BLC feature you press on the NameMC+ icon on the top right of your browser. If you can't find it press on the extensions button in the top right and pin the NameMC+ extension, after that you close out the menu and press on the NameMC+ icon, then a settings menu should open with a option to Hide BLC (Badlion Client).
+- If you hover over the account type, it's more specific (Migrated from Mojang, Newly Created (Microsoft), etc.)
+- To enable the Hide BLC feature, you must press on the NameMC+ icon on the top right of your browser. If you can't find it, press on the extensions button in the top right and pin the NameMC+ extension. After that you must close out the menu and press on the NameMC+ icon, then a settings menu should open with a option to Hide BLC (Badlion Client).
 
 # Warning
 
-Keep in mind the extension may break at anytime if NameMC ever changes there code, if this does happen we will try to fix it as fast as possible.
+Keep in mind the extension may break at any time if NameMC ever changes their code, but we will try to fix it as fast as possible!
 
 # APIs Used
 
@@ -58,4 +54,4 @@ Keep in mind the extension may break at anytime if NameMC ever changes there cod
 
 # Discord
 
-[Click here join the discord](https://discord.gg/ZwxFpPTpjt)
+[Click here join the Discord!](https://discord.gg/ZwxFpPTpjt)
