@@ -19,6 +19,8 @@ Support for other browsers will come in the future!
 
 # Planned Features
 
+- More third-party cosmetics support
+- Port to other browsers
 - Shows Hidden Capes
 - Test profile / Cape Tester
 
@@ -51,6 +53,10 @@ Keep in mind the extension may break at any time if NameMC ever changes their co
 
 - [Gapple API](https://api.gapple.pw/)
 - [Ashcon API](https://github.com/Electroid/mojang-api)
+
+# Credits
+
+- [@james090500](https://github.com/james090500) for letting us use some of the code from his (Skinview3d fork)[https://github.com/james090500/skinview3d] and (Chrome Extension)[https://github.com/james090500/minecraftcapes-for-namemc]
 
 # Discord
 
