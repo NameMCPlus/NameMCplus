@@ -4,6 +4,11 @@ var username = document.querySelector("[name='profile:username']").content;
 var profileUuid = document.querySelector("body > main > div > div.col-md.order-md-2 > div:nth-child(1) > div.card-body.py-1 > div:nth-child(2) > div.col-12.order-lg-2.col-lg > samp").innerText
 console.log("UUID is " + profileUuid);
 
+const usersWithSpecialCapes = [
+  "935e160c0a9d49e5a1ef2ccd1d54ff7d",
+  "b05881186e75410db2db4d3066b223f7"
+]
+
 function textureURL(hash) {
   return 'https://texture.namemc.com/' + hash[0] + hash[1] + '/' + hash[2] + hash[3] + '/' + hash + '.png';
 }
@@ -23,12 +28,20 @@ async function getLabyCape() {
     }
   };
 
-  const labymod = await fetch("https://api.gapple.pw/cors/labymod/cape/" + profileUuid.addDashes())
-  const labyStatus = await labymod.status;
-  if (labyStatus == 200) {
-    return labymod;
+  try {
+    const labymod = await fetch("https://api.gapple.pw/cors/labymod/cape/" + profileUuid.addDashes()).catch(e => {
+      console.log("Failed to get LabyMod cape: " + e);
+      return null;
+    })
+ 
+    const labyStatus = await labymod.status;
+    if (labyStatus == 200) {
+      return "https://api.gapple.pw/cors/labymod/cape/" + profileUuid.addDashes();
+    }
+    return null;
+  } catch {
+    return null;
   }
-  return null;
 
 }
 
@@ -42,7 +55,7 @@ fetch("https://minecraftcapes.net/profile/" + profileUuid).then(function(respons
 
     let NMCP_cape = null;
 
-    if (profileUuid == "935e160c0a9d49e5a1ef2ccd1d54ff7d" || profileUuid == "b05881186e75410db2db4d3066b223f7") {
+    if (usersWithSpecialCapes.includes(profileUuid)) {
 
       toDataURL(`https://m6.wtf/assets/${profileUuid}.png`, 
         function(dataUrl) {
@@ -61,11 +74,9 @@ fetch("https://minecraftcapes.net/profile/" + profileUuid).then(function(respons
       this.skinViewer.loadCape("data:image/png;base64," + body.textures.cape)
     }
 
-    const labyMod_cape = await getLabyCape().then(response => {
-      if (response != null) {
-        return 'https://api.gapple.pw/cors/labymod/cape/' + profileUuid;
-      }
-    });
+    const labyMod_cape = await getLabyCape();
+
+    console.log("LabyMod Cape: " + labyMod_cape);
 
     capeCrop(labyMod_cape, body.textures.cape, NMCP_cape);
 
@@ -153,28 +164,14 @@ function createCapeCard(base64capes = [""], {title, redirect, capeTypes, showAmo
         ctx.msImageSmoothingEnabled = false;
         ctx.imageSmoothingEnabled = false;
         capeScale = capeImage.width / 64;
-        //ctx.drawImage(capeImage, 1 * capeScale, 1 * capeScale, 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
-        //ctx.drawImage(capeImage, 0, 0, 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height);
         ctx.drawImage(capeImage, 0, 0, capeCanvas.width, capeCanvas.height);
-
-        /*
-        let frame = 0;
-        let doAnimation = setInterval(function() {
-            const offset = (frame * (capeImage.width / 2))
-            ctx.drawImage(capeImage, 1 * capeScale, offset + (1 * capeScale), 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
-            frame = frame + 1 > (capeImage.height / (capeImage.width / 2)) - 1 ? 0 : frame + 1;
-        }, 110);
-
-        if(capeImage.height == capeImage.width / 2) {
-            clearInterval(doAnimation);
-        }
-        */
     }
 
     //Puts the image in a href
     let featureImageHref = document.createElement("a");
     featureImageHref.href = "https://api.gapple.pw/cors/labymod/cape/" + profileUuid;
     featureImageHref.target = "_blank";
+    featureImageHref.title = "LabyMod";
     featureImageHref.appendChild(capeCanvas);
     featureBody.appendChild(featureImageHref);
 }
@@ -216,6 +213,7 @@ function createCapesModCape(base64Cape, featureBody) {
     let featureImageHref = document.createElement("a");
     featureImageHref.href = "https://minecraftcapes.net/profile/" + profileUuid + "/cape/map?" + Date.now();
     featureImageHref.target = "_blank";
+    featureImageHref.title = "MinecraftCapes Mod";
     featureImageHref.appendChild(capeCanvas);
     featureBody.appendChild(featureImageHref);
 }
@@ -241,19 +239,6 @@ function createCapesModCape(base64Cape, featureBody) {
       ctx.imageSmoothingEnabled = false;
       capeScale = capeImage.width / 64;
       ctx.drawImage(capeImage, 1 * capeScale, 1 * capeScale, 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
-      
-      /*
-      let frame = 0;
-      let doAnimation = setInterval(function() {
-          const offset = (frame * (capeImage.width / 2))
-          ctx.drawImage(capeImage, 1 * capeScale, offset + (1 * capeScale), 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
-          frame = frame + 1 > (capeImage.height / (capeImage.width / 2)) - 1 ? 0 : frame + 1;
-      }, 110);
-
-      if(capeImage.height == capeImage.width / 2) {
-          clearInterval(doAnimation);
-      }
-      */
   }
 
   //Puts the image in a href
@@ -525,9 +510,6 @@ function capeCrop(textureUrl, capeMod_cape, NMCP_capecustom) {
       }
     )
         
-        //createCapeEvents(capeMod_cape, );
-        //console.log("created cape events");
-        
   };
 }
 
@@ -537,6 +519,10 @@ function labyResize(labyData, capeMod_cape, NMCP_capecustom) {
     c.width = 2048;
     c.height = 1024;
     var ctx = c.getContext("2d");
+    ctx.mozImageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+    ctx.msImageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = false;
     var imageObj1 = new Image();
     imageObj1.src = labyData;
     imageObj1.onload = function() {
