@@ -1,7 +1,7 @@
 # NameMC+
 A browser extension that adds cool features to NameMC!
 
-Currently only supports Chromium-based browsers. (Google Chrome, Microsoft Edge, and Brave)
+Currently only supports Chromium-based browsers. (Google Chrome, Microsoft Edge, Brave, etc.)
 
 Support for other browsers will come in the future!
 
