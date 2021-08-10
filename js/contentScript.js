@@ -4,11 +4,6 @@ var username = document.querySelector("[name='profile:username']").content;
 var profileUuid = document.querySelector("body > main > div > div.col-md.order-md-2 > div:nth-child(1) > div.card-body.py-1 > div:nth-child(2) > div.col-12.order-lg-2.col-lg > samp").innerText
 console.log("UUID is " + profileUuid);
 
-const usersWithSpecialCapes = [
-  "935e160c0a9d49e5a1ef2ccd1d54ff7d",
-  "b05881186e75410db2db4d3066b223f7"
-]
-
 function textureURL(hash) {
   return 'https://texture.namemc.com/' + hash[0] + hash[1] + '/' + hash[2] + hash[3] + '/' + hash + '.png';
 }
@@ -53,17 +48,22 @@ fetch("https://minecraftcapes.net/profile/" + profileUuid).then(function(respons
     createSkinViewer();
     console.log("created Skin Viewer " + Date.now());
 
-    let NMCP_cape = null;
-
-    if (usersWithSpecialCapes.includes(profileUuid)) {
-
-      toDataURL(`https://m6.wtf/assets/${profileUuid}.png`, 
-        function(dataUrl) {
-          NMCP_cape = dataUrl;
-          createCapeCard([dataUrl]);
-        });
-
-    }
+    const url = chrome.runtime.getURL('../json/customCapes.json');
+    const capes = [];
+    let i = 0;
+    await fetch(url)
+      .then((response) => response.json())
+      .then((json) => {
+        json.capes.forEach(cape => {
+          i++;
+          if (cape.users.includes(profileUuid)) {
+            toDataURL(cape.src, dataUrl => {
+              capes.push(dataUrl);
+              if (capes.length > 0 && !(i < json.capes.length)) createCapeCard(capes);
+            })
+          }
+        })
+      })
 
     if(body.textures.ears != null) {
       createEarsCard(body.textures.ears);
@@ -78,13 +78,17 @@ fetch("https://minecraftcapes.net/profile/" + profileUuid).then(function(respons
 
     console.log("LabyMod Cape: " + labyMod_cape);
 
-    capeCrop(labyMod_cape, body.textures.cape, NMCP_cape);
-
-    createSkinEvents();
-    console.log("created Skin Events");
-    createCapeEvents(body.textures.cape, labyMod_cape, NMCP_cape);
-    console.log("created Cape Events");
-
+    chrome.storage.local.get(result => {
+      if (!result.otherCapes) {
+        capeCrop(null, null, capes[0]);
+        createSkinEvents();
+        createCapeEvents(null, null, capes[0]);
+      } else {
+        capeCrop(labyMod_cape, body.textures.cape, capes[0]);
+        createSkinEvents();
+        createCapeEvents(body.textures.cape, labyMod_cape, capes[0]);
+      }
+    });
 });
 
 /** 
@@ -238,7 +242,7 @@ function createCapesModCape(base64Cape, featureBody) {
       ctx.msImageSmoothingEnabled = false;
       ctx.imageSmoothingEnabled = false;
       capeScale = capeImage.width / 64;
-      ctx.drawImage(capeImage, 1 * capeScale, 1 * capeScale, 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
+      ctx.drawImage(capeImage, capeScale, capeScale, 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
   }
 
   //Puts the image in a href
