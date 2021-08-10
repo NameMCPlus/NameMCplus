@@ -13,6 +13,9 @@ $("#blockedbutton").on('change', function () {
 $("#searchbutton").on('change', function () {
   toggleBTSearch()
 });
+$("#othercapesbutton").on('change', function () {
+  toggleOtherCapes()
+})
 
 function toggleBLC() {
   var HideBLC = hideblcbutton.checked;
@@ -74,6 +77,18 @@ function toggleBTSearch() {
   console.log(BTSearch);
 }
 
+function toggleOtherCapes() {
+  var otherCapes = othercapesbutton.checked;
+
+  chrome.storage.local.set({
+    "otherCapes": otherCapes
+  }, function () {
+    console.log("Saved");
+  });
+
+  console.log(otherCapes);
+}
+
 function restore_options() {
   chrome.storage.local.get(function (result) {
     var HideBLC = result.HideBLC;
@@ -81,6 +96,7 @@ function restore_options() {
     var createdAt = result.createdAt;
     var blockedNames = result.blockedNames;
     var BTSearch = result.BTSearch;
+    var otherCapes = result.otherCapes;
 
     if (HideBLC == undefined) {
       hideblcbutton.checked = false;
@@ -107,6 +123,11 @@ function restore_options() {
       BTSearch = true;
       toggleBTSearch()
     }
+    if (otherCapes == undefined) {
+      othercapesbutton.checked = true;
+      otherCapes = true;
+      toggleOtherCapes();
+    }
 
     hideblcbutton.checked = HideBLC;
     console.log("Options loaded: " + HideBLC);
@@ -122,6 +143,9 @@ function restore_options() {
 
     searchbutton.checked = BTSearch;
     console.log("Options loaded: " + BTSearch);
+
+    othercapesbutton.checked = otherCapes;
+    console.log("Options loaded: " + otherCapes)
   });
 }
 
