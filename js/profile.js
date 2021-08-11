@@ -1,5 +1,3 @@
-//by M6 (M6yo) & Faav (withdrew)
-
 var username = document.querySelector("[name='profile:username']").content;
 var profileUUID = document.querySelector(".card-body .row:nth-child(2) samp").innerText;
 var template = document.createElement("template");
@@ -28,9 +26,25 @@ function removeAccents(invalidName) {
 // Removes Accents from invalids LOL
 username = removeAccents(username);
 
-setStatus(username, profileUUID);
+const url = chrome.runtime.getURL('../json/badges.json');
 
-function setStatus(username, profileUUID) {
+fetch(url)
+    .then((response) => response.json())
+    .then((json) => {
+        const badges = [];
+        let i = 0;
+        json.badges.forEach(badge => {
+            if (badge.users.includes(profileUUID)) {
+              badges.push(badge);
+            }
+            i++;
+            if (!(i < badges.length)) {
+              setStatus(username, profileUUID, badges)
+            }
+        })
+    });
+
+function setStatus(username, profileUUID, badges) {
   fetch(`https://api.gapple.pw/cors/username/${username}`)
     .then(response => response.json())
     .then(toUUID => {
@@ -80,23 +94,45 @@ function setStatus(username, profileUUID) {
                 }
                 var createdAtBtn = result.createdAt;
                 var AccTypeBtn = result.AccType;
-                if (AccTypeBtn == true && createdAtBtn == true || AccTypeBtn == undefined && createdAtBtn == undefined) {
-                  if (createdAt) {
-                    template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" title="${tooltip}">${accountType}</div></div><div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Created At</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" data-html="true" title="<b>Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return.</b>">${formatCreation(createdAt)}</div></div>`;
-                  } else {
-                    template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" title="${tooltip}">${accountType}</div></div>`;
-                  }
-                } else if (AccTypeBtn == true && createdAtBtn == false || AccTypeBtn == undefined && createdAtBtn == false) {
-                  template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" title="${tooltip}">${accountType}</div></div>`;
-                } else if (AccTypeBtn == false && createdAtBtn == true || AccTypeBtn == false && createdAtBtn == undefined) {
-                  if (createdAt) {
-                    template.innerHTML = `<div class="row no-gutters"><div class="col order-lg-1 col-lg-4"><strong>Created At</strong></div><div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" data-html="true" title="<b>Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return.</b>">${formatCreation(createdAt)}</div></div>`;
-                  } else {
-                    template.innerHTML = ``;
-                  }
-                } else {
-                  template.innerHTML = ``;
+
+                const accTypeText = `
+                  <div class="row no-gutters">
+                    <div class="col order-lg-1 col-lg-4"><strong>Account Type</strong></div>
+                    <div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" title="${tooltip}">${accountType}</div>
+                  </div>
+                `
+
+                const createdAtText = `
+                  <div class="row no-gutters">
+                    <div class="col order-lg-1 col-lg-4"><strong>Created At</strong></div>
+                    <div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right" data-toggle="tooltip" data-html="true" title="<b>Creation dates are inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang (WEB-3367) in order for accurate creation dates to return.</b>">NMCP_PLACEHOLDER_DATE</div>
+                  </div>
+                `
+
+                template.innerHTML = `
+                  ${AccTypeBtn && accountType ? accTypeText : ""}
+                  ${createdAtBtn && createdAt ? createdAtText.replace("NMCP_PLACEHOLDER_DATE", formatCreation(createdAt)) : ""}
+                `
+
+                if (badges.length > 0) {
+                  template.innerHTML += `
+                  <div class="row no-gutters">
+                    <div class="col order-lg-1 col-lg-4"><strong>NameMC+ Badges</strong></div>
+                    <div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right">`;
                 }
+
+                badges.forEach(badge => {
+                  template.innerHTML += `
+                      <img width="16" height="16" src="${badge.icon}" data-toggle="tooltip" data-html="true" title="<b>${badge.name}</b><br>${badge.description}">
+                  `
+                })
+
+                if (badges.length > 0) {
+                  template.innerHTML += `
+                    </div>
+                  </div>`;
+                }
+
                 var viewsElement = document.querySelectorAll(".col-lg-4")[3].parentElement;
                 var accountTypeElement = template.content;
                 viewsElement.parentNode.insertBefore(accountTypeElement, viewsElement.nextSibling);
