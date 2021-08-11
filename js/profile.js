@@ -32,16 +32,12 @@ fetch(url)
     .then((response) => response.json())
     .then((json) => {
         const badges = [];
-        let i = 0;
         json.badges.forEach(badge => {
             if (badge.users.includes(profileUUID)) {
               badges.push(badge);
             }
-            i++;
-            if (!(i < badges.length)) {
-              setStatus(username, profileUUID, badges)
-            }
         })
+        setStatus(username, profileUUID, badges)
     });
 
 function setStatus(username, profileUUID, badges) {
