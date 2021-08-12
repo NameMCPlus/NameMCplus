@@ -7,7 +7,7 @@ Support for other browsers will come in the future!
 
 # Features
 
-- [NEW] Marc Cape
+- [NEW] Exclusive NameMC+ Capes
 - __LabyMod__ and __MinecraftCapes Mod__ support
 - Renders users Elytras
 - Displays user creations dates (Inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang ([WEB-3367](https://bugs.mojang.com/browse/WEB-3367)) in order for accurate creation dates to return)
