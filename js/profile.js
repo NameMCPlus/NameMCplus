@@ -111,22 +111,17 @@ function setStatus(username, profileUUID, badges) {
                 `
 
                 if (badges.length > 0) {
+                  let badgesHTML = "";
+                  badges.forEach(badge => {
+                    badgesHTML += `
+                        <img width="16" height="16" src="${badge.icon}" data-toggle="tooltip" data-html="true" title="<b>${badge.name}</b><br>${badge.description}">
+                    `
+                  })
                   template.innerHTML += `
-                  <div class="row no-gutters">
-                    <div class="col order-lg-1 col-lg-4"><strong>NameMC+ Badges</strong></div>
-                    <div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right">`;
-                }
-
-                badges.forEach(badge => {
-                  template.innerHTML += `
-                      <img width="16" height="16" src="${badge.icon}" data-toggle="tooltip" data-html="true" title="<b>${badge.name}</b><br>${badge.description}">
-                  `
-                })
-
-                if (badges.length > 0) {
-                  template.innerHTML += `
-                    </div>
-                  </div>`;
+                    <div class="row no-gutters">
+                      <div class="col order-lg-1 col-lg-4"><strong>NameMC+ Badges</strong></div>
+                      <div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right">${badgesHTML}</div>
+                    </div>`;
                 }
 
                 var viewsElement = document.querySelectorAll(".col-lg-4")[3].parentElement;
