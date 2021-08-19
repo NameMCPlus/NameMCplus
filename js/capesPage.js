@@ -93,8 +93,6 @@ async function loadCapeInfo(cape) {
                         <h5 class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length}</h5>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
@@ -105,6 +103,8 @@ async function loadCapeInfo(cape) {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
