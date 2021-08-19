@@ -1,10 +1,10 @@
-const url = chrome.runtime.getURL('../json/customCapes.json');
-    const capes = fetch(url)
+const customCapesURL = chrome.runtime.getURL('../json/customCapes.json');
+const capes = fetch(customCapesURL)
     .then((response) => response.json())
     .then((json) => {
         if (location.href == "https://namemc.com/capes") {
             loadCapes(json);
-        } else if (location.href.includes("https://namemc.com/cape/nmcp-")) {
+        } else if (location.href.startsWith("https://namemc.com/cape/nmcp-")) {
             let displayCape = null;
             json.capes.forEach(cape => {
                 if (cape.name.toLowerCase().replace(" ", "-") == location.href.split("https://namemc.com/cape/nmcp-")[1]) {
@@ -14,6 +14,28 @@ const url = chrome.runtime.getURL('../json/customCapes.json');
             if (displayCape == null) return;
             document.querySelector("main > div").remove();
             loadCapeInfo(displayCape);
+        } else if (location.href.startsWith("https://namemc.com/cape/")) {
+            const capeInfoURL = chrome.runtime.getURL("../json/capeInfo.json")
+            fetch(capeInfoURL).then(response => response.json()).then(capeJson => {
+                const capeHash = location.href.split("https://namemc.com/cape/")[1];
+                const capeDesc = capeJson.capes[capeHash].description;
+
+                const descriptionCard = document.createElement("div");
+                descriptionCard.className = "card mb-3";
+                descriptionCard.innerHTML = `
+                    <div class="d-flex flex-column" style="max-height: 25rem">
+                        <div class="card-header py-1">
+                            <strong>Description</strong>
+                        </div>
+                        <div class="card-body py-2">
+                            ${capeDesc}
+                        </div>
+                    </div>
+                `;
+
+                const insertBeforeDiv = document.getElementsByClassName("card-body player-list py-2")[0].parentElement.parentElement.parentElement.parentElement.childNodes[0];
+                insertBeforeDiv.appendChild(descriptionCard);
+            })
         }
     });
 
@@ -71,8 +93,6 @@ async function loadCapeInfo(cape) {
                         <h5 class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length}</h5>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
@@ -83,6 +103,8 @@ async function loadCapeInfo(cape) {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="card mb-3">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
@@ -102,7 +124,7 @@ async function loadCapeInfo(cape) {
     capeImage.src = cape.image;
     capeImage.onload = () => {
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(capeImage, 0, canvas.height / 6, canvas.width, capeImage.height * (canvas.width / capeImage.width));
+        ctx.drawImage(capeImage, 0, canvas.height / 8, canvas.width, capeImage.height * (canvas.width / capeImage.width));
     }
 
     const namesDiv = document.getElementsByClassName("card-body player-list py-2")[0];
