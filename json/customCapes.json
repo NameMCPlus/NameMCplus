@@ -1,19 +1,22 @@
 {
     "capes": [
         {
-            "name": "NameMC+ Dev",
+            "name": "NameMC+ Developer",
+            "description": "Given out to developers of NameMC+",
             "users": ["88e152f3e54546818cec3e8f85175902", "4a66d3d87eed42e6a479e4139e9041ee", "5787ba858ec44acc8f670e651dc5301d"],
             "src": "https://m6.wtf/assets/nmcp.png",
             "image": "https://m6.wtf/assets/nmcpPreview.png"
         },
         {
             "name": "Marc",
+            "description": "Given out to Marc, for having the most capes in Minecraft",
             "users": ["b05881186e75410db2db4d3066b223f7"],
             "src": "https://m6.wtf/assets/b05881186e75410db2db4d3066b223f7.png",
             "image": "https://m6.wtf/assets/marcCapePreview.png"
         },
         {
             "name": "xinabox",
+            "description": "Given out to xinabox, a huge influence on the OG community",
             "users": ["935e160c0a9d49e5a1ef2ccd1d54ff7d"],
             "src": "https://m6.wtf/assets/935e160c0a9d49e5a1ef2ccd1d54ff7d.png",
             "image": "https://i.imgur.com/TeqP1XV.png"
