@@ -1,9 +1,20 @@
 const url = chrome.runtime.getURL('../json/customCapes.json');
-
-const capes = fetch(url)
+    const capes = fetch(url)
     .then((response) => response.json())
     .then((json) => {
-        loadCapes(json);
+        if (location.href == "https://namemc.com/capes") {
+            loadCapes(json);
+        } else if (location.href.includes("https://namemc.com/cape/nmcp-")) {
+            let displayCape = null;
+            json.capes.forEach(cape => {
+                if (cape.name.toLowerCase().replace(" ", "-") == location.href.split("https://namemc.com/cape/nmcp-")[1]) {
+                    displayCape = cape;
+                }
+            });
+            if (displayCape == null) return;
+            document.querySelector("main > div").remove();
+            loadCapeInfo(displayCape);
+        }
     });
 
 async function loadCapes(json) {
@@ -21,7 +32,7 @@ async function loadCapes(json) {
         const capeDiv = document.createElement("div");
         capeDiv.className = "col-6 col-md";
         capeDiv.innerHTML = `
-            <a href="https://namemc.com/profile/${cape.users[Math.floor(Math.random() * cape.users.length)]}">
+            <a href="https://namemc.com/cape/nmcp-${cape.name.toLowerCase().replace(" ", "-")}">
                 <div class="card mb-2">
                     <div class="card-header text-center text-nowrap text-ellipsis p-1" translate="no">${cape.name}</div>
                     <div class="card-body position-relative text-center checkered p-0">
@@ -34,5 +45,70 @@ async function loadCapes(json) {
             </a>
         `;
         capesDiv.appendChild(capeDiv);
+    })
+}
+
+async function loadCapeInfo(cape) {
+    document.title = `${cape.name} | NameMC+ Cape | NameMC`;
+    const headerDiv = document.querySelector("body > header").appendChild(document.createElement("div"));
+    headerDiv.className = "container mt-3";
+    headerDiv.innerHTML = `
+        <h1 class="text-center" translate="no">${cape.name} <small class="text-muted text-nowrap">NameMC+ Cape</small></h1>
+        <hr class="my-0">
+    `;
+
+    let userString = "";
+    cape.users.forEach(user => {
+        userString += `<a translate="no" href="/profile/${user}">${user}</a>`;
+    })
+
+    document.querySelector("main").innerHTML = `
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body position-relative text-center p-0 checkered">
+                        <canvas class="skin-3d drop-shadow auto-size align-top" width="375" height="500"></canvas>
+                        <h5 class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="d-flex flex-column" style="max-height: 25rem">
+                        <div class="card-header py-1">
+                            <strong>Description</strong>
+                        </div>
+                        <div class="card-body py-2">
+                            ${cape.description}
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="d-flex flex-column" style="max-height: 25rem">
+                        <div class="card-header py-1">
+                            <strong>Profiles (${cape.users.length})</strong>
+                        </div>
+                        <div class="card-body player-list py-2">
+                            ${userString}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    const canvas = document.querySelector("canvas.skin-3d.drop-shadow.auto-size.align-top");
+    const capeImage = new Image();
+    capeImage.src = cape.image;
+    capeImage.onload = () => {
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(capeImage, 0, canvas.height / 6, canvas.width, capeImage.height * (canvas.width / capeImage.width));
+    }
+
+    const namesDiv = document.getElementsByClassName("card-body player-list py-2")[0];
+    namesDiv.childNodes.forEach(element => {
+        fetch(`https://api.gapple.pw/cors/names/${element.innerHTML}`).then(response => response.json()).then(json => {
+            element.innerHTML = json[json.length - 1].name + " ";
+        })
     })
 }
