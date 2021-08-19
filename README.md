@@ -7,14 +7,15 @@ Support for other browsers will come in the future!
 
 # Features
 
-- [NEW] Exclusive NameMC+ Capes
-- __LabyMod__ and __MinecraftCapes Mod__ support
-- Renders users Elytras
-- Displays user creations dates (Inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang ([WEB-3367](https://bugs.mojang.com/browse/WEB-3367)) in order for accurate creation dates to return)
+- [NEW] View cape descriptions
+- Custom Capes
+- Support for __LabyMod__ and __MinecraftCapes Mod__
+- Renders user Elytras
+- Displays user creation dates (Inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang ([WEB-3367](https://bugs.mojang.com/browse/WEB-3367)) in order for accurate creation dates to return)
 - Shows users' account type (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
-- Can detect if a name is blocked (Blocked Names)
-- Hides Badlion Client stats (Hides the BLC Stats and the Install with BLC button) (Hide BLC)
-- Fixes NameMC's new search page (Old Layout)
+- Detects if a name is blocked (Blocked Names)
+- Hides the Badlion Client card (Hides the BLC Stats and the Install with BLC button) (Hide BLC)
+- Reverts NameMC's new search page (Old Layout)
 - Removes the majority of ads (If you don't want any ads at all, try using [uBlock Origin](https://ublockorigin.com))
 
 # Planned Features
