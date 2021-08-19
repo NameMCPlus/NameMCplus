@@ -1,0 +1,96 @@
+{
+    "capes": {
+        "8a6cc02cc86e43f1": {
+            "name": "Migrator",
+            "description": "Given to accounts that were migrated to a Microsoft account"
+        },
+        "1981aad373fa9754": {
+            "name": "MineCon 2016",
+            "description": "Given to accounts that attended MineCon 2016"
+        },
+        "72ee2cfcefbfc081": {
+            "name": "MineCon 2015",
+            "description": "Given to accounts that attended MineCon 2015"
+        },
+        "0e4cc75a5f8a886d": {
+            "name": "MineCon 2013",
+            "description": "Given to accounts that attended MineCon 2013"
+        },
+        "ebc798c3f7eca2a3": {
+            "name": "MineCon 2012",
+            "description": "Given to accounts that attended MineCon 2012"
+        },
+        "9349fa25c64ae935": {
+            "name": "MineCon 2011",
+            "description": "Given to accounts that attended MineCon 2011"
+        },
+        "11a3dcc4d826d0a1": {
+            "name": "Realms Mapmaker",
+            "description": "Given to accounts that contributed to the Java Realms Content Creator Program"
+        },
+        "cb5dd34bee340182": {
+            "name": "Mojang",
+            "description": "Given to accounts owned by Mojang employees"
+        },
+        "129a4675704fa3b8": {
+            "name": "Translator",
+            "description": "Given to accounts that contributed to the Crowdin Translation Project"
+        },
+        "8dd71c1ee6ec0ae4": {
+            "name": "Mojira Moderator",
+            "description": "Given to accounts owned by Mojira Moderators"
+        },
+        "696b6cc29946b968": {
+            "name": "Cobalt",
+            "description": "Given to accounts that won a Cobalt tournament"
+        },
+        "298ae017a64261ad": {
+            "name": "Mojang (Classic)",
+            "description": "Given to accounts owned by the original Mojang employees"
+        },
+        "c00df589ebea3ad6": {
+            "name": "Mojang Studios",
+            "description": "Given to accounts owned by Mojang Studios employees"
+        },
+        "116bacd62b233157": {
+            "name": "Scrolls",
+            "description": "Given to accounts that won a Scrolls tournament"
+        },
+        "d059f1a18b159eb6": {
+            "name": "Translator (Chinese)",
+            "description": "Given to accounts that majorly contributed to the Chinese Crowdin Translation Project"
+        },
+        "8c05ef3c54870d04": {
+            "name": "Turtle",
+            "description": "Given to billyK_ for suggesting the idea of adding turtles"
+        },
+        "aab5a23c7495fc70": {
+            "name": "Birthday",
+            "description": "Given to Gr8_Escape, an employee at Mojang, for unknown reasons"
+        },
+        "77421d9cf72e07e9": {
+            "name": "dB",
+            "description": "Given to dannyBstyle because Notch liked their music"
+        },
+        "d3c7ac835b24eb29": {
+            "name": "Millionth Customer",
+            "description": "Given to akronman1 for purchasing the one millionth copy of Minecraft"
+        },
+        "88f1509813f4e324": {
+            "name": "Prismarine",
+            "description": "Given to Drullkus for redesigning the Prismarine texture"
+        },
+        "5e68fa78bd9df310": {
+            "name": "Snowman",
+            "description": "Given to JulianClark for hooking up Notch with Ray Cokes"
+        },
+        "7a939dc1a7ad4505": {
+            "name": "Spade",
+            "description": "Given to MrMessiah for creating better lighting for Minecraft"
+        },
+        "aa02d4b62762ff22": {
+            "name": "Translator (Japanese)",
+            "description": "Given to cheapsh0t for contributing the most to the Japanese Crowdin Translation Project"
+        }
+    }
+}
