@@ -67,10 +67,6 @@ async function createThirdPartyCapeCard() {
                     "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
                 },
                 {
-                    "name": "Mantle",
-                    "url": "https://capes.mantle.gg/capes/{username}.png"
-                },
-                {
                     "name": "Cloaks+",
                     "url": "https://server.cloaksplus.com/capes/{username}.png"
                 },
