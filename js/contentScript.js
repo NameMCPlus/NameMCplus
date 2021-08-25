@@ -89,7 +89,7 @@ async function createThirdPartyCapeCard() {
                     capes[i].url = capes[i].url.replace("{uuid-dashes}", profileUuid.addDashes());
 
                     fetch(capes[i].url).then(data => {
-                        if (data) {
+                        if (data.ok) {
                             createCape(capes[i].url, capeDiv, capes[i].name, "");
                         }
                         if (i == capes.length - 1 && capeDiv.firstElementChild == null) capeCard.remove();
