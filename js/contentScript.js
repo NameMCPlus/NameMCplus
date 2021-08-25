@@ -14,7 +14,7 @@ String.prototype.addDashes = function() {
     } else if (isUUIDwithDashes == true) {
       return uuid;
     } else {
-      throw new Error("This is not a valid UUID: " + uuid);
+      throw new Error("Can only add dashes to a valid UUID: " + uuid);
     }
 };
 
@@ -41,11 +41,9 @@ fetch(capeJsonURL)
         });
         if (capes.sources.length > 0) {
             return createCapeCard(capes.sources, capeDiv => {
-                console.log("creating third party capes lol!")
                 createThirdPartyCapeCard();
             }, {title: "NameMC+ Capes", showAmount: true, capeNames: capes.names, capeDescs: capes.descs})
         }
-        console.log("creating third party capes lol!")
         return createThirdPartyCapeCard();
     })
 
@@ -84,8 +82,6 @@ function createThirdPartyCapeCard() {
                     capes[i].url = capes[i].url.replace("{username}", username);
                     capes[i].url = capes[i].url.replace("{uuid}", profileUuid);
                     capes[i].url = capes[i].url.replace("{uuid-dashes}", profileUuid.addDashes());
-
-                    console.log("Checking URL " + capes[i].url)
 
                     fetch(capes[i].url).then(data => {
                         if (data.ok) {
