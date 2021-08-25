@@ -5,6 +5,23 @@ var profileUuid = document.querySelector("body > main > div > div.col-md.order-m
 
 
 
+String.prototype.addDashes = function () {
+    var uuid = this;
+    var isUUIDwithDashes = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i.test(uuid);
+    var isUUIDwithoutDashes = /^[A-F\d]{8}[A-F\d]{4}4[A-F\d]{3}[89AB][A-F\d]{3}[A-F\d]{12}$/i.test(uuid);
+    if (isUUIDwithoutDashes == true) {
+      return uuid.substr(0, 8) + "-" + uuid.substr(8, 4) + "-" + uuid.substr(12, 4) + "-" + uuid.substr(16, 4) + "-" + uuid.substr(20);
+    } else if (isUUIDwithDashes == true) {
+      return uuid;
+    } else {
+      throw new Error("This is not a valid UUID!");
+    }
+};
+
+
+
+
+
 /* Add NMCP capes to profile */
 const capeJsonURL = chrome.runtime.getURL('../json/customCapes.json');
 fetch(capeJsonURL)
@@ -34,93 +51,55 @@ fetch(capeJsonURL)
 
 
 
-/* Add third-party (LabyMod, Cloaks+, etc) capes to profile */
-function createThirdPartyCapeCard() {
+/* 
+    Add third-party capes to profile
+    {username} is replaced with the username (capitalization)
+    {uuid} is replaced with the UUID (no dashes)
+    {uuid-dashes} is replaced with the UUID (dashes)
+*/
+async function createThirdPartyCapeCard() {
     chrome.storage.local.get(result => {
         if (result.otherCapes) {
+
+            const capes = [
+                {
+                    "name": "LabyMod",
+                    "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
+                },
+                {
+                    "name": "Mantle",
+                    "url": "https://capes.mantle.gg/capes/{username}.png"
+                },
+                {
+                    "name": "Cloaks+",
+                    "url": "https://server.cloaksplus.com/capes/{username}.png"
+                },
+                {
+                    "name": "MinecraftCapes",
+                    "url": "https://minecraftcapes.net/profile/{uuid}/cape"
+                }
+            ]
+
             createCapeCard([], capeCard => {
                 const capeDiv = capeCard.querySelector("div.card-body.text-center");
 
-                const functionsToRun = [createLabyModCape, createMantleCape, createCloaksPlusCape, createCapesModCape]
-                for (let i = 0; i < functionsToRun.length; i++) {
-                    functionsToRun[i](capeDiv).then(result => {
-                        if (i == functionsToRun.length - 1 && capeDiv.firstElementChild == null) capeCard.remove();
-                    })
+                for (let i = 0; i < capes.length; i++) {
+                    capes[i].url = capes[i].url.replace("{username}", username);
+                    capes[i].url = capes[i].url.replace("{uuid}", profileUuid);
+                    capes[i].url = capes[i].url.replace("{uuid-dashes}", profileUuid.addDashes());
+
+                    fetch(capes[i].url).then(data => {
+                        if (data) {
+                            createCape(capes[i].url, capeDiv, capes[i].name, "");
+                        }
+                        if (i == capes.length - 1 && capeDiv.firstElementChild == null) capeCard.remove();
+                    });
+
                 }
             }, {title: "Third-Party Capes"})
+
         } 
     });
-}
-
-async function createLabyModCape(capeDiv) {
-    String.prototype.addDashes = function () {
-        var uuid = this;
-        var isUUIDwithDashes = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i.test(uuid);
-        var isUUIDwithoutDashes = /^[A-F\d]{8}[A-F\d]{4}4[A-F\d]{3}[89AB][A-F\d]{3}[A-F\d]{12}$/i.test(uuid);
-        if (isUUIDwithoutDashes == true) {
-          return uuid.substr(0, 8) + "-" + uuid.substr(8, 4) + "-" + uuid.substr(12, 4) + "-" + uuid.substr(16, 4) + "-" + uuid.substr(20);
-        } else if (isUUIDwithDashes == true) {
-          return uuid;
-        } else {
-          throw new Error("This is not a valid UUID!");
-        }
-    };
-    
-    const url = "https://api.gapple.pw/cors/labymod/cape/" + profileUuid.addDashes();
-    return new Promise((resolve, reject) => {
-        fetch(url).then(data => {
-            if (data.status == 200) {
-                createCape(url, capeDiv, "LabyMod", "");
-                resolve(true);
-            }
-        })
-    
-        resolve(false);
-    })
-}
-
-function createMantleCape(capeDiv) {
-    const url = "https://capes.mantle.gg/capes/" + username + ".png";
-    return new Promise((resolve, reject) => {
-        fetch(url, { method : "GET", mode: 'cors', headers: {'Access-Control-Allow-Origin': '*'} })
-            .then(response => {
-                if (response.status == 200) {
-                    createCape(url, capeDiv, "Mantle", "");
-                    resolve(true);
-                }
-                resolve(false);
-            })
-    })
-}
-
-function createCloaksPlusCape(capeDiv) {
-    const url = "https://server.cloaksplus.com/capes/" + username + ".png";
-    return new Promise((resolve, reject) => {
-        fetch(url)
-            .then(response => {
-                console.log("Cloaks+ Response: " + response)
-                if (response) {
-                    createCape(url, capeDiv, "Cloaks+", "");
-                    resolve(true);
-                }
-                resolve(false);
-            })
-        })
-}
-
-function createCapesModCape(capeDiv) {
-    const url = "https://minecraftcapes.net/profile/" + profileUuid;
-    return new Promise((resolve, reject) => {
-        fetch(url)
-            .then(response => response.json())
-            .then(body => {
-                if (body.textures.cape) {
-                    createCape(url + "/cape", capeDiv, "MinecraftCapes Mod", "");
-                    resolve(true);
-                }
-                resolve(false);
-            })
-    })
 }
 
 
