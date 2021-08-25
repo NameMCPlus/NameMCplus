@@ -5,7 +5,7 @@ var profileUuid = document.querySelector("body > main > div > div.col-md.order-m
 
 
 
-String.prototype.addDashes = function () {
+String.prototype.addDashes = function() {
     var uuid = this;
     var isUUIDwithDashes = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i.test(uuid);
     var isUUIDwithoutDashes = /^[A-F\d]{8}[A-F\d]{4}4[A-F\d]{3}[89AB][A-F\d]{3}[A-F\d]{12}$/i.test(uuid);
@@ -14,7 +14,7 @@ String.prototype.addDashes = function () {
     } else if (isUUIDwithDashes == true) {
       return uuid;
     } else {
-      throw new Error("This is not a valid UUID!");
+      throw new Error("This is not a valid UUID: " + uuid);
     }
 };
 
@@ -41,9 +41,11 @@ fetch(capeJsonURL)
         });
         if (capes.sources.length > 0) {
             return createCapeCard(capes.sources, capeDiv => {
+                console.log("creating third party capes lol!")
                 createThirdPartyCapeCard();
             }, {title: "NameMC+ Capes", showAmount: true, capeNames: capes.names, capeDescs: capes.descs})
         }
+        console.log("creating third party capes lol!")
         return createThirdPartyCapeCard();
     })
 
@@ -57,10 +59,9 @@ fetch(capeJsonURL)
     {uuid} is replaced with the UUID (no dashes)
     {uuid-dashes} is replaced with the UUID (dashes)
 */
-async function createThirdPartyCapeCard() {
+function createThirdPartyCapeCard() {
     chrome.storage.local.get(result => {
         if (result.otherCapes) {
-
             const capes = [
                 {
                     "name": "LabyMod",
@@ -83,6 +84,8 @@ async function createThirdPartyCapeCard() {
                     capes[i].url = capes[i].url.replace("{username}", username);
                     capes[i].url = capes[i].url.replace("{uuid}", profileUuid);
                     capes[i].url = capes[i].url.replace("{uuid-dashes}", profileUuid.addDashes());
+
+                    console.log("Checking URL " + capes[i].url)
 
                     fetch(capes[i].url).then(data => {
                         if (data.ok) {
