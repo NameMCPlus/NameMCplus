@@ -348,10 +348,10 @@ function createEarsCard(base64Ears) {
     let profileLeft = document.querySelectorAll(".order-md-1 > .card.mb-3")[1]
     profileLeft.parentElement.insertBefore(featureDiv, profileLeft);
 
-    this.skinViewer = new skinview3d.SkinViewer({
+    this.skinViewer = new skinview3d.FXAASkinViewer({
         canvas: document.getElementById("skin_container"),
-        width: 300,
-        height: 400,
+        width: 270,
+        height: 330,
         skin: skinUrl,
         cape: this.finalCape,
         ears: this.finalEars
@@ -368,8 +368,17 @@ function createEarsCard(base64Ears) {
     this.skinViewerWalk = this.skinViewer.animations.add(skinview3d.WalkingAnimation);
     this.skinViewerWalk.paused = true;
 
+    this.skinViewer.camera.position.set(0, 10, 50 );
+    //this.skinViewer.camera.lookAt(1,1,1); // Set look at coordinate like this
+    control.update();
+
+    this.skinViewer.playerObject.rotation.y = 6.75
+    //this.skinViewer.playerObject.rotation.x = 0.35
+
+    //this.skinViewer.playerObject.rotation.y = 0.30;
+
     //Set style
-    document.getElementById("skin_container").style.filter = "drop-shadow(-5px 5px 7px rgba(0, 0, 0, 0.4))"
+    document.getElementById("skin_container").style.filter = "drop-shadow(-9px 4px 9px rgba(0,0,0,0.4))"
     document.getElementById("skin_container").style.outline = "none"
     //document.getElementById("skin_container").style.width = "100%"
 
