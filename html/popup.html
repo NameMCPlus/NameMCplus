@@ -1,39 +1,62 @@
 <!DOCTYPE html>
+
 <html>
-<head>
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../css/popup.css" rel="stylesheet">
-	<title>NameMC+</title>
-</head>
-<body>
-	<h1><a class="title" href="https://github.com/M6yo/NameMCplus" target="_blank">NameMC+</a></h1>
-	<hr>
-	<div class="form-check form-switch">
-		<input class="form-check-input" id="hideblcbutton" type="checkbox"> <label class="form-check-label" for="hideblcbutton">Hide Badlion</label>
-	</div>
-	<div class="form-check form-switch">
-		<input class="form-check-input" id="acctypebutton" type="checkbox" checked> <label class="form-check-label" for="acctypebutton">Account Types</label>
-	</div>
-	<div class="form-check form-switch">
-		<input class="form-check-input" id="creationbutton" type="checkbox" checked> <label class="form-check-label" for="creationbutton">Creation Dates</label>
-	</div>
-	<div class="form-check form-switch">
-		<input class="form-check-input" id="blockedbutton" type="checkbox" checked> <label class="form-check-label" for="blockedbutton">Blocked Names</label>
-	</div>
-	<div class="form-check form-switch">
-		<input class="form-check-input" id="searchbutton" type="checkbox" checked> <label class="form-check-label" for="searchbutton">Old Layout</label>
-	</div>
-	<div class="form-check form-switch">
-		<input class="form-check-input" id="othercapesbutton" type="checkbox" checked> <label class="form-check-label" for="searchbutton">Other Capes</label>
-	</div>
-	<hr>
-	<footer>
-		Developed by<br>
-		<a href="https://github.com/M6yo">M6</a>, <a href="https://github.com/withdrew">Faav</a>, & <a href="https://github.com/ItsOrius">Orius</a>
-	</footer>
-	<script src="../js/jquery.min.js">
-	</script> 
-	<script src="../js/toggleSettings.js">
-	</script>
-</body>
+	<head>
+		<link href="../css/bootstrap.min.css" rel="stylesheet">
+		<link href="../css/popup.css" rel="stylesheet">
+		<title>NameMC+</title>
+	</head>
+	<body>
+		<h1><a class="title" href="https://github.com/M6yo/NameMCplus" target="_blank">NameMC+</a></h1>
+		<hr>
+
+		<div id="main-menu">
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="hideblcbutton" type="checkbox"> <label class="form-check-label" for="hideblcbutton">Hide Badlion</label>
+			</div>
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="acctypebutton" type="checkbox" checked> <label class="form-check-label" for="acctypebutton">Account Types</label>
+			</div>
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="creationbutton" type="checkbox" checked> <label class="form-check-label" for="creationbutton">Creation Dates</label>
+			</div>
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="blockedbutton" type="checkbox" checked> <label class="form-check-label" for="blockedbutton">Blocked Names</label>
+			</div>
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="searchbutton" type="checkbox" checked> <label class="form-check-label" for="searchbutton">Old Layout</label>
+			</div>
+			<br>
+			<button id="othercapesopenmenu" class="btn btn-primary" style="text-align:center;">Third-Party Capes</button>
+		</div>
+
+		<div id="third-party-capes-menu" style="display: none;">
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="othercapesbutton" type="checkbox" checked> <label class="form-check-label" for="labybutton">Other Capes</label>
+			</div>
+			<br>
+			<div style="text-align:center;">
+				<button id="othercapesclosemenu" class="btn btn-primary">Return</button>
+			</div>
+			<br>
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="labybutton" type="checkbox" checked> <label class="form-check-label" for="labybutton">LabyMod</label>
+			</div>
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="cloaksplusbutton" type="checkbox" checked> <label class="form-check-label" for="cloaksplusbutton">Cloaks+</label>
+			</div>
+			<div class="form-check form-switch">
+				<input class="form-check-input" id="capesmodbutton" type="checkbox" checked> <label class="form-check-label" for="capesmodbutton">MinecraftCapes</label>
+			</div>
+		</div>
+
+		<hr>
+		<footer>
+			Developed by<br>
+			<a href="https://github.com/M6yo">M6</a>, <a href="https://github.com/withdrew">Faav</a>, & <a href="https://github.com/ItsOrius">Orius</a>
+		</footer>
+		<script src="../js/jquery.min.js"></script> 
+		<script src="../js/toggleSettings.js"></script>
+		<script src="../js/popup.js"></script>
+	</body>
 </html>
