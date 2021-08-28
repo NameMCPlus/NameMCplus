@@ -123,7 +123,7 @@ async function loadCapeInfo(cape) {
 
     const namesDiv = document.getElementsByClassName("card-body player-list py-2")[0];
     cape.users.forEach(user => {
-        fetch(`https://api.gapple.pw/cors/profile/${user}`).then(response => response.json()).then(json => {
+        fetch(`https://api.gapple.pw/cors/sessionserver/${user}`).then(response => response.json()).then(json => {
             namesDiv.innerHTML += `<a translate="no" href="/profile/${user}">${json.name}</a> `;
         })
     })
