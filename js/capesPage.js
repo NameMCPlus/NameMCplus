@@ -7,7 +7,7 @@ const capes = fetch(customCapesURL)
         } else if (location.href.startsWith("https://namemc.com/cape/nmcp-")) {
             let displayCape = null;
             json.capes.forEach(cape => {
-                if (cape.name.toLowerCase().replace(" ", "-") == location.href.split("https://namemc.com/cape/nmcp-")[1]) {
+                if (cape.name.toLowerCase().replace(" ", "-").substring(0, 14) == location.href.split("https://namemc.com/cape/nmcp-")[1]) {
                     displayCape = cape;
                 }
             });
@@ -54,7 +54,7 @@ async function loadCapes(json) {
         const capeDiv = document.createElement("div");
         capeDiv.className = "col-6 col-md";
         capeDiv.innerHTML = `
-            <a href="https://namemc.com/cape/nmcp-${cape.name.toLowerCase().replace(" ", "-")}">
+            <a href="https://namemc.com/cape/nmcp-${cape.name.toLowerCase().replace(" ", "-").substring(0, 14)}">
                 <div class="card mb-2">
                     <div class="card-header text-center text-nowrap text-ellipsis p-1" translate="no">${cape.name}</div>
                     <div class="card-body position-relative text-center checkered p-0">
