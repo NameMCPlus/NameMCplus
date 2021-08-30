@@ -76,7 +76,7 @@
     },
     {
       "matches": [
-        "https://*.namemc.com/cape*"
+        "https://*.namemc.com/cape*", "https://*.namemc.com/nmcp-cape/*"
       ],
       "js": [
         "js/capesPage.js"
