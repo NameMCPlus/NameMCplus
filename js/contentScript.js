@@ -43,7 +43,7 @@ fetch(capeJsonURL)
                 capes.names.push(cape.name);
                 capes.descs.push(cape.description);
                 capes.sources.push(cape.src);
-                capes.redirects.push("https://namemc.com/cape/nmcp-" + cape.name.toLowerCase().replace(" ", "-").substring(0, 14))
+                capes.redirects.push("https://namemc.com/nmcp-cape/" + cape.name.toLowerCase().replace(" ", "-"))
             }
         });
         if (capes.sources.length > 0) {
