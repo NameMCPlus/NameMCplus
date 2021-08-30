@@ -2,12 +2,13 @@ const customCapesURL = chrome.runtime.getURL('../json/customCapes.json');
 const capes = fetch(customCapesURL)
     .then((response) => response.json())
     .then((json) => {
+        console.log(`Address: ${location.href}`)
         if (location.href == "https://namemc.com/capes") {
             loadCapes(json);
-        } else if (location.href.startsWith("https://namemc.com/cape/nmcp-")) {
+        } else if (location.href.startsWith("https://namemc.com/nmcp-cape/")) {
             let displayCape = null;
             json.capes.forEach(cape => {
-                if (cape.name.toLowerCase().replace(" ", "-").substring(0, 14) == location.href.split("https://namemc.com/cape/nmcp-")[1]) {
+                if (cape.name.toLowerCase().replace(" ", "-") == location.href.split("https://namemc.com/nmcp-cape/")[1]) {
                     displayCape = cape;
                 }
             });
@@ -17,7 +18,7 @@ const capes = fetch(customCapesURL)
         } else if (location.href.startsWith("https://namemc.com/cape/")) {
             const capeInfoURL = chrome.runtime.getURL("../json/capeInfo.json")
             fetch(capeInfoURL).then(response => response.json()).then(capeJson => {
-                const capeHash = location.href.split("https://namemc.com/cape/")[1];
+                const capeHash = location.href.split("https://namemc.com/nmcp-cape/")[1];
                 const capeDesc = capeJson.capes[capeHash].description;
 
                 const descriptionCard = document.createElement("div");
@@ -54,7 +55,7 @@ async function loadCapes(json) {
         const capeDiv = document.createElement("div");
         capeDiv.className = "col-6 col-md";
         capeDiv.innerHTML = `
-            <a href="https://namemc.com/cape/nmcp-${cape.name.toLowerCase().replace(" ", "-").substring(0, 14)}">
+            <a href="https://namemc.com/nmcp-cape/${cape.name.toLowerCase().replace(" ", "-")}">
                 <div class="card mb-2">
                     <div class="card-header text-center text-nowrap text-ellipsis p-1" translate="no">${cape.name}</div>
                     <div class="card-body position-relative text-center checkered p-0">
