@@ -2,15 +2,13 @@ const skinViewer = null;
 const skinViewerWalk = null;
 var username = document.querySelector("[name='profile:username']").content;
 var profileUuid = document.querySelector("body > main > div > div.col-md.order-md-2 > div:nth-child(1) > div.card-body.py-1 > div:nth-child(2) > div.col-12.order-lg-2.col-lg > samp").innerText
-console.log("UUID is " + profileUuid);
+const capeDB = {}
 
-function textureURL(hash) {
-  return 'https://texture.namemc.com/' + hash[0] + hash[1] + '/' + hash[2] + hash[3] + '/' + hash + '.png';
-}
 
-async function getLabyCape() {
 
-  String.prototype.addDashes = function () {
+
+
+String.prototype.addDashes = function() {
     var uuid = this;
     var isUUIDwithDashes = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i.test(uuid);
     var isUUIDwithoutDashes = /^[A-F\d]{8}[A-F\d]{4}4[A-F\d]{3}[89AB][A-F\d]{3}[A-F\d]{12}$/i.test(uuid);
@@ -19,283 +17,217 @@ async function getLabyCape() {
     } else if (isUUIDwithDashes == true) {
       return uuid;
     } else {
-      throw new Error("This is not a valid UUID!");
+      throw new Error("Can only add dashes to a valid UUID: " + uuid);
     }
-  };
+};
 
-  try {
-    const labymod = await fetch("https://api.gapple.pw/cors/labymod/cape/" + profileUuid.addDashes()).catch(e => {
-      console.log("Failed to get LabyMod cape: " + e);
-      return null;
+
+
+
+
+/* Add NMCP capes to profile */
+const capeJsonURL = chrome.runtime.getURL('../json/customCapes.json');
+fetch(capeJsonURL)
+    .then(response => response.json())
+    .then(json => {
+        createSkinViewer();
+        createSkinEvents();
+        const capes = {
+            names: [],
+            descs: [],
+            sources: [],
+            redirects: []
+        };
+        json.capes.forEach(cape => {
+            if (cape.users.includes(profileUuid)) {
+                capes.names.push(cape.name);
+                capes.descs.push(cape.description);
+                capes.sources.push(cape.src);
+                capes.redirects.push("https://namemc.com/cape/nmcp-" + cape.name.toLowerCase().replace(" ", "-"))
+            }
+        });
+        if (capes.sources.length > 0) {
+            return createCapeCard(capes.sources, capeDiv => {
+                createThirdPartyCapeCard();
+            }, {title: "NameMC+ Capes", showAmount: true, capeNames: capes.names, capeDescs: capes.descs, capeRedirs: capes.redirects})
+        }
+        createThirdPartyCapeCard();
     })
- 
-    const labyStatus = await labymod.status;
-    if (labyStatus == 200) {
-      return "https://api.gapple.pw/cors/labymod/cape/" + profileUuid.addDashes();
-    }
-    return null;
-  } catch {
-    return null;
-  }
 
+
+
+
+
+/* 
+    Add third-party capes to profile
+    {username} is replaced with the username (capitalization)
+    {uuid} is replaced with the UUID (no dashes)
+    {uuid-dashes} is replaced with the UUID (dashes)
+*/
+function createThirdPartyCapeCard() {
+    chrome.storage.local.get(result => {
+        if (result.otherCapes) {
+            const capes = [
+                {
+                    "name": "LabyMod",
+                    "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
+                },
+                {
+                    "name": "Cloaks+",
+                    "url": "https://server.cloaksplus.com/capes/{username}.png"
+                },
+                {
+                    "name": "MinecraftCapes",
+                    "url": "https://minecraftcapes.net/profile/{uuid}/cape"
+                }
+            ]
+
+            createCapeCard([], capeCard => {
+                const capeDiv = capeCard.querySelector("div.card-body.text-center");
+
+                for (let i = 0; i < capes.length; i++) {
+                    capes[i].url = capes[i].url.replace("{username}", username);
+                    capes[i].url = capes[i].url.replace("{uuid}", profileUuid);
+                    capes[i].url = capes[i].url.replace("{uuid-dashes}", profileUuid.addDashes());
+
+                    fetch(capes[i].url).then(data => {
+                        if (data.ok) {
+                            createCape(capes[i].url, capeDiv, capes[i].name, "", capes[i].url);
+                        }
+                        if (i == capes.length - 1 && capeDiv.firstElementChild == null) capeCard.remove();
+                    });
+
+                }
+            }, {title: "Third-Party Capes"})
+
+        } 
+    });
 }
 
-// Checks the users profile
-fetch("https://minecraftcapes.net/profile/" + profileUuid).then(function(response) {
-    return response.json();
-}).then(async function(body) {
-    console.log("creating Skin Viewer " + Date.now());
-    createSkinViewer();
-    console.log("created Skin Viewer " + Date.now());
 
-    const url = chrome.runtime.getURL('../json/customCapes.json');
-    const capes = [];
-    let i = 0;
-    await fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        json.capes.forEach(cape => {
-          i++;
-          if (cape.users.includes(profileUuid)) {
-            toDataURL(cape.src, dataUrl => {
-              capes.push(dataUrl);
-              if (capes.length > 0 && !(i < json.capes.length)) createCapeCard(capes);
-            })
-          }
-        })
-      })
 
-    if(body.textures.ears != null) {
-      createEarsCard(body.textures.ears);
-      this.skinViewer.loadEars("data:image/png;base64," + body.textures.ears)
-    }
 
-    if(body.textures.cape != null) {
-      this.skinViewer.loadCape("data:image/png;base64," + body.textures.cape)
-    }
 
-    const labyMod_cape = await getLabyCape();
-
-    console.log("LabyMod Cape: " + labyMod_cape);
-
-    chrome.storage.local.get(result => {
-      if (!result.otherCapes) {
-        capeCrop(null, null, capes[0]);
-        createSkinEvents();
-        createCapeEvents(null, null, capes[0]);
-      } else {
-        capeCrop(labyMod_cape, body.textures.cape, capes[0]);
-        createSkinEvents();
-        createCapeEvents(body.textures.cape, labyMod_cape, capes[0]);
-      }
-    });
-});
-
-/** 
- * Creates a cape card (takes an array of Base64 capes, as well as optional settings)
-*/
-function createCapeCard(base64capes = [""], {title, redirect, capeTypes, showAmount} = {
-    title: "NameMC+ Capes", 
-    redirect: "https://github.com/M6yo/NameMCplus", 
-    capeTypes: [" "], 
-    showAmount: true }) 
+/* Cape card creator */
+function createCapeCard(capes, callback = capeCard => {}, {title, redirect, showAmount, capeNames, capeDescs, capeRedirs} = {
+    title: "Custom Capes", 
+    redirect: "",
+    showAmount: true,
+    capeNames: [""],
+    capeDescs: [""],
+    capeRedirs: [""] }) 
 {
-    //Create the parent div
-    let featureDiv = document.createElement("div");
-    featureDiv.id = title.toLowerCase().replace(" ", "-");
-    featureDiv.className = "card mb-3";
-
-    //Add the title
-    let featureTitle = document.createElement("strong");
-    featureTitle.className = "card-header py-1";
     let titleArray = title.split(" ");
     titleArray.shift();
-    featureTitle.innerHTML = `<strong>
-      <a href="${redirect}" target="_blank" rel="nofollow noopener noreferrer">${title.split(" ")[0]}</a> ${titleArray.join(" ")}${showAmount ? " (" + base64capes.length + ")" : ""}
-    </strong>`;
-    featureDiv.appendChild(featureTitle);
 
-    //Add the body
-    let featureBody = document.createElement("div");
-    featureBody.className = "card-body text-center";
-    featureBody.style.padding = "3px"
-    featureDiv.appendChild(featureBody);
+    // Create cape card
+    const cardDiv = document.createElement("div");
+    cardDiv.id = title.toLowerCase().replace(" ", "-");
+    cardDiv.className = "card mb-3";
+    cardDiv.innerHTML = `
+        <div class="card-header py-1">
+            <strong>
+                ${redirect ? `<a href="${redirect}" target="_blank" rel="nofollow noopener noreferrer">` : ""}${title.split(" ")[0]}${redirect ? `</a>` : ""}${" " + titleArray.join(" ")}${showAmount ? " (" + capes.length + ")" : ""}
+            </strong>
+        </div>
+        <div class="card-body text-center" style="padding: 3px">
+        </div>
+    `;
 
-    //Remove the cape highlight
-    let capeChildren = document.getElementsByClassName("cape-2d")
+    // Render capes
+    for (let i = 0; i < capes.length; i++) {
+        createCape(capes[i], cardDiv.querySelector("div.card-body.text-center"), capeNames[i], capeDescs[i], capeRedirs[i] ? capeRedirs[i] : capes[i])
+    };
+
+    // Remove cape selected glow
+    const capeChildren = document.getElementsByClassName("cape-2d")
     for (var i = 0; i < capeChildren.length; i++) {
         capeChildren[i].classList.remove("skin-button-selected");
     }
 
-    //Add the images
-    for (let i = 0; i < base64capes.length; i++) {
-      console.log(`Attempting to load cape of type ${capeTypes[i]} (${base64capes[i]})`);
-      switch(capeTypes[i].toLowerCase()) {
-        case "labymod":
-          createLabymodCape(base64capes[i], featureBody)
-          break;
-        case "minecraftcapes":
-          createCapesModCape(base64capes[i], featureBody)
-          break;
-        default:
-          createNameMCPlusCape(base64capes[i], featureBody)
-          break;
-      }
-    }
-
-    //Insert the div
     let profileLeft = document.querySelector(".input-group.input-group-sm.my-2").parentElement.parentElement;
-    profileLeft.parentElement.insertBefore(featureDiv, profileLeft);
+    profileLeft.parentElement.insertBefore(cardDiv, profileLeft);
+
+    callback(cardDiv);
 }
 
-/**
- * Creates a Labymod cape
- */ 
- function createLabymodCape(base64Cape, featureBody) {
-    //Add the image
+
+
+
+
+/* Cape canvas creator */
+function createCape(src, parentElement, name = "", description = "", redirect = "") {
     let capeCanvas = document.createElement("canvas");
     capeCanvas.className = "cape-2d align-top skin-button skin-button-selected";
-    capeCanvas.setAttribute("data-cape-hash", "labymod-cape");
+    let capeDataHash = `custom-${name.replace(" ", "-").toLowerCase()}`;
+    capeCanvas.setAttribute("data-cape-hash", capeDataHash);
+    capeDB[capeDataHash] = src;
     capeCanvas.width = 40;
     capeCanvas.height = 64;
-
     capeImage = new Image();
-    capeImage.src = "data:image/png;base64," + base64Cape;
-    capeImage.onload = function() {
+    capeImage.src = src;
+
+    capeImage.onload = () => {
         const ctx = capeCanvas.getContext('2d');
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
         ctx.msImageSmoothingEnabled = false;
         ctx.imageSmoothingEnabled = false;
-        capeScale = capeImage.width / 64;
-        ctx.drawImage(capeImage, 0, 0, capeCanvas.width, capeCanvas.height);
+        if (capeImage.src != src) capeImage.src = src;
+        const localCapeScale = capeScale(capeImage.height)
+        ctx.drawImage(capeImage, localCapeScale, localCapeScale, 10 * localCapeScale, 16 * localCapeScale, 0, 0, capeCanvas.width, capeCanvas.height)
+        createCapeEvents();
     }
 
-    //Puts the image in a href
+    // Puts the image in a href
     let featureImageHref = document.createElement("a");
-    featureImageHref.href = "https://api.gapple.pw/cors/labymod/cape/" + profileUuid;
+    featureImageHref.href = redirect ? redirect : src;
     featureImageHref.target = "_blank";
-    featureImageHref.title = "LabyMod";
-    featureImageHref.appendChild(capeCanvas);
-    featureBody.appendChild(featureImageHref);
-}
-
-/**
- * Creates a MinecraftCapes cape
- */
-function createCapesModCape(base64Cape, featureBody) {
-    //Add the image
-    let capeCanvas = document.createElement("canvas");
-    capeCanvas.className = "cape-2d align-top skin-button skin-button-selected";
-    capeCanvas.setAttribute("data-cape-hash", "minecraftcapes-mod");
-    capeCanvas.width = 40;
-    capeCanvas.height = 64;
-
-    capeImage = new Image();
-    capeImage.src = "data:image/png;base64," + base64Cape;
-    capeImage.onload = function() {
-        const ctx = capeCanvas.getContext('2d');
-        ctx.mozImageSmoothingEnabled = false;
-        ctx.webkitImageSmoothingEnabled = false;
-        ctx.msImageSmoothingEnabled = false;
-        ctx.imageSmoothingEnabled = false;
-        capeScale = capeImage.width / 64;
-        ctx.drawImage(capeImage, 1 * capeScale, 1 * capeScale, 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
-        let frame = 0;
-        let doAnimation = setInterval(function() {
-            const offset = (frame * (capeImage.width / 2))
-            ctx.drawImage(capeImage, 1 * capeScale, offset + (1 * capeScale), 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
-            frame = frame + 1 > (capeImage.height / (capeImage.width / 2)) - 1 ? 0 : frame + 1;
-        }, 110);
-
-        if(capeImage.height == capeImage.width / 2) {
-            clearInterval(doAnimation);
-        }
+    featureImageHref.setAttribute("data-toggle", "tooltip"),
+    featureImageHref.setAttribute("data-html", "true")
+    if (typeof name != 'undefined') {
+        featureImageHref.setAttribute("title", `
+            <b>${name}</b>${description ? `<br>${description}` : ""}
+        `)
     }
-
-    //Puts the image in a href
-    let featureImageHref = document.createElement("a");
-    featureImageHref.href = "https://minecraftcapes.net/profile/" + profileUuid + "/cape/map?" + Date.now();
-    featureImageHref.target = "_blank";
-    featureImageHref.title = "MinecraftCapes Mod";
     featureImageHref.appendChild(capeCanvas);
-    featureBody.appendChild(featureImageHref);
+    parentElement.appendChild(featureImageHref);
 }
 
-/**
- * Creates a NameMC+ cape
- */
- function createNameMCPlusCape(base64Cape, featureBody) {
-  //Add the image
-  let capeCanvas = document.createElement("canvas");
-  capeCanvas.className = "cape-2d align-top skin-button skin-button-selected";
-  capeCanvas.setAttribute("data-cape-hash", "nmcp-custom");
-  capeCanvas.width = 40;
-  capeCanvas.height = 64;
 
-  capeImage = new Image();
-  capeImage.src = base64Cape;
-  capeImage.onload = function() {
-      const ctx = capeCanvas.getContext('2d');
-      ctx.mozImageSmoothingEnabled = false;
-      ctx.webkitImageSmoothingEnabled = false;
-      ctx.msImageSmoothingEnabled = false;
-      ctx.imageSmoothingEnabled = false;
-      capeScale = capeImage.width / 64;
-      ctx.drawImage(capeImage, capeScale, capeScale, 10 * capeScale, 16 * capeScale, 0, 0, capeCanvas.width, capeCanvas.height)
-  }
 
-  //Puts the image in a href
-  let featureImageHref = document.createElement("a");
-  featureImageHref.href = `https://m6.wtf/assets/${profileUuid}.png`;
-  featureImageHref.target = "_blank";
-  featureImageHref.appendChild(capeCanvas);
-  featureBody.appendChild(featureImageHref);
+
+
+/* Creates cape events for the custom viewer */
+function createCapeEvents() {
+    let capeChildren = document.getElementsByClassName("cape-2d")
+    console.log(`Found ${capeChildren.length} capes`)
+    for (var i = 0; i < capeChildren.length; i++) {
+        capeChildren[i].addEventListener('mouseover', (event) => {
+            for (var i = 0; i < capeChildren.length; i++) {
+                capeChildren[i].classList.remove("skin-button-selected");
+            }
+            event.target.classList.add("skin-button-selected");
+            let capeHash = event.target.getAttribute("data-cape-hash")
+
+            if(capeHash != undefined && !capeHash.startsWith("custom-")) {
+                let capeUrl = "https://texture.namemc.com/" + capeHash.substring(0, 2) + "/" + capeHash.substring(2, 4) + "/" + capeHash + ".png";
+                this.skinViewer.loadCape(capeUrl)
+                console.log("capeEvent: Mojang/Optifine")
+            } else if (capeHash.startsWith("custom-")) {
+                this.skinViewer.loadCape(capeDB[capeHash])
+                console.log("capeEvent: Custom")
+            }
+        })
+    }
 }
 
-/**
- * Creates the ears card
- */
-function createEarsCard(base64Ears) {
-    //Create the parent div
-    let featureDiv = document.createElement("div");
-    featureDiv.id = "minecraftcapes-ears";
-    featureDiv.className = "card mb-3";
 
-    //Add the title
-    let featureTitle = document.createElement("strong");
-    featureTitle.className = "card-header py-1";
-    featureTitle.innerHTML = "<strong><a href=\"https://minecraftcapes.net\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">MinecraftCapes</a> Ears</strong>";
-    featureDiv.appendChild(featureTitle);
 
-    //Add the body
-    let featureBody = document.createElement("div");
-    featureBody.className = "card-body text-center";
-    featureDiv.appendChild(featureBody);
 
-    //Add the image
-    let featureImage = document.createElement("img");
-    let featureImageStyles = "image-rendering: optimizeSpeed; image-rendering: -moz-crisp-edges; image-rendering: -o-crisp-edges; image-rendering: -webkit-optimize-contrast; image-rendering: optimize-contrast; image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor;"
-    featureImage.setAttribute("style", featureImageStyles)
-    featureImage.style.width = "25%";
-    featureImage.src = "data:image/png;base64," + base64Ears;
 
-    //Puts the image in a href
-    let featureImageHref = document.createElement("a");
-    featureImageHref.href = "https://minecraftcapes.net/profile/" + profileUuid + "/ears?" + Date.now();
-    featureImageHref.target = "_blank";
-    featureImageHref.appendChild(featureImage);
-    featureBody.appendChild(featureImageHref);
-
-    //Insert the div
-    let profileLeft = document.querySelector(".input-group.input-group-sm.my-2").parentElement.parentElement;
-    profileLeft.parentElement.insertBefore(featureDiv, profileLeft);
-}
-
-/**
- * Creates the skin viewer
- */
- function createSkinViewer() {
+/* Creates a custom skin and cape viewer */
+function createSkinViewer() {
     // Skin
     let featureDiv = document.createElement("div");
     featureDiv.id = "minecraftcapes-skin";
@@ -306,7 +238,7 @@ function createEarsCard(base64Ears) {
     featureAnimateButton.className = "btn btn-secondary play-pause-btn position-absolute top-0 left-0 m-2 p-0";
     featureAnimateButton.style.cssText = "width:32px;height:32px;z-index:1;";
     featureAnimateButton.addEventListener('click', (event) => {
-        toggleCustomAnimation(event.target);
+        this.skinViewerWalk.paused = !this.skinViewerWalk.paused;
     })
     let featureButtonIcon = document.createElement("i")
     featureButtonIcon.className = "fas fa-play";
@@ -359,7 +291,6 @@ function createEarsCard(base64Ears) {
 
     this.skinViewer.loadCape("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgBAMAAABQs2O3AAAAKlBMVEUAAABOTk6NjY2Hh4d7e3tzc3NsbGxZWVlKSkpVVVVoaGiEhIR/f39jY2OSVXT6AAAAAXRSTlMAQObYZgAAAKdJREFUOMtjQAOMgsbGxgz4gCADISDYKCiIX0GHoKAAPgWMQAWClClobBQsx69AYnp5Ah4FnB2SM2vxKphZXj5rAR4F7NOnl6cFYJU6AKHm3kpLC8anYFXaslRnrAoMYAqyQp3xmbA01MUlGqsCBQgV4uri4oRPAatLaIgRVgUboApCXHx24zOBx8ZYSQmfAgYj603YFQTAFChpG+NVwGwEtGIUUBsAADaTIwwcJYk6AAAAAElFTkSuQmCC");
 
-    // Control objects with your mouse!
     let control = skinview3d.createOrbitControls(this.skinViewer);
     control.enableRotate = true;
     control.enableZoom = false;
@@ -369,26 +300,23 @@ function createEarsCard(base64Ears) {
     this.skinViewerWalk.paused = true;
 
     this.skinViewer.camera.position.set(0, 10, 50 );
-    //this.skinViewer.camera.lookAt(1,1,1); // Set look at coordinate like this
     control.update();
 
     this.skinViewer.playerObject.rotation.y = 6.75
-    //this.skinViewer.playerObject.rotation.x = 0.35
-
-    //this.skinViewer.playerObject.rotation.y = 0.30;
 
     //Set style
     document.getElementById("skin_container").style.filter = "drop-shadow(-9px 4px 9px rgba(0,0,0,0.4))"
     document.getElementById("skin_container").style.outline = "none"
-    //document.getElementById("skin_container").style.width = "100%"
 
-document.querySelectorAll(".order-md-1 > .card.mb-3")[0].remove();
+    document.querySelectorAll(".order-md-1 > .card.mb-3")[0].remove();
 }
 
-/**
- * Creates the skin events
- */
- function createSkinEvents() {
+
+
+
+
+/* Creates skin events for the custom viewer */
+function createSkinEvents() {
     let skinChildren = document.querySelectorAll("div a .skin-button");
     for (var i = 0; i < skinChildren.length; i++) {
       skinChildren[i].addEventListener('mouseover', (event) => {
@@ -403,166 +331,27 @@ document.querySelectorAll(".order-md-1 > .card.mb-3")[0].remove();
     }
   }
 
-/**
- * Creates the cape events
- */
-function createCapeEvents(base64Cape_capemod, base64CapeLaby, base64CapeNMCP) {
-    let capeChildren = document.getElementsByClassName("cape-2d")
-    for (var i = 0; i < capeChildren.length; i++) {
-        capeChildren[i].addEventListener('mouseover', (event) => {
-            for (var i = 0; i < capeChildren.length; i++) {
-                capeChildren[i].classList.remove("skin-button-selected");
-            }
-
-            event.target.classList.add("skin-button-selected");
-            let capeHash = event.target.getAttribute("data-cape-hash")
-            if(capeHash != undefined && capeHash != "minecraftcapes-mod" && capeHash != "labymod-cape" && capeHash != "nmcp-custom") {
-                let capeUrl = "https://texture.namemc.com/" + capeHash.substring(0, 2) + "/" + capeHash.substring(2, 4) + "/" + capeHash + ".png";
-                this.skinViewer.loadCape(capeUrl)
-                console.log("capeEvent: Mojang/Optifine")
-            } else if (capeHash == "minecraftcapes-mod" && base64Cape_capemod != null) {
-                this.skinViewer.loadCape("data:image/png;base64," + base64Cape_capemod)
-                console.log("capeEvent: capeMod")
-            } else if (capeHash == "labymod-cape" && base64CapeLaby != null) {
-              this.skinViewer.loadCape(base64CapeLaby)
-              console.log("capeEvent: Laby")
-            } else if (capeHash == "nmcp-custom" && base64CapeNMCP != null) {
-              this.skinViewer.loadCape(base64CapeNMCP)
-              console.log("capeEvent: Custom")
-            }
 
 
-        })
-    }
-}
 
-/**
- * Toggles the animation
- */
-function toggleCustomAnimation(eventTarget) {
-    this.skinViewerWalk.paused = !this.skinViewerWalk.paused;
-}
 
-//Turning image into canvas for cape cropping
-function toCanvas(image, x, y, w, h) {
-    x = (typeof x === 'undefined' ? 0 : x);
-    y = (typeof y === 'undefined' ? 0 : y);
-    w = (typeof w === 'undefined' ? image.width : w);
-    h = (typeof h === 'undefined' ? image.height : h);
-    let canvas = document.createElement('canvas');
-    canvas.width = w;
-    canvas.height = h;
-    let ctx = canvas.getContext('2d');
-    ctx.drawImage(image, x, y, w, h, 0, 0, w, h);
-    return canvas;
-  }
-  //Opaque image for cape cropping
-  function Opaque(image) {
-    let canvas = toCanvas(image);
-    let ctx = canvas.getContext('2d');
-    let data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    let pixels = data.data;
-    for (let p = 3; p < pixels.length; p += 4) {
-      pixels[p] = 255;
-    }
-    ctx.putImageData(data, 0, 0);
-    return canvas;
-  }
-  //Cape Scaling for cape cropping
-  function ScaleCape(height) {
+/* Cape scaling (height) */
+function capeScale(height) {
     if (height % 22 === 0) {
       return height / 22;
     } else if (height % 17 === 0) {
       return height / 17;
     } else if (height >= 32 && (height & (height - 1)) === 0) {
       return height / 32;
-    } else {
-      return Math.max(1, Math.floor(height / 22));
     }
-  }
-
-  
-//Main Cape Crop Function
-function capeCrop(textureUrl, capeMod_cape, NMCP_capecustom) {
-    var canvas = document.createElement("canvas");
-    canvas.width = 80;
-    canvas.height = 128;
-    let image = new Image();
-    image.crossOrigin = '';
-    image.src = textureUrl;
-    image.onload = function () {
-    let cs = image ? ScaleCape(image.height) : null;
-    let opaque = Opaque(image);
-    let ctx = canvas.getContext('2d');
-    ctx.mozImageSmoothingEnabled = false;
-    ctx.webkitImageSmoothingEnabled = false;
-    ctx.msImageSmoothingEnabled = false;
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(opaque, cs, cs, 10 * cs, 16 * cs, 0, 0, canvas.width, canvas.height);
-    var croppedCapeURL = canvas.toDataURL();
-    console.log("cape has been cropped");
-
-    labyCapeDataURL = croppedCapeURL;
-    labyCapeData = labyCapeDataURL.replace("data:image/png;base64,","");
-    console.log("labyCapeData = done \n" + labyCapeData);
-
-    if (labyCapeData && capeMod_cape) {
-      createCapeCard([labyCapeData, capeMod_cape], {title: "Third-Party Capes", redirect: "https://github.com/M6yo/NameMCplus", "capeTypes": ["labymod", "minecraftcapes"]})
-    } else {
-      if (labyCapeData) createCapeCard([labyCapeData], {title: "LabyMod Cape", redirect: "https://labymod.net", capeTypes: ["labymod"], showAmount: false})
-      if (capeMod_cape) createCapeCard([capeMod_cape], {title: "MinecraftCapes Cape", redirect: "https://minecraftcapes.net/", capeTypes: ["minecraftcapes"], showAmount: false})
-    }
-
-    console.log("created Third Party Cape Cards");
-    createSkinEvents();
-    console.log("created Skin Events");
-    toDataURL(
-      'https://api.gapple.pw/cors/labymod/cape/' + profileUuid,
-      function (dataUrl) {
-        labyResize(dataUrl, capeMod_cape, NMCP_capecustom);
-      }
-    )
-        
-  };
+    return Math.max(1, Math.floor(height / 22));
 }
 
-function labyResize(labyData, capeMod_cape, NMCP_capecustom) {
 
-  var c = document.createElement("canvas");
-    c.width = 2048;
-    c.height = 1024;
-    var ctx = c.getContext("2d");
-    ctx.mozImageSmoothingEnabled = false;
-    ctx.webkitImageSmoothingEnabled = false;
-    ctx.msImageSmoothingEnabled = false;
-    ctx.imageSmoothingEnabled = false;
-    var imageObj1 = new Image();
-    imageObj1.src = labyData;
-    imageObj1.onload = function() {
-        ctx.drawImage(imageObj1, 0, 0, 704, 544);
-        var laby_SV3D_URL = c.toDataURL("image/png");
-        createCapeEvents(capeMod_cape, laby_SV3D_URL, NMCP_capecustom);
-        createSkinEvents();
-        c.remove();
-    };
-}
 
-function toDataURL(src, callback, outputFormat) {
-  var img = new Image();
-  img.crossOrigin = 'Anonymous';
-  img.onload = function() {
-    var canvas = document.createElement('CANVAS');
-    var ctx = canvas.getContext('2d');
-    var dataURL;
-    canvas.height = this.naturalHeight;
-    canvas.width = this.naturalWidth;
-    ctx.drawImage(this, 0, 0);
-    dataURL = canvas.toDataURL(outputFormat);
-    callback(dataURL);
-  };
-  img.src = src;
-  if (img.complete || img.complete === undefined) {
-    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-    img.src = src;
-  }
+
+
+/* Returns a NameMC texture URL */
+function textureURL(hash) {
+    return 'https://texture.namemc.com/' + hash[0] + hash[1] + '/' + hash[2] + hash[3] + '/' + hash + '.png';
 }

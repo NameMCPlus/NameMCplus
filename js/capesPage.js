@@ -79,11 +79,6 @@ async function loadCapeInfo(cape) {
         <hr class="my-0">
     `;
 
-    let userString = "";
-    cape.users.forEach(user => {
-        userString += `<a translate="no" href="/profile/${user}">${user}</a>`;
-    })
-
     document.querySelector("main").innerHTML = `
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -111,7 +106,6 @@ async function loadCapeInfo(cape) {
                             <strong>Profiles (${cape.users.length})</strong>
                         </div>
                         <div class="card-body player-list py-2">
-                            ${userString}
                         </div>
                     </div>
                 </div>
@@ -128,9 +122,9 @@ async function loadCapeInfo(cape) {
     }
 
     const namesDiv = document.getElementsByClassName("card-body player-list py-2")[0];
-    namesDiv.childNodes.forEach(element => {
-        fetch(`https://api.gapple.pw/cors/names/${element.innerHTML}`).then(response => response.json()).then(json => {
-            element.innerHTML = json[json.length - 1].name + " ";
+    cape.users.forEach(user => {
+        fetch(`https://api.gapple.pw/cors/sessionserver/${user}`).then(response => response.json()).then(json => {
+            namesDiv.innerHTML += `<a translate="no" href="/profile/${user}">${json.name}</a> `;
         })
     })
 }
