@@ -30,21 +30,23 @@ fetch(capeJsonURL)
         const capes = {
             names: [],
             descs: [],
-            sources: []
+            sources: [],
+            redirects: []
         };
         json.capes.forEach(cape => {
             if (cape.users.includes(profileUuid)) {
                 capes.names.push(cape.name);
                 capes.descs.push(cape.description);
                 capes.sources.push(cape.src);
+                capes.redirects.push("https://namemc.com/cape/nmcp-" + cape.name.toLowerCase().replace(" ", "-"))
             }
         });
         if (capes.sources.length > 0) {
             return createCapeCard(capes.sources, capeDiv => {
                 createThirdPartyCapeCard();
-            }, {title: "NameMC+ Capes", showAmount: true, capeNames: capes.names, capeDescs: capes.descs})
+            }, {title: "NameMC+ Capes", showAmount: true, capeNames: capes.names, capeDescs: capes.descs, capeRedirs: capes.redirects})
         }
-        return createThirdPartyCapeCard();
+        createThirdPartyCapeCard();
     })
 
 
@@ -85,7 +87,7 @@ function createThirdPartyCapeCard() {
 
                     fetch(capes[i].url).then(data => {
                         if (data.ok) {
-                            createCape(capes[i].url, capeDiv, capes[i].name, "");
+                            createCape(capes[i].url, capeDiv, capes[i].name, "", capes[i].url);
                         }
                         if (i == capes.length - 1 && capeDiv.firstElementChild == null) capeCard.remove();
                     });
@@ -102,12 +104,13 @@ function createThirdPartyCapeCard() {
 
 
 /* Cape card creator */
-function createCapeCard(capes, callback = capeCard => {}, {title, redirect, showAmount, capeNames, capeDescs} = {
+function createCapeCard(capes, callback = capeCard => {}, {title, redirect, showAmount, capeNames, capeDescs, capeRedirs} = {
     title: "Custom Capes", 
     redirect: "",
     showAmount: true,
     capeNames: [""],
-    capeDescs: [""] }) 
+    capeDescs: [""],
+    capeRedirs: [""] }) 
 {
     let titleArray = title.split(" ");
     titleArray.shift();
@@ -128,7 +131,7 @@ function createCapeCard(capes, callback = capeCard => {}, {title, redirect, show
 
     // Render capes
     for (let i = 0; i < capes.length; i++) {
-        createCape(capes[i], cardDiv.querySelector("div.card-body.text-center"), capeNames[i], capeDescs[i])
+        createCape(capes[i], cardDiv.querySelector("div.card-body.text-center"), capeNames[i], capeDescs[i], capeRedirs[i] ? capeRedirs[i] : capes[i])
     };
 
     // Remove cape selected glow
@@ -148,7 +151,7 @@ function createCapeCard(capes, callback = capeCard => {}, {title, redirect, show
 
 
 /* Cape canvas creator */
-function createCape(src, parentElement, name = "", description = "") {
+function createCape(src, parentElement, name = "", description = "", redirect = "") {
     let capeCanvas = document.createElement("canvas");
         capeCanvas.className = "cape-2d align-top skin-button skin-button-selected";
         capeCanvas.setAttribute("data-cape-hash", `${name.replace(" ", "-").toLowerCase()}-cape`);
@@ -170,7 +173,7 @@ function createCape(src, parentElement, name = "", description = "") {
 
         // Puts the image in a href
         let featureImageHref = document.createElement("a");
-        featureImageHref.href = src;
+        featureImageHref.href = redirect ? redirect : src;
         featureImageHref.target = "_blank";
         featureImageHref.setAttribute("data-toggle", "tooltip"),
         featureImageHref.setAttribute("data-html", "true")
