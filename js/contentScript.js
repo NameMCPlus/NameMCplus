@@ -83,6 +83,7 @@ function createThirdPartyCapeCard() {
             ]
 
             createCapeCard([], capeCard => {
+                capeCard.style = "display: none;";
                 const capeDiv = capeCard.querySelector("div.card-body.text-center");
 
                 for (let i = 0; i < capes.length; i++) {
@@ -93,8 +94,8 @@ function createThirdPartyCapeCard() {
                     fetch(capes[i].url).then(data => {
                         if (data.ok) {
                             createCape(capes[i].url, capeDiv, capes[i].name, "", capes[i].url);
+                            capeCard.style = "";
                         }
-                        if (i == capes.length - 1 && capeDiv.firstElementChild == null) capeCard.remove();
                     });
 
                 }
