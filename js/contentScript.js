@@ -67,42 +67,39 @@ fetch(capeJsonURL)
 */
 function createThirdPartyCapeCard() {
     chrome.storage.local.get(result => {
-        if (result.otherCapes) {
-            const capes = [
-                {
-                    "name": "LabyMod",
-                    "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
-                },
-                {
-                    "name": "Cloaks+",
-                    "url": "https://server.cloaksplus.com/capes/{username}.png"
-                },
-                {
-                    "name": "MinecraftCapes",
-                    "url": "https://minecraftcapes.net/profile/{uuid}/cape"
-                }
-            ]
+        if (!result.otherCapes) return;
+        const capes = [
+            {
+                "name": "LabyMod",
+                "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
+            },
+            {
+                "name": "Cloaks+",
+                "url": "https://server.cloaksplus.com/capes/{username}.png"
+            },
+            {
+                "name": "MinecraftCapes",
+                "url": "https://minecraftcapes.net/profile/{uuid}/cape"
+            }
+        ]
 
-            createCapeCard([], capeCard => {
-                capeCard.style = "display: none;";
-                const capeDiv = capeCard.querySelector("div.card-body.text-center");
+        createCapeCard([], capeCard => {
+            capeCard.style = "display: none;";
+            const capeDiv = capeCard.querySelector("div.card-body.text-center");
 
-                for (let i = 0; i < capes.length; i++) {
-                    capes[i].url = capes[i].url.replace("{username}", username);
-                    capes[i].url = capes[i].url.replace("{uuid}", profileUuid);
-                    capes[i].url = capes[i].url.replace("{uuid-dashes}", profileUuid.addDashes());
+            for (let i = 0; i < capes.length; i++) {
+                capes[i].url = capes[i].url.replace("{username}", username);
+                capes[i].url = capes[i].url.replace("{uuid}", profileUuid);
+                capes[i].url = capes[i].url.replace("{uuid-dashes}", profileUuid.addDashes());
 
-                    fetch(capes[i].url).then(data => {
-                        if (data.ok) {
-                            createCape(capes[i].url, capeDiv, capes[i].name, "", capes[i].url);
-                            capeCard.style = "";
-                        }
-                    });
-
-                }
-            }, {title: "Third-Party Capes"})
-
-        } 
+                fetch(capes[i].url).then(data => {
+                    if (data.ok) {
+                        createCape(capes[i].url, capeDiv, capes[i].name, "", capes[i].url);
+                        capeCard.style = "";
+                    }
+                });
+            }
+        }, {title: "Third-Party Capes"})
     });
 }
 
