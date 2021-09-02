@@ -107,12 +107,16 @@ function toggleOtherCapes() {
 
 function restore_options() {
   chrome.storage.local.get(function (result) {
+    
     var HideBLC = result.HideBLC;
     var AccType = result.AccType;
     var createdAt = result.createdAt;
     var blockedNames = result.blockedNames;
     var BTSearch = result.BTSearch;
+    var HideLocation = result.HideLocation;
     var otherCapes = result.otherCapes;
+
+    
 
     if (HideBLC == undefined) {
       hideblcbutton.checked = false;
@@ -144,6 +148,12 @@ function restore_options() {
       otherCapes = true;
       toggleOtherCapes();
     }
+    
+    if (HideLocation == undefined) {
+      hidelocationbutton.checked = false;
+      HideLocation = false;
+      toggleLocation()
+    }
 
     hideblcbutton.checked = HideBLC;
     console.log("Options loaded: " + HideBLC);
@@ -159,6 +169,9 @@ function restore_options() {
 
     searchbutton.checked = BTSearch;
     console.log("Options loaded: " + BTSearch);
+
+    hidelocationbutton.checked = HideLocation;
+    console.log("Options loaded: " + HideLocation);
 
     othercapesbutton.checked = otherCapes;
     console.log("Options loaded: " + otherCapes)
