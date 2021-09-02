@@ -6,6 +6,17 @@ $('body').tooltip({
   selector: '[data-toggle=tooltip]'
 });
 
+chrome.storage.local.get(function (result) {
+  if (result.HideSeparation == true) {
+    s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1 > strong > a").innerHTML;
+    console.log("This is s =====" + s);
+
+    if (s.startsWith("Separation")) {
+      document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
+    }
+  }
+});
+
 //Formats Creation Dates
 function formatCreation(date) {
   var d = date.split("-");
