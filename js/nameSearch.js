@@ -84,7 +84,7 @@ function betterNameMC(username) {
       chrome.storage.local.get(function (result) {
         var status = gapple.status;
         var blockedNameBtn = result.blockedNames;
-        var BTSearchbtn = result.BTSearch;
+        var BTSearchbtn = result.oldLayout;
         unhide();
         console.log(BTSearchbtn);
         console.log(blockedNameBtn);
