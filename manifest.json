@@ -1,7 +1,7 @@
 {
   "name": "NameMC+",
   "description": "A browser extension that adds cool features to NameMC!",
-  "version": "1.00",
+  "version": "1.1",
   "author": "M6, Faav, and Orius",
   "icons": {
     "16": "icons/icon16.png",

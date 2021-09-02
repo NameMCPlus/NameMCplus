@@ -1,6 +1,3 @@
-$("#hideblcbutton").on('change', function () {
-  toggleBLC()
-});
 $("#acctypebutton").on('change', function () {
   toggleAccType()
 });
@@ -20,18 +17,6 @@ $("#othercapesbutton").on('change', function () {
 $("#hidelocationbutton").on('change', function () {
   toggleLocation()
 })
-
-function toggleBLC() {
-  var HideBLC = hideblcbutton.checked;
-
-  chrome.storage.local.set({
-    "HideBLC": HideBLC
-  }, function () {
-    console.log("Saved");
-  });
-
-  console.log(HideBLC);
-}
 
 function toggleLocation() {
   var HideLocation = hidelocationbutton.checked;
@@ -107,8 +92,7 @@ function toggleOtherCapes() {
 
 function restore_options() {
   chrome.storage.local.get(function (result) {
-    
-    var HideBLC = result.HideBLC;
+
     var AccType = result.AccType;
     var createdAt = result.createdAt;
     var blockedNames = result.blockedNames;
@@ -116,13 +100,6 @@ function restore_options() {
     var HideLocation = result.HideLocation;
     var otherCapes = result.otherCapes;
 
-    
-
-    if (HideBLC == undefined) {
-      hideblcbutton.checked = false;
-      HideBLC = false;
-      toggleBLC()
-    }
     if (AccType == undefined) {
       acctypebutton.checked = true;
       AccType = true;
@@ -154,9 +131,6 @@ function restore_options() {
       HideLocation = false;
       toggleLocation()
     }
-
-    hideblcbutton.checked = HideBLC;
-    console.log("Options loaded: " + HideBLC);
 
     acctypebutton.checked = AccType;
     console.log("Options loaded: " + AccType);

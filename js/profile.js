@@ -2,12 +2,6 @@ var username = document.querySelector("[name='profile:username']").content;
 var profileUUID = document.querySelector(".card-body .row:nth-child(2) samp").innerText;
 var template = document.createElement("template");
 
-chrome.storage.local.get(function (result) {
-  if (result.HideBLC == true) {
-    document.querySelector(".badlion-card").remove();
-  }
-});
-
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
 });
