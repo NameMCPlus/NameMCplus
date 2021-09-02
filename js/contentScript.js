@@ -32,6 +32,7 @@ fetch(capeJsonURL)
     .then(json => {
         createSkinViewer();
         createSkinEvents();
+        createCapeEvents();
         const capes = {
             names: [],
             descs: [],
