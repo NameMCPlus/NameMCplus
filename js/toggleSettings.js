@@ -19,6 +19,9 @@ $("#othercapesbutton").on('change', function () {
 $("#hidelocationbutton").on('change', function () {
   toggleLocation()
 })
+$("#mcusernamebutton").on('change', function () {
+  toggleMCusername()
+})
 
 function toggleLocation() {
   var HideLocation = hidelocationbutton.checked;
@@ -104,6 +107,18 @@ function toggleOtherCapes() {
   console.log(otherCapes);
 }
 
+function toggleMCusername() {
+  var mcusername = mcusernamebutton.checked;
+
+  chrome.storage.local.set({
+    "mcusername": mcusername
+  }, function () {
+    console.log("Saved");
+  });
+
+  console.log(mcusername);
+}
+
 function restore_options() {
   chrome.storage.local.get(function (result) {
 
@@ -114,6 +129,7 @@ function restore_options() {
     var HideLocation = result.HideLocation;
     var HideSeparation = result.HideSeparation;
     var otherCapes = result.otherCapes;
+    var mcusername = result.mcusername;
 
     if (AccType == undefined) {
       acctypebutton.checked = true;
@@ -150,6 +166,11 @@ function restore_options() {
       HideSeparation = false;
       toggleSeparation()
     }
+    if (mcusername == undefined) {
+      mcusernamebutton.checked = false;
+      mcusername = false;
+      toggleMCusername()
+    }
 
     acctypebutton.checked = AccType;
     console.log("Options loaded: " + AccType);
@@ -171,6 +192,9 @@ function restore_options() {
 
     othercapesbutton.checked = otherCapes;
     console.log("Options loaded: " + otherCapes)
+
+    mcusernamebutton.checked = mcusername;
+    console.log("Options loaded: " + mcusername)
   });
 }
 

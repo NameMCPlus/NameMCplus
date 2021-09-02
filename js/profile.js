@@ -7,8 +7,8 @@ $('body').tooltip({
 });
 
 chrome.storage.local.get(function (result) {
-  addMCUNButton();
-  if (result.HideSeparation == true) {
+  if (result.mcusername) addMCUNButton();
+  if (result.HideSeparation) {
     s2 = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4) > div.card-header.py-1 > strong > a").innerHTML;
     if (s2.startsWith("Separation")) {
       document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4)").remove();
