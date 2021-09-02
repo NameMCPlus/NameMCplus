@@ -76,6 +76,13 @@
     },
     {
       "matches": [
+        "https://*.namemc.com/server/*"
+      ],
+      "js": ["js/removeLocation.js"
+      ]
+    },
+    {
+      "matches": [
         "https://*.namemc.com/cape*", "https://*.namemc.com/nmcp-cape/*"
       ],
       "js": [

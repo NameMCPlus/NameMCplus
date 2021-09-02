@@ -17,6 +17,10 @@ $("#othercapesbutton").on('change', function () {
   toggleOtherCapes()
 })
 
+$("#hidelocationbutton").on('change', function () {
+  toggleLocation()
+})
+
 function toggleBLC() {
   var HideBLC = hideblcbutton.checked;
 
@@ -27,6 +31,18 @@ function toggleBLC() {
   });
 
   console.log(HideBLC);
+}
+
+function toggleLocation() {
+  var HideLocation = hidelocationbutton.checked;
+
+  chrome.storage.local.set({
+    "HideLocation": HideLocation
+  }, function () {
+    console.log("Saved");
+  });
+
+  console.log(HideLocation);
 }
 
 function toggleAccType() {
