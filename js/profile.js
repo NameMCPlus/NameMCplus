@@ -8,7 +8,7 @@ $('body').tooltip({
 
 chrome.storage.local.get(function (result) {
   if (result.mcusername) addMCUNButton();
-  if (result.HideSeparation) {
+  if (result.hideSeparation) {
     s2 = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4) > div.card-header.py-1 > strong > a").innerHTML;
     if (s2.startsWith("Separation")) {
       document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4)").remove();
@@ -99,8 +99,8 @@ function setStatus(username, profileUUID, badges) {
                   accountType = "Legacy";
                   tooltip = "Unmigrated (2009 - Late 2012)";
                 }
-                var createdAtBtn = result.createdAt;
-                var AccTypeBtn = result.AccType;
+                var createdAtBtn = result.creationDates;
+                var AccTypeBtn = result.accountTypes;
 
                 const accTypeText = `
                   <div class="row no-gutters">
