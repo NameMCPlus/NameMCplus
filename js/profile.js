@@ -7,6 +7,7 @@ $('body').tooltip({
 });
 
 chrome.storage.local.get(function (result) {
+  addMCUNButton();
   if (result.HideSeparation == true) {
     s2 = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4) > div.card-header.py-1 > strong > a").innerHTML;
     if (s2.startsWith("Separation")) {
@@ -141,4 +142,18 @@ function setStatus(username, profileUUID, badges) {
             });
         });
     });
+}
+
+function addMCUNButton() {
+  const parentDiv = document.createElement("a");
+  parentDiv.href = `https://mcuserna.me/?lookup=${profileUUID}`;
+  parentDiv.target = "_blank";
+
+  const button = document.createElement("button");
+  button.innerHTML = "mcuserna.me";
+  button.classList = "btn btn-sm text-nowrap btn-success";
+
+  parentDiv.appendChild(button);
+  const masterDiv = document.getElementsByClassName("row justify-content-end")[0];
+  masterDiv.insertBefore(parentDiv, masterDiv.firstElementChild);
 }
