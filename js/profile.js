@@ -8,11 +8,16 @@ $('body').tooltip({
 
 chrome.storage.local.get(function (result) {
   if (result.HideSeparation == true) {
-    s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1 > strong > a").innerHTML;
-    console.log("This is s =====" + s);
+    s2 = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4) > div.card-header.py-1 > strong > a").innerHTML;
+    if (s2.startsWith("Separation")) {
+      document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4)").remove();
+    } else {
+      s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1 > strong > a").innerHTML;
 
     if (s.startsWith("Separation")) {
       document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
+    }
+
     }
   }
 });
