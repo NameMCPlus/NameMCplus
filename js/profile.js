@@ -9,8 +9,8 @@ $('body').tooltip({
 chrome.storage.local.get(function (result) {
   if (result.mcusername) addMCUNButton();
   if (result.hideSeparation) {
-    s2 = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4) > div.card-header.py-1 > strong > a").innerHTML;
-    if (s2.startsWith("Separation")) {
+    var s2 = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4) > div.card-header.py-1").innerHTML;
+    if (s2.includes("Separation")) {
       document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4)").remove();
     } else {
       s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1 > strong > a").innerHTML;
@@ -18,6 +18,11 @@ chrome.storage.local.get(function (result) {
     if (s.startsWith("Separation")) {
       document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
     }
+
+    var s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1").innerHTML;
+        if (s.includes("Separation")) {
+          document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
+        }
 
     }
   }
