@@ -54,24 +54,31 @@ async function loadCapes(json, title, subredirect) {
         </div>
     `
 
-    json.capes.forEach(cape => {
+    for(let i = 0; i < json.capes.length; i++) {
+        // Make it so that if there's five capes in a row, it starts a new row
+        if (i / 5 == Math.round(i / 5)) {
+            const breakLine = document.createElement("div");
+            breakLine.classList = "d-none d-md-block w-100";
+            capesDiv.appendChild(breakLine);
+        }
+        // Create the cape card
         const capeDiv = document.createElement("div");
         capeDiv.className = "col-6 col-md";
         capeDiv.innerHTML = `
-            <a href="https://namemc.com/${subredirect}/${cape.name.toLowerCase().replace(" ", "-")}">
+            <a href="https://namemc.com/${subredirect}/${json.capes[i].name.toLowerCase().replace(" ", "-")}">
                 <div class="card mb-2">
-                    <div class="card-header text-center text-nowrap text-ellipsis p-1" translate="no">${cape.name}</div>
+                    <div class="card-header text-center text-nowrap text-ellipsis p-1" translate="no">${json.capes[i].name}</div>
                     <div class="card-body position-relative text-center checkered p-0">
                         <div>
-                            <img class="auto-size-square" loading="lazy" width="280" height="280" style="image-rendering: pixelated;" src="${cape.src}" data-src="${cape.src}" alt="${cape.name}" title="${cape.name}">
+                            <img class="auto-size-square" loading="lazy" width="280" height="280" style="image-rendering: pixelated;" src="${json.capes[i].src}" data-src="${json.capes[i].src}" alt="${json.capes[i].name}" title="${json.capes[i].name}">
                         </div>
-                        <div class="position-absolute bottom-0 right-0 text-muted mx-1">★${cape.users.length}</div>
+                        <div class="position-absolute bottom-0 right-0 text-muted mx-1">★${json.capes[i].users.length}</div>
                     </div>
                 </div>
             </a>
         `;
         capesDiv.appendChild(capeDiv);
-    })
+    }
 }
 
 async function loadCapeInfo(cape, type) {
