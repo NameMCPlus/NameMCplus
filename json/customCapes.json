@@ -1,0 +1,10 @@
+{
+    "capes": [
+        {
+            "name": "Chunky White",
+            "description": "You can make your own from inside your install directory:<br>root/json/customCapes.json",
+            "users": ["1f66d9d9b3964ed58f72f47bde34ffe4"],
+            "src": "https://th.bing.com/th/id/R.96154066a2755b4b208c617b9bb22c37?rik=94A9%2f9q6aMBVUw&riu=http%3a%2f%2fwww.drodd.com%2fimages14%2fwhite13.png&ehk=0CtbZBDuh8zbtxW5gU8St2LhkedTOcuf3t6oPqmEGaA%3d&risl=&pid=ImgRaw&r=0"
+        }
+    ]
+}
