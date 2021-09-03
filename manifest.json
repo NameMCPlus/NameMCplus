@@ -1,7 +1,7 @@
 {
   "name": "NameMC+",
   "description": "A browser extension that adds cool features to NameMC!",
-  "version": "1.1",
+  "version": "1.2",
   "author": "M6, Faav, and Orius",
   "icons": {
     "16": "icons/icon16.png",
@@ -46,14 +46,6 @@
     },
     {
       "matches": [
-        "https://*.namemc.com/skin/*"
-      ],
-      "js": [
-        "js/skin.js"
-      ]
-    },
-    {
-      "matches": [
         "https://*.namemc.com/search*",
         "https://*.namemc.com/name/*"
       ],
@@ -70,8 +62,8 @@
       ],
       "js": [
         "js/profile.js",
-	      "js/contentScript.js",
-	      "js/skinview3d.bundle.js"
+        "js/skinview3d.bundle.js",
+	      "js/contentScript.js"
       ]
     },
     {
@@ -85,7 +77,9 @@
     },
     {
       "matches": [
-        "https://*.namemc.com/cape*", "https://*.namemc.com/nmcp-cape/*"
+        "https://*.namemc.com/cape*",
+        "https://*.namemc.com/nmcp-cape/*",
+        "https://*.namemc.com/custom-cape/*"
       ],
       "js": [
         "js/capesPage.js"
