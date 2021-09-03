@@ -4,22 +4,25 @@ const capes = fetch(customCapesURL)
     .then((json) => {
         console.log(`Address: ${location.href}`)
         if (location.href == "https://namemc.com/capes") {
-            loadCapes(json);
-        } else if (location.href.startsWith("https://namemc.com/nmcp-cape/")) {
+            loadCapes(json, "Custom Capes", "custom-cape");
+        }
+        
+        if (location.href.includes("namemc.com/custom-cape/")) {
             let displayCape = null;
             json.capes.forEach(cape => {
-                if (cape.name.toLowerCase().replace(" ", "-") == location.href.split("https://namemc.com/nmcp-cape/")[1]) {
+                if (cape.name.toLowerCase().replace(" ", "-") == location.href.split("https://namemc.com/custom-cape/")[1]) {
                     displayCape = cape;
                 }
             });
             if (displayCape == null) return;
             document.querySelector("main > div").remove();
-            loadCapeInfo(displayCape);
-        } else if (location.href.startsWith("https://namemc.com/cape/")) {
+            loadCapeInfo(displayCape, "Custom Cape");
+        }
+        
+        if (location.href.includes("namemc.com/cape/")) {
             const capeInfoURL = chrome.runtime.getURL("../json/capeInfo.json")
             fetch(capeInfoURL).then(response => response.json()).then(capeJson => {
-                const capeHash = location.href.split("https://namemc.com/nmcp-cape/")[1];
-                const capeDesc = capeJson.capes[capeHash].description;
+                const capeHash = location.href.split("https://namemc.com/cape/")[1];
 
                 const descriptionCard = document.createElement("div");
                 descriptionCard.className = "card mb-3";
@@ -29,7 +32,7 @@ const capes = fetch(customCapesURL)
                             <strong>Description</strong>
                         </div>
                         <div class="card-body py-2">
-                            ${capeDesc}
+                            ${capeJson.capes[capeHash].description}
                         </div>
                     </div>
                 `;
@@ -40,12 +43,12 @@ const capes = fetch(customCapesURL)
         }
     });
 
-async function loadCapes(json) {
+async function loadCapes(json, title, subredirect) {
     const capesDiv = document.querySelector("main > div > div");
 
     capesDiv.innerHTML += `
         <div class="container mt-3">
-            <h1 class="text-center">NameMC+ Capes</h1>
+            <h1 class="text-center">${title}</h1>
             <hr class="my-0">
             <br>
         </div>
@@ -55,12 +58,12 @@ async function loadCapes(json) {
         const capeDiv = document.createElement("div");
         capeDiv.className = "col-6 col-md";
         capeDiv.innerHTML = `
-            <a href="https://namemc.com/nmcp-cape/${cape.name.toLowerCase().replace(" ", "-")}">
+            <a href="https://namemc.com/${subredirect}/${cape.name.toLowerCase().replace(" ", "-")}">
                 <div class="card mb-2">
                     <div class="card-header text-center text-nowrap text-ellipsis p-1" translate="no">${cape.name}</div>
                     <div class="card-body position-relative text-center checkered p-0">
                         <div>
-                            <img class="auto-size-square" loading="lazy" width="280" height="280" style="image-rendering: pixelated;" src="${cape.image}" data-src="${cape.image}" alt="${cape.name}" title="${cape.name}">
+                            <img class="auto-size-square" loading="lazy" width="280" height="280" style="image-rendering: pixelated;" src="${cape.src}" data-src="${cape.src}" alt="${cape.name}" title="${cape.name}">
                         </div>
                         <div class="position-absolute bottom-0 right-0 text-muted mx-1">★${cape.users.length}</div>
                     </div>
@@ -71,12 +74,12 @@ async function loadCapes(json) {
     })
 }
 
-async function loadCapeInfo(cape) {
-    document.title = `${cape.name} | NameMC+ Cape | NameMC`;
+async function loadCapeInfo(cape, type) {
+    document.title = `${cape.name} | ${type} | NameMC`;
     const headerDiv = document.querySelector("body > header").appendChild(document.createElement("div"));
     headerDiv.className = "container mt-3";
     headerDiv.innerHTML = `
-        <h1 class="text-center" translate="no">${cape.name} <small class="text-muted text-nowrap">NameMC+ Cape</small></h1>
+        <h1 class="text-center" translate="no">${cape.name} <small class="text-muted text-nowrap">${type}</small></h1>
         <hr class="my-0">
     `;
 
@@ -116,7 +119,7 @@ async function loadCapeInfo(cape) {
 
     const canvas = document.querySelector("canvas.skin-3d.drop-shadow.auto-size.align-top");
     const capeImage = new Image();
-    capeImage.src = cape.image;
+    capeImage.src = cape.image ?? cape.src;
     capeImage.onload = () => {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(capeImage, 0, canvas.height / 8, canvas.width, capeImage.height * (canvas.width / capeImage.width));

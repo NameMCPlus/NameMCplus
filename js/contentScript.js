@@ -102,7 +102,7 @@ function createJSONCapeCard(_) {
     fetch(capeJsonURL).then(response => response.json()).then(json => {
         const capes = []
         json.capes.forEach(cape => {
-            if (cape.users.includes(profileUuid)) capes.push(new CapeTemplate(cape.src, cape.users, cape.name, cape.description, cape.redirect));
+            if (cape.users.includes(profileUuid)) capes.push(new CapeTemplate(cape.src, cape.users, cape.name, cape.description, `https://namemc.com/custom-cape/${cape.name.toLowerCase().replace(" ", "-")}`));
         });
         if (capes.length > 0) {
             return createCapeCard(capes, "Custom Capes", createThirdPartyCapeCard)
