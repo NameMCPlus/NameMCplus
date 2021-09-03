@@ -8,6 +8,28 @@ const capeDB = {}
 
 
 
+class CapeTemplate {
+    /**
+     * 
+     * @param {string} src 
+     * @param {string[]} users 
+     * @param {string} name 
+     * @param {string} description
+     * @param {string} redirect
+     */
+    constructor(src, users, name, description = null, redirect = null) {
+        this.src = src;
+        this.users = users;
+        this.name = name;
+        this.description = description;
+        this.redirect = redirect;
+    }
+}
+
+
+
+
+
 String.prototype.addDashes = function() {
     var uuid = this;
     var isUUIDwithDashes = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i.test(uuid);
@@ -25,35 +47,69 @@ String.prototype.addDashes = function() {
 
 
 
-/* Add NMCP capes to profile */
-const capeJsonURL = chrome.runtime.getURL('../json/customCapes.json');
-fetch(capeJsonURL)
-    .then(response => response.json())
-    .then(json => {
-        createSkinViewer();
-        createSkinEvents();
-        createCapeEvents();
-        const capes = {
-            names: [],
-            descs: [],
-            sources: [],
-            redirects: []
-        };
+const tempCapes = {
+    "Developer": {
+        "description": "Given out to developers of NameMC+",
+        "users": ["88e152f3e54546818cec3e8f85175902", "4a66d3d87eed42e6a479e4139e9041ee", "5787ba858ec44acc8f670e651dc5301d"],
+        "src": "https://m6.wtf/assets/nmcp.png",
+        "image": "https://m6.wtf/assets/nmcpPreview.png"
+    },
+    "Marc": {
+        "description": "Given out to Marc, for having the most capes in Minecraft",
+        "users": ["b05881186e75410db2db4d3066b223f7"],
+        "src": "https://m6.wtf/assets/b05881186e75410db2db4d3066b223f7.png",
+        "image": "https://m6.wtf/assets/marcCapePreview.png"
+    },
+    "xinabox": {
+        "description": "Given out to xinabox, a huge influence on the OG community",
+        "users": ["935e160c0a9d49e5a1ef2ccd1d54ff7d"],
+        "src": "https://m6.wtf/assets/935e160c0a9d49e5a1ef2ccd1d54ff7d.png",
+        "image": "https://m6.wtf/assets/xinacape.png"
+    }
+}
+
+
+
+
+
+/* Add NMCP and JSON capes to profile */
+createNMCPCapeCard(tempCapes);
+function createNMCPCapeCard(db) {
+    createSkinViewer();
+    createSkinEvents();
+    createCapeEvents();
+
+    const capes = [];
+    Object.entries(db).forEach(obj => {
+        if (obj[1].users.includes(profileUuid)) {
+            capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, "https://namemc.com/nmcp-cape/" + obj[0].toLowerCase().replace(" ", "-")))
+        }
+    })
+
+    if (Object.keys(capes).length > 0) {
+        return createCapeCard(capes, "NameMC+ Capes", createJSONCapeCard, true, null)
+    }
+    createJSONCapeCard();
+}
+
+
+
+
+
+/* Add custom capes from customCapes.json */
+function createJSONCapeCard(_) {
+    const capeJsonURL = chrome.runtime.getURL('../json/customCapes.json');
+    fetch(capeJsonURL).then(response => response.json()).then(json => {
+        const capes = []
         json.capes.forEach(cape => {
-            if (cape.users.includes(profileUuid)) {
-                capes.names.push(cape.name);
-                capes.descs.push(cape.description);
-                capes.sources.push(cape.src);
-                capes.redirects.push("https://namemc.com/nmcp-cape/" + cape.name.toLowerCase().replace(" ", "-"))
-            }
+            capes.push(new CapeTemplate(cape.src, cape.users, cape.name, cape.description, cape.redirect))
         });
-        if (capes.sources.length > 0) {
-            return createCapeCard(capes.sources, capeDiv => {
-                createThirdPartyCapeCard();
-            }, {title: "NameMC+ Capes", showAmount: true, capeNames: capes.names, capeDescs: capes.descs, capeRedirs: capes.redirects})
+        if (capes.length > 0) {
+            return createCapeCard(capes, "Custom Capes", createThirdPartyCapeCard)
         }
         createThirdPartyCapeCard();
     })
+}
 
 
 
@@ -65,7 +121,7 @@ fetch(capeJsonURL)
     {uuid} is replaced with the UUID (no dashes)
     {uuid-dashes} is replaced with the UUID (dashes)
 */
-function createThirdPartyCapeCard() {
+function createThirdPartyCapeCard(_) {
     chrome.storage.local.get(result => {
         if (!result.otherCapes) return;
         const capes = [
@@ -83,7 +139,7 @@ function createThirdPartyCapeCard() {
             }
         ]
 
-        createCapeCard([], capeCard => {
+        createCapeCard([], "Third-Party Capes", capeCard => {
             capeCard.style = "display: none;";
             const capeDiv = capeCard.querySelector("div.card-body.text-center");
 
@@ -99,7 +155,7 @@ function createThirdPartyCapeCard() {
                     }
                 });
             }
-        }, {title: "Third-Party Capes"})
+        })
     });
 }
 
@@ -108,13 +164,14 @@ function createThirdPartyCapeCard() {
 
 
 /* Cape card creator */
-function createCapeCard(capes, callback = capeCard => {}, {title, redirect, showAmount, capeNames, capeDescs, capeRedirs} = {
-    title: "Custom Capes", 
-    redirect: "",
-    showAmount: true,
-    capeNames: [""],
-    capeDescs: [""],
-    capeRedirs: [""] }) 
+/**
+ * @param {CapeTemplate[]} capes 
+ * @param {string} title
+ * @param {function} callback 
+ * @param {boolean} showAmount 
+ * @param {string} redirect
+ */
+function createCapeCard(capes, title, callback = console.log("Successfully made cape card!"), showAmount = false, redirect = null) 
 {
     let titleArray = title.split(" ");
     titleArray.shift();
@@ -134,9 +191,9 @@ function createCapeCard(capes, callback = capeCard => {}, {title, redirect, show
     `;
 
     // Render capes
-    for (let i = 0; i < capes.length; i++) {
-        createCape(capes[i], cardDiv.querySelector("div.card-body.text-center"), capeNames[i], capeDescs[i], capeRedirs[i] ? capeRedirs[i] : capes[i])
-    };
+    capes.forEach(cape => {
+        createCape(cape.src, cardDiv.querySelector("div.card-body.text-center"), cape.name, cape.description, cape.redirect ?? capes[i])
+    })
 
     // Remove cape selected glow
     const capeChildren = document.getElementsByClassName("cape-2d")
@@ -155,6 +212,13 @@ function createCapeCard(capes, callback = capeCard => {}, {title, redirect, show
 
 
 /* Cape canvas creator */
+/**
+ * @param {string} src 
+ * @param {HTMLElement} parentElement 
+ * @param {string} name 
+ * @param {string} description 
+ * @param {string} redirect 
+ */
 function createCape(src, parentElement, name = "", description = "", redirect = "") {
     let capeCanvas = document.createElement("canvas");
     capeCanvas.className = "cape-2d align-top skin-button skin-button-selected";
