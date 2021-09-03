@@ -62,8 +62,8 @@
       ],
       "js": [
         "js/profile.js",
-	      "js/contentScript.js",
-	      "js/skinview3d.bundle.js"
+        "js/skinview3d.bundle.js",
+	      "js/contentScript.js"
       ]
     },
     {
