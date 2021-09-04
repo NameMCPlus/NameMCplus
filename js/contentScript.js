@@ -101,9 +101,11 @@ function createJSONCapeCard(_) {
     const capeJsonURL = chrome.runtime.getURL('../json/customCapes.json');
     fetch(capeJsonURL).then(response => response.json()).then(json => {
         const capes = []
-        json.capes.forEach(cape => {
-            if (cape.users.includes(profileUuid)) capes.push(new CapeTemplate(cape.src, cape.users, cape.name, cape.description, `https://namemc.com/custom-cape/${cape.name.toLowerCase().replace(" ", "-")}`));
-        });
+        Object.entries(json).forEach(obj => {
+            if (obj[1].users.includes(profileUuid)) {
+                capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, `https://namemc.com/custom-cape/${obj[0].toLowerCase().replace(" ", "-")}`));
+            }
+        })
         if (capes.length > 0) {
             return createCapeCard(capes, "Custom Capes", createThirdPartyCapeCard)
         }

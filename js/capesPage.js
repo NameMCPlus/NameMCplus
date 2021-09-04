@@ -1,19 +1,71 @@
+const tempCapes = {
+    "Developer": {
+        "description": "Given out to developers of NameMC+",
+        "users": ["88e152f3e54546818cec3e8f85175902", "4a66d3d87eed42e6a479e4139e9041ee", "5787ba858ec44acc8f670e651dc5301d"],
+        "src": "https://m6.wtf/assets/nmcp.png",
+        "image": "https://m6.wtf/assets/nmcpPreview.png"
+    },
+    "Marc": {
+        "description": "Given out to Marc, for having the most capes in Minecraft",
+        "users": ["b05881186e75410db2db4d3066b223f7"],
+        "src": "https://m6.wtf/assets/b05881186e75410db2db4d3066b223f7.png",
+        "image": "https://m6.wtf/assets/marcCapePreview.png"
+    },
+    "xinabox": {
+        "description": "Given out to xinabox, a huge influence on the OG community",
+        "users": ["935e160c0a9d49e5a1ef2ccd1d54ff7d"],
+        "src": "https://m6.wtf/assets/935e160c0a9d49e5a1ef2ccd1d54ff7d.png",
+        "image": "https://m6.wtf/assets/xinacape.png"
+    }
+}
+
+class CapeTemplate {
+    /**
+     * 
+     * @param {string} src 
+     * @param {string[]} users 
+     * @param {string} name 
+     * @param {string} description
+     * @param {string} redirect
+     */
+    constructor(src, users, name, description = null, redirect = null) {
+        this.src = src;
+        this.users = users;
+        this.name = name;
+        this.description = description;
+        this.redirect = redirect;
+    }
+}
+
 const customCapesURL = chrome.runtime.getURL('../json/customCapes.json');
 const capes = fetch(customCapesURL)
     .then((response) => response.json())
     .then((json) => {
         console.log(`Address: ${location.href}`)
         if (location.href == "https://namemc.com/capes") {
+            loadCapes(tempCapes, "NameMC+ Capes", "nmcp-cape")
             loadCapes(json, "Custom Capes", "custom-cape");
+        }
+
+        if (location.href.includes("namemc.com/nmcp-cape/")) {
+            let displayCape = null;
+            Object.entries(tempCapes).forEach(obj => {
+                if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/nmcp-cape/")[1]) {
+                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description);
+                }
+            })
+            if (displayCape == null) return;
+            document.querySelector("main > div").remove();
+            loadCapeInfo(displayCape, "NameMC+ Cape");
         }
         
         if (location.href.includes("namemc.com/custom-cape/")) {
             let displayCape = null;
-            json.capes.forEach(cape => {
-                if (cape.name.toLowerCase().replace(" ", "-") == location.href.split("https://namemc.com/custom-cape/")[1]) {
-                    displayCape = cape;
+            Object.entries(json).forEach(obj => {
+                if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/custom-cape/")[1]) {
+                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description);
                 }
-            });
+            })
             if (displayCape == null) return;
             document.querySelector("main > div").remove();
             loadCapeInfo(displayCape, "Custom Cape");
@@ -43,7 +95,7 @@ const capes = fetch(customCapesURL)
         }
     });
 
-async function loadCapes(json, title, subredirect) {
+async function loadCapes(json, title, urlPath) {
     const capesDiv = document.querySelector("main > div > div");
 
     capesDiv.innerHTML += `
@@ -54,7 +106,8 @@ async function loadCapes(json, title, subredirect) {
         </div>
     `
 
-    for(let i = 0; i < json.capes.length; i++) {
+    const capes = Object.entries(json);
+    for(let i = 0; i < Object.keys(json).length; i++) {
         // Make it so that if there's five capes in a row, it starts a new row
         if (i / 5 == Math.round(i / 5)) {
             const breakLine = document.createElement("div");
@@ -65,14 +118,14 @@ async function loadCapes(json, title, subredirect) {
         const capeDiv = document.createElement("div");
         capeDiv.className = "col-6 col-md";
         capeDiv.innerHTML = `
-            <a href="https://namemc.com/${subredirect}/${json.capes[i].name.toLowerCase().replace(" ", "-")}">
+            <a href="https://namemc.com/${urlPath}/${capes[i][0].toLowerCase().replace(" ", "-")}">
                 <div class="card mb-2">
-                    <div class="card-header text-center text-nowrap text-ellipsis p-1" translate="no">${json.capes[i].name}</div>
+                    <div class="card-header text-center text-nowrap text-ellipsis p-1" translate="no">${capes[i][0]}</div>
                     <div class="card-body position-relative text-center checkered p-0">
                         <div>
-                            <img class="auto-size-square" loading="lazy" width="280" height="280" style="image-rendering: pixelated;" src="${json.capes[i].src}" data-src="${json.capes[i].src}" alt="${json.capes[i].name}" title="${json.capes[i].name}">
+                            <img class="auto-size-square" loading="lazy" width="280" height="280" style="image-rendering: pixelated;" src="${capes[i][1].image ?? capes[i][1].src}" data-src="${capes[i][1].image ?? capes[i][1].src}" alt="${capes[i][0]}" title="${capes[i][0]}">
                         </div>
-                        <div class="position-absolute bottom-0 right-0 text-muted mx-1">★${json.capes[i].users.length}</div>
+                        <div class="position-absolute bottom-0 right-0 text-muted mx-1">★${capes[i][1].users.length}</div>
                     </div>
                 </div>
             </a>
@@ -81,6 +134,11 @@ async function loadCapes(json, title, subredirect) {
     }
 }
 
+/**
+ * 
+ * @param {CapeTemplate} cape 
+ * @param {string} type 
+ */
 async function loadCapeInfo(cape, type) {
     document.title = `${cape.name} | ${type} | NameMC`;
     const headerDiv = document.querySelector("body > header").appendChild(document.createElement("div"));
