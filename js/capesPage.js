@@ -28,12 +28,13 @@ class CapeTemplate {
      * @param {string} description
      * @param {string} redirect
      */
-    constructor(src, users, name, description = null, redirect = null) {
+    constructor(src, users, name, description = null, redirect = null, image = null) {
         this.src = src;
         this.users = users;
         this.name = name;
         this.description = description;
         this.redirect = redirect;
+        this.image = image;
     }
 }
 
@@ -51,7 +52,7 @@ const capes = fetch(customCapesURL)
             let displayCape = null;
             Object.entries(tempCapes).forEach(obj => {
                 if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/nmcp-cape/")[1]) {
-                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description);
+                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
                 }
             })
             if (displayCape == null) return;
