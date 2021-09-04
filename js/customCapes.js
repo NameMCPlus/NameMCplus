@@ -6,8 +6,6 @@ const capeDB = {}
 
 
 
-
-
 class CapeTemplate {
     /**
      * 
@@ -28,8 +26,6 @@ class CapeTemplate {
 
 
 
-
-
 String.prototype.addDashes = function() {
     var uuid = this;
     var isUUIDwithDashes = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i.test(uuid);
@@ -42,8 +38,6 @@ String.prototype.addDashes = function() {
       throw new Error("Can only add dashes to a valid UUID: " + uuid);
     }
 };
-
-
 
 
 
@@ -70,8 +64,6 @@ const tempCapes = {
 
 
 
-
-
 /* Add NMCP and JSON capes to profile */
 createNMCPCapeCard(tempCapes);
 function createNMCPCapeCard(db) {
@@ -94,8 +86,6 @@ function createNMCPCapeCard(db) {
 
 
 
-
-
 /* Add custom capes from customCapes.json */
 function createJSONCapeCard(_) {
     const capeJsonURL = chrome.runtime.getURL('../json/customCapes.json');
@@ -115,8 +105,6 @@ function createJSONCapeCard(_) {
 
 
 
-
-
 /* 
     Add third-party capes to profile
     {username} is replaced with the username (capitalization)
@@ -126,20 +114,34 @@ function createJSONCapeCard(_) {
 function createThirdPartyCapeCard(_) {
     chrome.storage.local.get(result => {
         if (!result.otherCapes) return;
-        const capes = [
-            {
-                "name": "LabyMod",
-                "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
-            },
-            {
-                "name": "Cloaks+",
-                "url": "https://server.cloaksplus.com/capes/{username}.png"
-            },
-            {
-                "name": "MinecraftCapes",
-                "url": "https://minecraftcapes.net/profile/{uuid}/cape"
-            }
-        ]
+        const capes = [];
+
+        if (result.labymod) {
+            capes.push(
+                {
+                    "name": "LabyMod",
+                    "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
+                }
+            )
+        }
+
+        if (result.cloaksplus) {
+            capes.push(
+                {
+                    "name": "Cloaks+",
+                    "url": "https://server.cloaksplus.com/capes/{username}.png"
+                }
+            )
+        }
+
+        if (result.capesmod) {
+            capes.push(
+                {
+                    "name": "MinecraftCapes",
+                    "url": "https://minecraftcapes.net/profile/{uuid}/cape"
+                }
+            )
+        }
 
         createCapeCard([], "Third-Party Capes", capeCard => {
             capeCard.style = "display: none;";
@@ -160,8 +162,6 @@ function createThirdPartyCapeCard(_) {
         })
     });
 }
-
-
 
 
 
@@ -208,8 +208,6 @@ function createCapeCard(capes, title, callback = console.log("Successfully made 
 
     callback(cardDiv);
 }
-
-
 
 
 
@@ -261,8 +259,6 @@ function createCape(src, parentElement, name = "", description = "", redirect = 
 
 
 
-
-
 /* Creates cape events for the custom viewer */
 function createCapeEvents() {
     let capeChildren = document.getElementsByClassName("cape-2d")
@@ -286,8 +282,6 @@ function createCapeEvents() {
         })
     }
 }
-
-
 
 
 
@@ -378,8 +372,6 @@ function createSkinViewer() {
 
 
 
-
-
 /* Creates skin events for the custom viewer */
 function createSkinEvents() {
     let skinChildren = document.querySelectorAll("div a .skin-button");
@@ -398,8 +390,6 @@ function createSkinEvents() {
 
 
 
-
-
 /* Cape scaling (height) */
 function capeScale(height) {
     if (height % 22 === 0) {
@@ -411,8 +401,6 @@ function capeScale(height) {
     }
     return Math.max(1, Math.floor(height / 22));
 }
-
-
 
 
 

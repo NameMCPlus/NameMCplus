@@ -14,13 +14,17 @@ const options = [
   new Setting("oldLayout", document.getElementById("searchbutton"), false),
   new Setting("hideLocation", document.getElementById("hidelocationbutton"), false),
   new Setting("hideSeparation", document.getElementById("hideseparationbutton"), false),
-  new Setting("mcusername", document.getElementById("mcusernamebutton"), false)
+  new Setting("mcusername", document.getElementById("mcusernamebutton"), false),
+
+  new Setting("labymod", document.getElementById("labymodbutton"), true),
+  new Setting("cloaksplus", document.getElementById("cloaksplusbutton"), true),
+  new Setting("capesmod", document.getElementById("capesmodbutton"), true)
 ]
 
 options.forEach(option => {
   option.button.onclick = () => {
     toggleSetting(option.name, option.button.checked)
-  }
+  };
 })
 
 function toggleSetting(key, value) {
@@ -29,19 +33,22 @@ function toggleSetting(key, value) {
   chrome.storage.local.set(obj, console.log(`Successfully set "${key}" to "${value}"`))
 }
 
-function restore_options() {
+function restoreOptions() {
   chrome.storage.local.get(function (result) {
     options.forEach(option => {
+
       if (result[option.name] == undefined) {
         option.button.checked = option.defaultOption;
         toggleSetting(option.name, option.defaultOption);
         console.log(`Option ${option.name} didn't exist`)
         return;
       }
+
       console.log(`Option ${option.name} is set to ${result[option.name]}`)
       option.button.checked = result[option.name];
+
     })
   });
 }
 
-document.addEventListener('DOMContentLoaded', restore_options);
+document.addEventListener('DOMContentLoaded', restoreOptions);
