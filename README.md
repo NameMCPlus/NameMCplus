@@ -1,7 +1,7 @@
 # NameMC+
 A browser extension that adds cool features to NameMC!
 
-[Website](https://www.namemc.plus) - [Discord](https://discord.gg/ZwxFpPTpjt)
+[Website](https://namemc.plus) - [API](https://api.namemc.plus) - [Discord](https://discord.gg/ZwxFpPTpjt)
 
 Currently only supports Chromium-based browsers. (Google Chrome, Microsoft Edge, Brave, etc.)
 Support for other browsers will come in the future!
