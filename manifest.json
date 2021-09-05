@@ -63,7 +63,7 @@
       "js": [
         "js/profile.js",
         "js/skinview3d.bundle.js",
-	"js/customCapes.js"
+	      "js/customCapes.js"
       ]
     },
     {
@@ -82,6 +82,7 @@
         "https://*.namemc.com/custom-cape/*"
       ],
       "js": [
+        "js/skinview3d.bundle.js",
         "js/capesPage.js"
       ]
     }
