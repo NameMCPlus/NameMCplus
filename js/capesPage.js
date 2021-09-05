@@ -144,7 +144,7 @@ async function loadCapes(json, title, urlPath) {
  * @param {CapeTemplate} cape 
  * @param {string} type 
  */
-function loadCapeInfo(cape, type) {
+async function loadCapeInfo(cape, type) {
     document.title = `${cape.name} | ${type} | NameMC`;
     const headerDiv = document.querySelector("body > header").appendChild(document.createElement("div"));
     headerDiv.className = "container mt-3";
