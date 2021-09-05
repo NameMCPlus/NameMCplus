@@ -96,6 +96,8 @@ const capes = fetch(customCapesURL)
         }
     });
 
+
+
 async function loadCapes(json, title, urlPath) {
     const capesDiv = document.querySelector("main > div > div");
 
@@ -135,12 +137,14 @@ async function loadCapes(json, title, urlPath) {
     }
 }
 
+
+
 /**
  * 
  * @param {CapeTemplate} cape 
  * @param {string} type 
  */
-async function loadCapeInfo(cape, type) {
+function loadCapeInfo(cape, type) {
     document.title = `${cape.name} | ${type} | NameMC`;
     const headerDiv = document.querySelector("body > header").appendChild(document.createElement("div"));
     headerDiv.className = "container mt-3";
@@ -152,12 +156,7 @@ async function loadCapeInfo(cape, type) {
     document.querySelector("main").innerHTML = `
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body position-relative text-center p-0 checkered">
-                        <canvas class="skin-3d drop-shadow auto-size align-top" width="375" height="500"></canvas>
-                        <h5 class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length}</h5>
-                    </div>
-                </div>
+                <div id="skinViewerDiv" class="card mb-3 card-body position-relative text-center p-0 checkered"></div>
                 <div class="card mb-3">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
@@ -183,13 +182,7 @@ async function loadCapeInfo(cape, type) {
         </div>
     `;
 
-    const canvas = document.querySelector("canvas.skin-3d.drop-shadow.auto-size.align-top");
-    const capeImage = new Image();
-    capeImage.src = cape.image ?? cape.src;
-    capeImage.onload = () => {
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(capeImage, 0, canvas.height / 8, canvas.width, capeImage.height * (canvas.width / capeImage.width));
-    }
+    createSkinViewer(document.getElementById("skinViewerDiv"), cape);
 
     const namesDiv = document.getElementsByClassName("card-body player-list py-2")[0];
     cape.users.forEach(user => {
@@ -197,4 +190,93 @@ async function loadCapeInfo(cape, type) {
             namesDiv.innerHTML += `<a translate="no" href="/profile/${user}">${json.name}</a> `;
         })
     })
+}
+
+
+
+function createSkinViewer(parent, cape) {
+    // Skin
+    let featureDiv = document.createElement("div");
+    featureDiv.id = "skinviewer";
+    featureDiv.className = "card mb-3";
+
+    // User count
+    featureDiv.innerHTML += `
+        <h5 id="skinViewerDiv" class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length}</h5>
+    `;
+
+    // Add a button for animation
+    let featureAnimateButton = document.createElement("button");
+    featureAnimateButton.className = "btn btn-secondary play-pause-btn position-absolute top-0 left-0 m-2 p-0";
+    featureAnimateButton.style.cssText = "width:32px;height:32px;z-index:1;";
+    featureAnimateButton.addEventListener('click', event => {
+        this.skinViewerWalk.paused = !this.skinViewerWalk.paused;
+    })
+    let featureButtonIcon = document.createElement("i")
+    featureButtonIcon.className = "fas fa-play";
+    featureAnimateButton.appendChild(featureButtonIcon);
+    featureDiv.appendChild(featureAnimateButton);
+
+    // Add a button for Elytra
+    let featureElytraButton = document.createElement("button");
+    featureElytraButton.innerHTML = "Show Elytra"
+    featureElytraButton.className = "btn btn-secondary play-pause-btn position-absolute top-0 right-0 m-2 p-0";
+    featureElytraButton.style.cssText  = "height:32px;padding:0px 10px !important;z-index:1;";
+    featureElytraButton.addEventListener('click', event => {
+        if(this.skinViewer.playerObject.backEquipment == "cape") {
+            featureElytraButton.innerHTML = "Show Cape"
+            this.skinViewer.loadCape(this.skinViewer.capeImage, { backEquipment: 'elytra' })
+        } else {
+            featureElytraButton.innerHTML = "Show Elytra"
+            this.skinViewer.loadCape(this.skinViewer.capeImage, { backEquipment: 'cape' })
+        }
+    })
+    featureDiv.appendChild(featureElytraButton);
+
+    // Add the body
+    let featureBody = document.createElement("div");
+    featureBody.className = "card-body text-center checkered";
+
+    featureDiv.appendChild(featureBody);
+
+    // Add the canvas
+    let featureCanvas = document.createElement("canvas");
+    featureCanvas.id = "skin_container"
+    featureBody.appendChild(featureCanvas);
+
+    //Insert the div
+    parent.appendChild(featureDiv);
+
+    this.skinViewer = new skinview3d.FXAASkinViewer({
+        canvas: document.getElementById("skin_container"),
+        width: 375,
+        height: 500,
+        skin: cape.users.length == 1 ? `https://www.mc-heads.net/skin/${cape.users[0]}` : "https://texture.namemc.com/12/b9/12b92a9206470fe2.png",
+        cape: cape.src
+    });
+
+    this.skinViewer.loadCape("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgBAMAAABQs2O3AAAAKlBMVEUAAABOTk6NjY2Hh4d7e3tzc3NsbGxZWVlKSkpVVVVoaGiEhIR/f39jY2OSVXT6AAAAAXRSTlMAQObYZgAAAKdJREFUOMtjQAOMgsbGxgz4gCADISDYKCiIX0GHoKAAPgWMQAWClClobBQsx69AYnp5Ah4FnB2SM2vxKphZXj5rAR4F7NOnl6cFYJU6AKHm3kpLC8anYFXaslRnrAoMYAqyQp3xmbA01MUlGqsCBQgV4uri4oRPAatLaIgRVgUboApCXHx24zOBx8ZYSQmfAgYj603YFQTAFChpG+NVwGwEtGIUUBsAADaTIwwcJYk6AAAAAElFTkSuQmCC");
+
+    let control = skinview3d.createOrbitControls(this.skinViewer);
+    control.enableRotate = true;
+    control.enableZoom = false;
+    control.enablePan = false;
+
+    this.skinViewerWalk = this.skinViewer.animations.add(skinview3d.WalkingAnimation);
+    this.skinViewerWalk.paused = true;
+
+    this.skinViewer.camera.position.set(0, 10, 50);
+    control.update();
+
+    this.skinViewer.playerObject.rotation.y = 10;
+
+    //Set style
+    document.getElementById("skin_container").style.filter = "drop-shadow(-9px 4px 9px rgba(0,0,0,0.4))"
+    document.getElementById("skin_container").style.outline = "none"
+}
+
+
+
+function textureURL(hash) {
+    return 'https://texture.namemc.com/' + hash[0] + hash[1] + '/' + hash[2] + hash[3] + '/' + hash + '.png';
 }
