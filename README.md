@@ -43,8 +43,10 @@ Support for other browsers will come in the future!
 
 - [Gapple API](https://api.gapple.pw/)
 - [Ashcon API](https://github.com/Electroid/mojang-api)
+- [MCHeads API](https://www.mc-heads.net/)
 
 # Credits
+
 - [M6](https://github.com/m6yo) for creating the extension, creating the early versions, and contributing to the project/codebase
 - [Faav](https://github.com/withdrew) for contributing immensely to the project and adding the first core features. 
 - [james090500](https://github.com/james090500) for letting us use some of the code from his [Skinview3d fork](https://github.com/james090500/skinview3d) and [Chrome Extension](https://github.com/james090500/minecraftcapes-for-namemc)
