@@ -106,16 +106,17 @@ const capes = fetch(customCapesURL)
 async function loadCapes(json, title, urlPath) {
     const capesDiv = document.querySelector("main > div > div");
 
-    capesDiv.innerHTML += `
-        <div class="container mt-3">
-            <h1 class="text-center">${title}</h1>
-            <hr class="my-0">
-            <br>
-        </div>
-    `
-
     const capes = Object.entries(json);
     for(let i = 0; i < Object.keys(json).length; i++) {
+        if (i == 0) {
+            capesDiv.innerHTML += `
+                <div class="container mt-3">
+                    <h1 class="text-center">${title}</h1>
+                    <hr class="my-0">
+                    <br>
+                </div>
+            `
+        }
         // Make it so that if there's five capes in a row, it starts a new row
         if (i / 5 == Math.round(i / 5)) {
             const breakLine = document.createElement("div");
