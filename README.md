@@ -11,7 +11,7 @@ Support for other browsers will come in the future!
 - [NEW] Support for __Mantle__, __Cloaks+__, and more
 - Custom Capes
 - Badge System
-- Renders user Elytras
+- Renders elytras
 - Displays user creation dates (Inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang ([WEB-3367](https://bugs.mojang.com/browse/WEB-3367)) in order for accurate creation dates to return)
 - Shows users' account type (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
 - Detects if a name is blocked
