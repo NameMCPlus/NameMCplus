@@ -132,6 +132,13 @@ function createThirdPartyCapeCard(_) {
       })
     }
 
+    if (result.mantle) {
+      capes.push({
+        "name": "Mantle",
+        "url": "https://api.gapple.pw/cors/mantle/user/{username}"
+      })
+    }
+
     createCapeCard([], "Third-Party Capes", capeCard => {
       capeCard.style = "display: none;";
       const capeDiv = capeCard.querySelector("div.card-body.text-center");
@@ -146,7 +153,7 @@ function createThirdPartyCapeCard(_) {
             createCape(capes[i].url, capeDiv, capes[i].name, "", capes[i].url);
             capeCard.style = "";
           }
-        });
+        })
       }
     })
   });
@@ -181,7 +188,7 @@ function createCapeCard(capes, title, callback = console.log("Successfully made 
 
   // Render capes
   capes.forEach(cape => {
-    createCape(cape.src, cardDiv.querySelector("div.card-body.text-center"), cape.name, cape.description, cape.redirect ? ? capes[i])
+    createCape(cape.src, cardDiv.querySelector("div.card-body.text-center"), cape.name, cape.description, cape.redirect ?? capes[i])
   })
 
   // Remove cape selected glow
