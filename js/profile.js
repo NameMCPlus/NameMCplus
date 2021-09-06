@@ -7,12 +7,18 @@ $('body').tooltip({
 });
 
 chrome.storage.local.get(function (result) {
-  if (result.HideSeparation == true) {
+  if (result.mcusername) addMCUNButton();
+  if (result.hideSeparation) {
     var s2 = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4) > div.card-header.py-1").innerHTML;
     if (s2.includes("Separation")) {
       document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4)").remove();
     } else {
       var s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1").innerHTML;
+        if (s.includes("Separation")) {
+          document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
+        }
+
+    var s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1").innerHTML;
         if (s.includes("Separation")) {
           document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
         }
@@ -97,8 +103,8 @@ function setStatus(username, profileUUID, badges) {
                   accountType = "Legacy";
                   tooltip = "Unmigrated (2009 - Late 2012)";
                 }
-                var createdAtBtn = result.createdAt;
-                var AccTypeBtn = result.AccType;
+                var createdAtBtn = result.creationDates;
+                var AccTypeBtn = result.accountTypes;
 
                 const accTypeText = `
                   <div class="row no-gutters">
@@ -140,4 +146,18 @@ function setStatus(username, profileUUID, badges) {
             });
         });
     });
+}
+
+function addMCUNButton() {
+  const parentDiv = document.createElement("a");
+  parentDiv.href = `https://mcuserna.me/?lookup=${profileUUID}`;
+  parentDiv.target = "_blank";
+
+  const button = document.createElement("button");
+  button.innerHTML = "mcuserna.me";
+  button.classList = "btn btn-sm text-nowrap btn-success";
+
+  parentDiv.appendChild(button);
+  const masterDiv = document.getElementsByClassName("row justify-content-end")[0];
+  masterDiv.insertBefore(parentDiv, masterDiv.firstElementChild);
 }

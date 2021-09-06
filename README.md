@@ -1,13 +1,14 @@
 # NameMC+
 A browser extension that adds cool features to NameMC!
 
-[Website](https://www.namemc.plus) - [Discord](https://discord.gg/ZwxFpPTpjt)
+[Website](https://namemc.plus) - [API](https://api.namemc.plus) - [Discord](https://discord.gg/ZwxFpPTpjt)
 
 Currently only supports Chromium-based browsers. (Google Chrome, Microsoft Edge, Brave, etc.)
 Support for other browsers will come in the future!
 
 # Features
 
+- [NEW] Adds a button to view the user's [mcuserna.me](https://mcuserna.me) profile
 - Custom Capes
 - Badge System
 - Support for __LabyMod__, __CloaksPlus__, and __MinecraftCapes Mod__
@@ -16,7 +17,7 @@ Support for other browsers will come in the future!
 - Shows users' account type (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
 - Detects if a name is blocked
 - Hides the Seperation card
-- View cape descriptions
+- Shows descriptions for capes
 - Hides the Location card on servers
 - Can revert NameMC's new search page
 - Removes most ads (If you don't want any ads at all, try using [uBlock Origin](https://ublockorigin.com))
@@ -42,6 +43,7 @@ Support for other browsers will come in the future!
 
 - [Gapple API](https://api.gapple.pw/)
 - [Ashcon API](https://github.com/Electroid/mojang-api)
+- [MCHeads API](https://www.mc-heads.net/)
 
 # Credits
 

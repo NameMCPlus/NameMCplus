@@ -1,6 +1,5 @@
-
 chrome.storage.local.get(function (result) {
-    if (result.HideLocation == true) {
+    if (result.hideLocation == true) {
 
         const DEL_SELECTOR = 'body > main > div.row > div.col-12.col-md-6.col-lg-5 > div:nth-child(2) > img';
             const mo = new MutationObserver(onMutation);
