@@ -8,10 +8,9 @@ Support for other browsers will come in the future!
 
 # Features
 
-- [NEW] Adds a button to view the user's [mcuserna.me](https://mcuserna.me) profile
+- [NEW] Support for __Mantle__, __Cloaks+__, and more
 - Custom Capes
 - Badge System
-- Support for __LabyMod__, __CloaksPlus__, and __MinecraftCapes Mod__
 - Renders user Elytras
 - Displays user creation dates (Inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang ([WEB-3367](https://bugs.mojang.com/browse/WEB-3367)) in order for accurate creation dates to return)
 - Shows users' account type (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
@@ -21,6 +20,7 @@ Support for other browsers will come in the future!
 - Hides the Location card on servers
 - Can revert NameMC's new search page
 - Removes most ads (If you don't want any ads at all, try using [uBlock Origin](https://ublockorigin.com))
+- Adds a button to view the user's [mcuserna.me](https://mcuserna.me) profile
 
 # Installation
 
