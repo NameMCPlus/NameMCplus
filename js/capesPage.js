@@ -1,7 +1,45 @@
 const tempCapes = {
+    "Early Supporter": {
+        "description": "Given to users who joined the Discord before version 1.2",
+        "users": [
+            "c7b3d49c580c4af2a824ca07b37ff2f9",
+            "96d79830450d453a91262b8384e3da4e", 
+            "786822889dea45d1ae6ec551f11d03c8", 
+            "bc2d6a13d0fb4f0ea4d59dbc081ff654", 
+            "2c3c745f680048758cb8b559de694a73",
+            "3d85ff6e550c41699651a74a12f6cdd7",
+            "41b7ada365944dc48720188d455a7221",
+            "2ce90d65f2534e3c8e4b3d5fb1e4c927",
+            "4a66d3d87eed42e6a479e4139e9041ee",
+            "88e152f3e54546818cec3e8f85175902",
+            "3e21b6f1fa434d07bccd02e99dbc5bba",
+            "ac22e8ae452849708df98817a26e1bf9",
+            "d3e02fcc33f24a248ecf3ee16d0c48e0",
+            "b809e9a5317743e4bd0d9a1f50e6c21f",
+            "ba1ed947275c474abba9759c937367e0",
+            "b7b695aeef734469aafb585b9fef128c",
+            "e1afe16824fe4ea1bcf324913ce80d36",
+            "c0a170336f5344928987eaa147317202",
+            "ccce8cf3e2c141debf36db62305e4abc",
+            "43e6a8cdd3d547999dc1d86b06843190",
+            "1c7b9da0cfe9420f9d537b7107555ca4",
+            "0bb0b6e0b9e94f559e229e94e032ab04",
+            "de2b50e6d6804db8b8cd44373b84d045",
+            "44c045088f494a1fb5e79fae387462f4",
+            "6f38e1e361b94dbea9e9a52a81ee538c",
+            "077ad796a6194c3ba629ea1192e45e7c",
+            "20f05082845048419fe4a36aa89249c1"
+        ],
+        "src": "https://m6.wtf/assets/earlySupporter.png",
+        "image": "https://m6.wtf/assets/earlySupporter.png"
+    },
     "Developer": {
         "description": "Given out to developers of NameMC+",
-        "users": ["88e152f3e54546818cec3e8f85175902", "4a66d3d87eed42e6a479e4139e9041ee", "5787ba858ec44acc8f670e651dc5301d"],
+        "users": [
+            "88e152f3e54546818cec3e8f85175902",
+            "4a66d3d87eed42e6a479e4139e9041ee",
+            "5787ba858ec44acc8f670e651dc5301d"
+        ],
         "src": "https://m6.wtf/assets/nmcp.png",
         "image": "https://m6.wtf/assets/nmcpPreview.png"
     },
@@ -16,7 +54,7 @@ const tempCapes = {
         "users": ["935e160c0a9d49e5a1ef2ccd1d54ff7d"],
         "src": "https://m6.wtf/assets/935e160c0a9d49e5a1ef2ccd1d54ff7d.png",
         "image": "https://m6.wtf/assets/xinacape.png"
-    }
+    },
 }
 
 class CapeTemplate {
@@ -74,7 +112,7 @@ const capes = fetch(customCapesURL)
         
         if (location.href.includes("namemc.com/cape/")) {
             const capeInfoURL = chrome.runtime.getURL("../json/capeInfo.json")
-            fetch(capeInfoURL).then(response => response.json()).then(async capeJson => {
+            fetch(capeInfoURL).then(response => response.json()).then(capeJson => {
                 const capeHash = location.href.split("namemc.com/cape/")[1];
 
                 const descriptionCard = document.createElement("div");
@@ -90,10 +128,19 @@ const capes = fetch(customCapesURL)
                     </div>
                 `;
 
-                /* const lengthText = document.getElementsByClassName("position-absolute bottom-0 right-0 m-1 text-muted")[0].innerHTML.substr(1);
-                const capeInfo = new CapeTemplate(textureURL(capeHash), parseInt(lengthText), "Cape");
-                createSkinViewer(document.getElementsByClassName("skin-3d")[0].parentElement.parentElement, capeInfo);
-                document.getElementsByClassName("skin-3d")[0].parentElement.remove(); */
+
+                let skin = null;
+                const playerListObjs = document.getElementsByClassName("card-body player-list py-2");
+                if (playerListObjs.length == 1) {
+                    console.log(`Inner text: ${playerListObjs[0].innerHTML.split(">")[1].split("<")[0]}`);
+                    skin = [playerListObjs[0].innerHTML.split(">")[1].split("<")[0]];
+                }
+                const lengthObj = {
+                    skin: skin,
+                    amount: parseInt(document.getElementsByClassName("position-absolute bottom-0 right-0 m-1 text-muted")[0].innerHTML.substr(1))
+                }
+                createSkinViewer(document.getElementsByClassName("skin-3d")[0].parentElement.parentElement, new CapeTemplate(textureURL(capeHash), lengthObj, "Cape"));
+                document.getElementsByClassName("skin-3d")[0].parentElement.remove();
 
                 const insertBeforeDiv = document.getElementsByClassName("card-body player-list py-2")[0].parentElement.parentElement.parentElement.parentElement.childNodes[0];
                 insertBeforeDiv.appendChild(descriptionCard);
@@ -208,7 +255,7 @@ async function createSkinViewer(parent, cape) {
 
     // User count
     featureDiv.innerHTML += `
-        <h5 id="skinViewerDiv" class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length ?? cape.users}</h5>
+        <h5 id="skinViewerDiv" class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length ?? cape.users.amount}</h5>
     `;
 
     // Add a button for animation
@@ -255,17 +302,23 @@ async function createSkinViewer(parent, cape) {
 
     const usedSkin = skinCalculator(cape.users);
 
-    console.log(`Using cape: ${cape.src}`)
+    console.log(`Using cape: ${cape.src}`);
 
     this.skinViewer = new skinview3d.FXAASkinViewer({
         canvas: document.getElementById("skin_container"),
         width: 400,
         height: 362,
-        skin: usedSkin,
+        skin: usedSkin.url,
         cape: cape.src
     });
 
-    this.skinViewer.loadCape("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgBAMAAABQs2O3AAAAKlBMVEUAAABOTk6NjY2Hh4d7e3tzc3NsbGxZWVlKSkpVVVVoaGiEhIR/f39jY2OSVXT6AAAAAXRSTlMAQObYZgAAAKdJREFUOMtjQAOMgsbGxgz4gCADISDYKCiIX0GHoKAAPgWMQAWClClobBQsx69AYnp5Ah4FnB2SM2vxKphZXj5rAR4F7NOnl6cFYJU6AKHm3kpLC8anYFXaslRnrAoMYAqyQp3xmbA01MUlGqsCBQgV4uri4oRPAatLaIgRVgUboApCXHx24zOBx8ZYSQmfAgYj603YFQTAFChpG+NVwGwEtGIUUBsAADaTIwwcJYk6AAAAAElFTkSuQmCC");
+    if (usedSkin.player) {
+        fetch(`https://api.ashcon.app/mojang/v2/user/${usedSkin.player}`).then(response => response.json()).then(json => {
+            let skinType = "classic";
+            if (json.textures.slim) skinType = "slim";
+            this.skinViewer.loadSkin(usedSkin.url, skinType)
+        })
+    }
 
     let control = skinview3d.createOrbitControls(this.skinViewer);
     control.enableRotate = true;
@@ -293,11 +346,20 @@ function textureURL(hash) {
 
 
 
-const skinCalculator = (users) => {
-    if (users) {
-        if (users.length == 1) {
-            return `https://www.mc-heads.net/skin/${users[0]}`;
-        }
+const skinCalculator = users => {
+    if (users.length == 1) {
+        return {
+            url: `https://www.mc-heads.net/skin/${users[0]}`,
+            player: users[0]
+        };
+    } else if (users.skin && users.amount == 1) {
+        return {
+            url: `https://www.mc-heads.net/skin/${users.skin}`,
+            player: users.skin
+        };
     }
-    return "https://texture.namemc.com/12/b9/12b92a9206470fe2.png";
+
+    return {
+        url: "https://texture.namemc.com/12/b9/12b92a9206470fe2.png"
+    };
 }
