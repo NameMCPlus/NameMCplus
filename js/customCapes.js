@@ -181,7 +181,7 @@ function createCapeCard(capes, title, callback = console.log("Successfully made 
 
   // Render capes
   capes.forEach(cape => {
-    createCape(cape.src, cardDiv.querySelector("div.card-body.text-center"), cape.name, cape.description, cape.redirect ? ? capes[i])
+    createCape(cape.src, cardDiv.querySelector("div.card-body.text-center"), cape.name, cape.description, cape.redirect ?? capes[i])
   })
 
   // Remove cape selected glow
