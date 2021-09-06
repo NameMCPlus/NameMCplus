@@ -7,6 +7,7 @@ class Setting {
 }
 
 const options = [
+  // main options
   new Setting("otherCapes", document.getElementById("othercapesbutton"), true),
   new Setting("accountTypes", document.getElementById("acctypebutton"), true),
   new Setting("creationDates", document.getElementById("creationbutton"), true),
@@ -16,8 +17,10 @@ const options = [
   new Setting("hideSeparation", document.getElementById("hideseparationbutton"), false),
   new Setting("mcusername", document.getElementById("mcusernamebutton"), false),
 
-  new Setting("labymod", document.getElementById("labymodbutton"), true),
+  // more capes options
+  new Setting("mantle", document.getElementById("mantlebutton"), true),
   new Setting("cloaksplus", document.getElementById("cloaksplusbutton"), true),
+  new Setting("labymod", document.getElementById("labymodbutton"), true),
   new Setting("capesmod", document.getElementById("capesmodbutton"), true)
 ]
 
