@@ -74,8 +74,8 @@ const capes = fetch(customCapesURL)
         
         if (location.href.includes("namemc.com/cape/")) {
             const capeInfoURL = chrome.runtime.getURL("../json/capeInfo.json")
-            fetch(capeInfoURL).then(response => response.json()).then(capeJson => {
-                const capeHash = location.href.split("https://namemc.com/cape/")[1];
+            fetch(capeInfoURL).then(response => response.json()).then(async capeJson => {
+                const capeHash = location.href.split("namemc.com/cape/")[1];
 
                 const descriptionCard = document.createElement("div");
                 descriptionCard.className = "card mb-3";
@@ -89,6 +89,11 @@ const capes = fetch(customCapesURL)
                         </div>
                     </div>
                 `;
+
+                /* const lengthText = document.getElementsByClassName("position-absolute bottom-0 right-0 m-1 text-muted")[0].innerHTML.substr(1);
+                const capeInfo = new CapeTemplate(textureURL(capeHash), parseInt(lengthText), "Cape");
+                createSkinViewer(document.getElementsByClassName("skin-3d")[0].parentElement.parentElement, capeInfo);
+                document.getElementsByClassName("skin-3d")[0].parentElement.remove(); */
 
                 const insertBeforeDiv = document.getElementsByClassName("card-body player-list py-2")[0].parentElement.parentElement.parentElement.parentElement.childNodes[0];
                 insertBeforeDiv.appendChild(descriptionCard);
@@ -194,7 +199,7 @@ async function loadCapeInfo(cape, type) {
 
 
 
-function createSkinViewer(parent, cape) {
+async function createSkinViewer(parent, cape) {
     // Skin
     let featureDiv = document.createElement("div");
     featureDiv.id = "skinviewer";
@@ -202,7 +207,7 @@ function createSkinViewer(parent, cape) {
 
     // User count
     featureDiv.innerHTML += `
-        <h5 id="skinViewerDiv" class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length}</h5>
+        <h5 id="skinViewerDiv" class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length ?? cape.users}</h5>
     `;
 
     // Add a button for animation
@@ -247,11 +252,15 @@ function createSkinViewer(parent, cape) {
     //Insert the div
     parent.appendChild(featureDiv);
 
+    const usedSkin = skinCalculator(cape.users);
+
+    console.log(`Using cape: ${cape.src}`)
+
     this.skinViewer = new skinview3d.FXAASkinViewer({
         canvas: document.getElementById("skin_container"),
-        width: 375,
-        height: 500,
-        skin: cape.users.length == 1 ? `https://www.mc-heads.net/skin/${cape.users[0]}` : "https://texture.namemc.com/12/b9/12b92a9206470fe2.png",
+        width: 400,
+        height: 362,
+        skin: usedSkin,
         cape: cape.src
     });
 
@@ -279,4 +288,15 @@ function createSkinViewer(parent, cape) {
 
 function textureURL(hash) {
     return 'https://texture.namemc.com/' + hash[0] + hash[1] + '/' + hash[2] + hash[3] + '/' + hash + '.png';
+}
+
+
+
+const skinCalculator = (users) => {
+    if (users) {
+        if (users.length == 1) {
+            return `https://www.mc-heads.net/skin/${users[0]}`;
+        }
+    }
+    return "https://texture.namemc.com/12/b9/12b92a9206470fe2.png";
 }
