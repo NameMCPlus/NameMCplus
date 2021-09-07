@@ -34,7 +34,7 @@ const tempCapes = {
         "image": "https://m6.wtf/assets/earlySupporter.png"
     },
     "Developer": {
-        "description": "Given out to developers of NameMC+",
+        "description": "Given to developers of NameMC+",
         "users": [
             "88e152f3e54546818cec3e8f85175902",
             "4a66d3d87eed42e6a479e4139e9041ee",
@@ -43,8 +43,18 @@ const tempCapes = {
         "src": "https://m6.wtf/assets/nmcp.png",
         "image": "https://m6.wtf/assets/nmcpPreview.png"
     },
+    "88": {
+        "description": "Given out to the 88 team for helping develop NameMC+",
+        "users": [
+            "b3d0b85c9daf43d387f72696bdb618a1",
+            "f0d9de88bbb54c9eae429cd8fbd693ab",
+            "c7b3d49c580c4af2a824ca07b37ff2f9"
+        ],
+        "src": "https://m6.wtf/assets/88_cape.png",
+        "image": "https://m6.wtf/assets/88_cape.png"
+    },
     "Marc": {
-        "description": "Given out to Marc, for having the most capes in Minecraft",
+        "description": "Given to Marc for having the most capes in Minecraft",
         "users": ["b05881186e75410db2db4d3066b223f7"],
         "src": "https://m6.wtf/assets/b05881186e75410db2db4d3066b223f7.png",
         "image": "https://m6.wtf/assets/marcCapePreview.png"
