@@ -25,7 +25,7 @@ Support for other browsers will come in the future!
 
 # Installation
 
-1. Press __Code__ then __Download Zip__
+1. [Download](https://github.com/NameMCPlus/NameMCplus/archive/refs/heads/main.zip) the extension
 2. Extract the .zip file
 3. Go to chrome://extensions
 4. Enable __Developer Mode__ then select __Load Unpacked Extension__
