@@ -1,72 +1,3 @@
-const tempCapes = {
-    "Early Supporter": {
-        "description": "Given to users who joined the Discord before version 1.2",
-        "users": [
-            "c7b3d49c580c4af2a824ca07b37ff2f9",
-            "96d79830450d453a91262b8384e3da4e", 
-            "786822889dea45d1ae6ec551f11d03c8", 
-            "bc2d6a13d0fb4f0ea4d59dbc081ff654", 
-            "2c3c745f680048758cb8b559de694a73",
-            "3d85ff6e550c41699651a74a12f6cdd7",
-            "41b7ada365944dc48720188d455a7221",
-            "2ce90d65f2534e3c8e4b3d5fb1e4c927",
-            "4a66d3d87eed42e6a479e4139e9041ee",
-            "88e152f3e54546818cec3e8f85175902",
-            "3e21b6f1fa434d07bccd02e99dbc5bba",
-            "ac22e8ae452849708df98817a26e1bf9",
-            "d3e02fcc33f24a248ecf3ee16d0c48e0",
-            "b809e9a5317743e4bd0d9a1f50e6c21f",
-            "ba1ed947275c474abba9759c937367e0",
-            "b7b695aeef734469aafb585b9fef128c",
-            "e1afe16824fe4ea1bcf324913ce80d36",
-            "c0a170336f5344928987eaa147317202",
-            "ccce8cf3e2c141debf36db62305e4abc",
-            "43e6a8cdd3d547999dc1d86b06843190",
-            "1c7b9da0cfe9420f9d537b7107555ca4",
-            "0bb0b6e0b9e94f559e229e94e032ab04",
-            "de2b50e6d6804db8b8cd44373b84d045",
-            "44c045088f494a1fb5e79fae387462f4",
-            "6f38e1e361b94dbea9e9a52a81ee538c",
-            "077ad796a6194c3ba629ea1192e45e7c",
-            "20f05082845048419fe4a36aa89249c1"
-        ],
-        "src": "https://m6.wtf/assets/earlySupporter.png",
-        "image": "https://m6.wtf/assets/earlySupporter.png"
-    },
-    "Developer": {
-        "description": "Given to developers of NameMC+",
-        "users": [
-            "88e152f3e54546818cec3e8f85175902",
-            "4a66d3d87eed42e6a479e4139e9041ee",
-            "5787ba858ec44acc8f670e651dc5301d"
-        ],
-        "src": "https://m6.wtf/assets/nmcp.png",
-        "image": "https://m6.wtf/assets/nmcpPreview.png"
-    },
-    "88": {
-        "description": "Given out to the 88 team for helping develop NameMC+",
-        "users": [
-            "b3d0b85c9daf43d387f72696bdb618a1",
-            "f0d9de88bbb54c9eae429cd8fbd693ab",
-            "c7b3d49c580c4af2a824ca07b37ff2f9"
-        ],
-        "src": "https://m6.wtf/assets/88_cape.png",
-        "image": "https://m6.wtf/assets/88_cape.png"
-    },
-    "Marc": {
-        "description": "Given to Marc for having the most capes in Minecraft",
-        "users": ["b05881186e75410db2db4d3066b223f7"],
-        "src": "https://m6.wtf/assets/b05881186e75410db2db4d3066b223f7.png",
-        "image": "https://m6.wtf/assets/marcCapePreview.png"
-    },
-    "xinabox": {
-        "description": "Given out to xinabox, a huge influence on the OG community",
-        "users": ["935e160c0a9d49e5a1ef2ccd1d54ff7d"],
-        "src": "https://m6.wtf/assets/935e160c0a9d49e5a1ef2ccd1d54ff7d.png",
-        "image": "https://m6.wtf/assets/xinacape.png"
-    },
-}
-
 class CapeTemplate {
     /**
      * 
@@ -86,19 +17,24 @@ class CapeTemplate {
     }
 }
 
-const customCapesURL = chrome.runtime.getURL('../json/customCapes.json');
-const capes = fetch(customCapesURL)
-    .then((response) => response.json())
-    .then((json) => {
+const capes = fetch("https://api.namemc.plus/capes")
+    .then(response => response.json())
+    .then(json => {
         console.log(`Address: ${location.href}`)
         if (location.href == "https://namemc.com/capes") {
-            loadCapes(tempCapes, "NameMC+ Capes", "nmcp-cape")
-            loadCapes(json, "Custom Capes", "custom-cape");
+
+            loadCapes(json, "NameMC+ Capes", "nmcp-cape");
+            const urlJSON = chrome.runtime.getURL('../json/customCapes.json');
+            fetch(urlJSON).then(response => response.json()).then(customCapes => {
+                loadCapes(customCapes, "Custom Capes", "custom-cape");
+            })
+
         }
 
         if (location.href.includes("namemc.com/nmcp-cape/")) {
+
             let displayCape = null;
-            Object.entries(tempCapes).forEach(obj => {
+            Object.entries(json).forEach(obj => {
                 if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/nmcp-cape/")[1]) {
                     displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
                 }
@@ -106,18 +42,24 @@ const capes = fetch(customCapesURL)
             if (displayCape == null) return;
             document.querySelector("main > div").remove();
             loadCapeInfo(displayCape, "NameMC+ Cape");
+
         }
         
         if (location.href.includes("namemc.com/custom-cape/")) {
+
             let displayCape = null;
-            Object.entries(json).forEach(obj => {
-                if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/custom-cape/")[1]) {
-                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description);
-                }
+            const urlJSON = chrome.runtime.getURL('../json/customCapes.json');
+            fetch(urlJSON).then(response => response.json()).then(customCapes => {
+                Object.entries(customCapes).forEach(obj => {
+                    if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/custom-cape/")[1]) {
+                        displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description);
+                    }
+                })
+                if (displayCape == null) return;
+                document.querySelector("main > div").remove();
+                loadCapeInfo(displayCape, "Custom Cape");
             })
-            if (displayCape == null) return;
-            document.querySelector("main > div").remove();
-            loadCapeInfo(displayCape, "Custom Cape");
+
         }
         
         if (location.href.includes("namemc.com/cape/")) {
