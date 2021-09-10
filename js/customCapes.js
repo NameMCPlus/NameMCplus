@@ -47,16 +47,15 @@ function createNMCPCapeCard(db) {
   createCapeEvents();
 
   const capes = [];
-  Object.entries(db).forEach(obj => {
-    if (obj[1].users.includes(profileUuid)) {
-      capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, "https://namemc.com/nmcp-cape/" + obj[0].toLowerCase().replace(" ", "-")))
+  fetch("https://api.namemc.plus/capes/" + profileUuid).then(response => response.json()).then(json => {
+    json.forEach(cape => {
+      capes.push(new CapeTemplate(db[cape].src, db[cape].users, cape, db[cape].description, "https://namemc.com/nmcp-cape/" + cape.toLowerCase().replace(" ", "-")))
+    })
+    if (Object.keys(capes).length > 0) {
+      return createCapeCard(capes, "NameMC+ Capes", createJSONCapeCard, true, null)
     }
+    createJSONCapeCard();
   })
-
-  if (Object.keys(capes).length > 0) {
-    return createCapeCard(capes, "NameMC+ Capes", createJSONCapeCard, true, null)
-  }
-  createJSONCapeCard();
 }
 
 
