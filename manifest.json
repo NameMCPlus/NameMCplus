@@ -82,6 +82,7 @@
         "https://*.namemc.com/nmcp-cape/*",
         "https://*.namemc.com/custom-cape/*"
       ],
+      "run_at": "document_start",
       "js": [
         "js/skinview3d.bundle.js",
         "js/capesPage.js"

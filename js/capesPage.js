@@ -24,12 +24,17 @@ const capes = fetch("https://api.namemc.plus/capes")
         if (location.href == "https://namemc.com/capes") {
 
             loadCapes(json, "NameMC+ Capes", "nmcp-cape");
+
             const urlJSON = chrome.runtime.getURL('../json/customCapes.json');
             fetch(urlJSON).then(response => response.json()).then(customCapes => {
                 loadCapes(customCapes, "Custom Capes", "custom-cape");
             })
 
-        }
+            fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
+                loadCapes(SpecialOptifine, "Special Optifine Capes", "optifine-cape");
+            })
+
+            }
 
         if (location.href.includes("namemc.com/nmcp-cape/")) {
 
@@ -61,6 +66,21 @@ const capes = fetch("https://api.namemc.plus/capes")
             })
 
         }
+
+        if (location.href.includes("namemc.com/optifine-cape/")) {
+
+            let displayCape = null;
+            Object.entries(SpecialOptifine).forEach(obj => {
+                if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/optifine-cape/")[1]) {
+                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
+                }
+            })
+            if (displayCape == null) return;
+            document.querySelector("main > div").remove();
+            loadCapeInfo(displayCape, "Optifine Cape");
+
+        }
+
         
         if (location.href.includes("namemc.com/cape/")) {
             const capeInfoURL = chrome.runtime.getURL("../json/capeInfo.json")
@@ -99,7 +119,6 @@ const capes = fetch("https://api.namemc.plus/capes")
             })
         }
     });
-
 
 
 async function loadCapes(json, title, urlPath) {
@@ -141,8 +160,6 @@ async function loadCapes(json, title, urlPath) {
         capesDiv.appendChild(capeDiv);
     }
 }
-
-
 
 /**
  * 
@@ -196,8 +213,6 @@ async function loadCapeInfo(cape, type) {
         })
     })
 }
-
-
 
 async function createSkinViewer(parent, cape) {
     // Skin
