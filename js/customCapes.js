@@ -47,15 +47,16 @@ function createNMCPCapeCard(db) {
   createCapeEvents();
 
   const capes = [];
-  fetch("https://api.namemc.plus/capes/" + profileUuid).then(response => response.json()).then(json => {
-    json.forEach(cape => {
-      capes.push(new CapeTemplate(db[cape].src, db[cape].users, cape, db[cape].description, "https://namemc.com/nmcp-cape/" + cape.toLowerCase().replace(" ", "-")))
-    })
-    if (Object.keys(capes).length > 0) {
-      return createCapeCard(capes, "NameMC+ Capes", createJSONCapeCard, true, null)
+  Object.entries(db).forEach(obj => {
+    if (obj[1].users.includes(profileUuid)) {
+      capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, "https://namemc.com/nmcp-cape/" + obj[0].toLowerCase().replace(" ", "-")))
     }
-    createJSONCapeCard();
   })
+
+  if (Object.keys(capes).length > 0) {
+    return createCapeCard(capes, "NameMC+ Capes", createJSONCapeCard, true, null)
+  }
+  createJSONCapeCard();
 }
 
 
@@ -107,9 +108,10 @@ function createThirdPartyCapeCard(_) {
     }
 
     if (result.capesmod) {
+      var timenow = Date.now();
       capes.push({
         "name": "MinecraftCapes",
-        "url": "https://minecraftcapes.net/profile/{uuid}/cape"
+        "url": "https://minecraftcapes.net/profile/{uuid}/cape/map?{timenow}"
       })
     }
 
@@ -206,6 +208,17 @@ function createCape(src, parentElement, name = "", description = "", redirect = 
     if (capeImage.src != src) capeImage.src = src;
     const localCapeScale = capeScale(capeImage.height)
     ctx.drawImage(capeImage, localCapeScale, localCapeScale, 10 * localCapeScale, 16 * localCapeScale, 0, 0, capeCanvas.width, capeCanvas.height)
+    capescale = capeImage.width / 64;
+    let frame = 0;
+        let doAnimation = setInterval(function() {
+            const offset = (frame * (capeImage.width / 2))
+            ctx.drawImage(capeImage, 1 * capescale, offset + (1 * capescale), 10 * capescale, 16 * capescale, 0, 0, capeCanvas.width, capeCanvas.height)
+            frame = frame + 1 > (capeImage.height / (capeImage.width / 2)) - 1 ? 0 : frame + 1;
+        }, 110);
+
+        if(capeImage.height == capeImage.width / 2) {
+            clearInterval(doAnimation);
+        }
     createCapeEvents();
   }
 
