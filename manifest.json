@@ -80,7 +80,8 @@
       "matches": [
         "https://*.namemc.com/cape*",
         "https://*.namemc.com/nmcp-cape/*",
-        "https://*.namemc.com/custom-cape/*"
+        "https://*.namemc.com/custom-cape/*",
+        "https://*.namemc.com/optifine-cape/*"
       ],
       "run_at": "document_start",
       "js": [
