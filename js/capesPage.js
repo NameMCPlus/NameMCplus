@@ -31,7 +31,7 @@ const capes = fetch("https://api.namemc.plus/capes")
             })
 
             fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
-                loadCapes(SpecialOptifine, "Special Optifine Capes", "optifine-cape");
+                loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
             })
 
             }
@@ -70,14 +70,16 @@ const capes = fetch("https://api.namemc.plus/capes")
         if (location.href.includes("namemc.com/optifine-cape/")) {
 
             let displayCape = null;
-            Object.entries(SpecialOptifine).forEach(obj => {
-                if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/optifine-cape/")[1]) {
-                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
-                }
+            fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
+                Object.entries(SpecialOptifine).forEach(obj => {
+                    if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/optifine-cape/")[1]) {
+                        displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
+                    }
+                })
+                if (displayCape == null) return;
+                document.querySelector("main > div").remove();
+                loadCapeInfo(displayCape, "OptiFine Cape");
             })
-            if (displayCape == null) return;
-            document.querySelector("main > div").remove();
-            loadCapeInfo(displayCape, "Optifine Cape");
 
         }
 
