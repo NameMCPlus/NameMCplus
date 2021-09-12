@@ -1,6 +1,7 @@
 var username = document.querySelector("[name='profile:username']").content;
 var profileUUID = document.querySelector(".card-body .row:nth-child(2) samp").innerText;
 var template = document.createElement("template");
+var htmlForBadges = '';
 
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
@@ -129,19 +130,20 @@ function setStatus(username, profileUUID, badges) {
                   let badgesHTML = "";
                   badges.forEach(badge => {
                     badgesHTML += `
-                        <img width="16" height="16" src="${badge.icon}" data-toggle="tooltip" data-html="true" title="<b>${badge.name}</b><br>${badge.description}">
+                        <img width="28" height="28" style="border-radius: 4px" src="${badge.icon}" data-toggle="tooltip" data-html="true" title="<b>${badge.name}</b><br>${badge.description}">
                     `
                   })
-                  template.innerHTML += `
-                    <div class="row no-gutters">
-                      <div class="col order-lg-1 col-lg-4"><strong>NameMC+ Badges</strong></div>
-                      <div class="col-auto order-lg-3 col-lg-auto text-nowrap text-right">${badgesHTML}</div>
+                  htmlForBadges += `
+                    <div class="row no-gutters align-items-center" style="padding-top: 10px">
+                      <div class="col-auto col-lg-4 pr-3"><strong>NameMC+ Badges</strong></div>
+                      <div class="col text-right text-lg-left">${badgesHTML}</div>
                     </div>`;
                 }
 
                 var viewsElement = document.querySelectorAll(".col-lg-4")[3].parentElement;
                 var accountTypeElement = template.content;
                 viewsElement.parentNode.insertBefore(accountTypeElement, viewsElement.nextSibling);
+                document.querySelector("body > main > div > div.col-md.order-md-2 > div:nth-child(5) > div.card-body.py-1").innerHTML += htmlForBadges;
               });
             });
         });
