@@ -54,27 +54,9 @@ function createNMCPCapeCard(db) {
   })
 
   if (Object.keys(capes).length > 0) {
-    return createCapeCard(capes, "NameMC+ Capes", createJSONCapeCard, true, null)
+    return createCapeCard(capes, "NameMC+ Capes", createThirdPartyCapeCard, true, null)
   }
-  createJSONCapeCard();
-}
-
-
-/* Add custom capes from customCapes.json */
-function createJSONCapeCard(_) {
-  const capeJsonURL = chrome.runtime.getURL('../json/customCapes.json');
-  fetch(capeJsonURL).then(response => response.json()).then(json => {
-    const capes = []
-    Object.entries(json).forEach(obj => {
-      if (obj[1].users.includes(profileUuid)) {
-        capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, `https://namemc.com/custom-cape/${obj[0].toLowerCase().replace(" ", "-")}`));
-      }
-    })
-    if (capes.length > 0) {
-      return createCapeCard(capes, "Custom Capes", createThirdPartyCapeCard)
-    }
-    createThirdPartyCapeCard();
-  })
+  createThirdPartyCapeCard();
 }
 
 

@@ -25,16 +25,11 @@ const capes = fetch("https://api.namemc.plus/capes")
 
             loadCapes(json, "NameMC+ Capes", "nmcp-cape");
 
-            const urlJSON = chrome.runtime.getURL('../json/customCapes.json');
-            fetch(urlJSON).then(response => response.json()).then(customCapes => {
-                loadCapes(customCapes, "Custom Capes", "custom-cape");
-            })
-
             fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
                 loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
             })
 
-            }
+        }
 
         if (location.href.includes("namemc.com/nmcp-cape/")) {
 
