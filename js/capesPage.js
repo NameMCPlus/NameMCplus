@@ -44,23 +44,6 @@ const capes = fetch("https://api.namemc.plus/capes")
             loadCapeInfo(displayCape, "NameMC+ Cape");
 
         }
-        
-        if (location.href.includes("namemc.com/custom-cape/")) {
-
-            let displayCape = null;
-            const urlJSON = chrome.runtime.getURL('../json/customCapes.json');
-            fetch(urlJSON).then(response => response.json()).then(customCapes => {
-                Object.entries(customCapes).forEach(obj => {
-                    if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/custom-cape/")[1]) {
-                        displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description);
-                    }
-                })
-                if (displayCape == null) return;
-                document.querySelector("main > div").remove();
-                loadCapeInfo(displayCape, "Custom Cape");
-            })
-
-        }
 
         if (location.href.includes("namemc.com/optifine-cape/")) {
 
