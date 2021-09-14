@@ -9,6 +9,7 @@ class Setting {
 const options = [
   // main options
   new Setting("otherCapes", document.getElementById("othercapesbutton"), true),
+  new Setting("namemcplusBadges", document.getElementById("badgesbutton"), true),
   new Setting("accountTypes", document.getElementById("acctypebutton"), true),
   new Setting("creationDates", document.getElementById("creationbutton"), true),
   new Setting("blockedNames", document.getElementById("blockedbutton"), true),
@@ -53,5 +54,4 @@ function restoreOptions() {
     })
   });
 }
-
 document.addEventListener('DOMContentLoaded', restoreOptions);

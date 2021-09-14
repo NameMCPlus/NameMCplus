@@ -42,20 +42,24 @@ function removeAccents(invalidName) {
 // Removes Accents from invalids LOL
 username = removeAccents(username);
 
-const url = chrome.runtime.getURL('../json/badges.json');
-
-fetch(url)
-    .then((response) => response.json())
-    .then((json) => {
-        const badges = [];
-        json.badges.forEach(badge => {
-            if (badge.users.includes(profileUUID)) {
-              badges.push(badge);
+chrome.storage.local.get(function (result) {
+  if (result.namemcplusBadges) {
+  fetch(`https://api.namemc.plus/badges/${profileUUID}`)
+      .then((response) => response.json())
+      .then((json) => {
+          const badges = [];
+          for (let [key, name] of Object.entries(json)) {
+            var checkForErrors = JSON.stringify(json);
+            if (checkForErrors.includes("404 Not Found") == false) {
+              badges.push(name)
+              console.log(name)
             }
-        })
-        setStatus(username, profileUUID, badges)
-    });
-
+          }
+          console.log(JSON.stringify(badges))
+          setStatus(username, profileUUID, badges)
+      });
+  }
+});
 function setStatus(username, profileUUID, badges) {
   fetch(`https://api.gapple.pw/cors/username/${username}`)
     .then(response => response.json())

@@ -63,10 +63,9 @@ const capes = fetch("https://api.namemc.plus/capes")
 
         
         if (location.href.includes("namemc.com/cape/")) {
-            const capeInfoURL = chrome.runtime.getURL("../json/capeInfo.json")
-            fetch(capeInfoURL).then(response => response.json()).then(capeJson => {
-                const capeHash = location.href.split("namemc.com/cape/")[1];
-
+            const capeHash = location.href.split("namemc.com/cape/")[1];
+            fetch(`https://api.namemc.plus/capeInfo/${capeHash}`).then(response => response.json()).then(capeJson => {
+                
                 const descriptionCard = document.createElement("div");
                 descriptionCard.className = "card mb-3";
                 descriptionCard.innerHTML = `
@@ -75,7 +74,7 @@ const capes = fetch("https://api.namemc.plus/capes")
                             <strong>Description</strong>
                         </div>
                         <div class="card-body py-2">
-                            ${capeJson.capes[capeHash].description}
+                            ${capeJson.description}
                         </div>
                     </div>
                 `;
