@@ -67,7 +67,7 @@ const capes = fetch("https://api.namemc.plus/capes")
             fetch(`https://api.namemc.plus/capeInfo/${capeHash}`).then(response => response.json()).then(capeJson => {
                 
                 const descriptionCard = document.createElement("div");
-                descriptionCard.className = "card mb-3";
+                descriptionCard.className = "card";
                 descriptionCard.innerHTML = `
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
@@ -158,7 +158,7 @@ async function loadCapeInfo(cape, type) {
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div id="skinViewerDiv" class="card mb-3 card-body position-relative text-center p-0 checkered"></div>
-                <div class="card mb-3">
+                <div class="card">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
                             <strong>Description</strong>
@@ -170,7 +170,7 @@ async function loadCapeInfo(cape, type) {
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card mb-3">
+                <div class="card">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
                             <strong>Profiles (${cape.users.length})</strong>
@@ -197,7 +197,7 @@ async function createSkinViewer(parent, cape) {
     // Skin
     let featureDiv = document.createElement("div");
     featureDiv.id = "skinviewer";
-    featureDiv.className = "card mb-3";
+    featureDiv.className = "card";
 
     // User count
     featureDiv.innerHTML += `
@@ -252,8 +252,8 @@ async function createSkinViewer(parent, cape) {
 
     this.skinViewer = new skinview3d.FXAASkinViewer({
         canvas: document.getElementById("skin_container"),
-        width: 400,
-        height: 362,
+        width: 300,
+        height: 400,
         skin: usedSkin.url,
         cape: cape.src
     });
