@@ -23,10 +23,12 @@ const capes = fetch("https://api.namemc.plus/capes")
         console.log(`Address: ${location.href}`)
         if (location.href == "https://namemc.com/capes") {
 
-            loadCapes(json, "NameMC+ Capes", "nmcp-cape");
-
-            fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
-                loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
+            chrome.storage.local.get(result => {
+                if (!result.capePages) return;
+                loadCapes(json, "NameMC+ Capes", "nmcp-cape");
+                fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
+                    loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
+                })
             })
 
         }

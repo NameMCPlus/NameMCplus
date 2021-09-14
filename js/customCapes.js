@@ -90,10 +90,9 @@ function createThirdPartyCapeCard(_) {
     }
 
     if (result.capesmod) {
-      var timenow = Date.now();
       capes.push({
         "name": "MinecraftCapes",
-        "url": "https://minecraftcapes.net/profile/{uuid}/cape/map?{timenow}"
+        "url": `https://minecraftcapes.net/profile/{uuid}/cape/map?${Date.now()}`
       })
     }
 

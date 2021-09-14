@@ -19,7 +19,8 @@ const options = [
   new Setting("mcusername", document.getElementById("mcusernamebutton"), false),
 
   // more capes options
-  new Setting("mantle", document.getElementById("mantlebutton"), true),
+  new Setting("capePages", document.getElementById("capepagesbutton"), true),
+  // new Setting("mantle", document.getElementById("mantlebutton"), true),
   new Setting("cloaksplus", document.getElementById("cloaksplusbutton"), true),
   new Setting("labymod", document.getElementById("labymodbutton"), true),
   new Setting("capesmod", document.getElementById("capesmodbutton"), true)
