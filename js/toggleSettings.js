@@ -42,7 +42,7 @@ function restoreOptions() {
   chrome.storage.local.get(function (result) {
     options.forEach(option => {
 
-      if (result[option.name] == undefined) {
+      if (typeof result[option.name] == "undefined") {
         option.button.checked = option.defaultOption;
         toggleSetting(option.name, option.defaultOption);
         console.log(`Option ${option.name} didn't exist`)

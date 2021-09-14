@@ -189,17 +189,6 @@ function createCape(src, parentElement, name = "", description = "", redirect = 
     if (capeImage.src != src) capeImage.src = src;
     const localCapeScale = capeScale(capeImage.height)
     ctx.drawImage(capeImage, localCapeScale, localCapeScale, 10 * localCapeScale, 16 * localCapeScale, 0, 0, capeCanvas.width, capeCanvas.height)
-    capescale = capeImage.width / 64;
-    let frame = 0;
-        let doAnimation = setInterval(function() {
-            const offset = (frame * (capeImage.width / 2))
-            ctx.drawImage(capeImage, 1 * capescale, offset + (1 * capescale), 10 * capescale, 16 * capescale, 0, 0, capeCanvas.width, capeCanvas.height)
-            frame = frame + 1 > (capeImage.height / (capeImage.width / 2)) - 1 ? 0 : frame + 1;
-        }, 110);
-
-        if(capeImage.height == capeImage.width / 2) {
-            clearInterval(doAnimation);
-        }
     createCapeEvents();
   }
 
