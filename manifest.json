@@ -92,6 +92,7 @@
   ],
   "permissions": [
     "activeTab",
+    "storage",
     "declarativeContent"
   ],
   "web_accessible_resources": [
