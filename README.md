@@ -1,18 +1,18 @@
 # NameMC+
 A browser extension that adds cool features to NameMC!
 
-[Website](https://namemc.plus) - [API](https://api.namemc.plus) - [Discord](https://discord.gg/ZwxFpPTpjt)
+[Website](https://namemc.plus) - [API](https://api.namemc.plus) - [Discord](https://namemc.plus/discord)
 
 Currently only supports Chromium-based browsers. (Google Chrome, Microsoft Edge, Brave, etc.)
 Support for other browsers will come in the future!
 
 # Features
 
-- [NEW] Adds a button to view the user's [mcuserna.me](https://mcuserna.me) profile
+- [NEW] View all OptiFine special capes
 - Custom Capes
 - Badge System
-- Support for __LabyMod__, __CloaksPlus__, and __MinecraftCapes Mod__
-- Renders user Elytras
+- Support for __[LabyMod](https://labymod.net)__, __[Cloaks+](https://cloaksplus.com)__, and __[MinecraftCapes Mod](https://minecraftcapes.net)__
+- Renders elytras
 - Displays user creation dates (Inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang ([WEB-3367](https://bugs.mojang.com/browse/WEB-3367)) in order for accurate creation dates to return)
 - Shows users' account type (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
 - Detects if a name is blocked
@@ -21,6 +21,7 @@ Support for other browsers will come in the future!
 - Hides the Location card on servers
 - Can revert NameMC's new search page
 - Removes most ads (If you don't want any ads at all, try using [uBlock Origin](https://ublockorigin.com))
+- Adds a button to view the user's [mcuserna.me](https://mcuserna.me) profile
 
 # Installation
 

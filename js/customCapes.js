@@ -38,30 +38,8 @@ String.prototype.addDashes = function () {
 };
 
 
-const tempCapes = {
-  "Developer": {
-    "description": "Given out to developers of NameMC+",
-    "users": ["88e152f3e54546818cec3e8f85175902", "4a66d3d87eed42e6a479e4139e9041ee", "5787ba858ec44acc8f670e651dc5301d"],
-    "src": "https://m6.wtf/assets/nmcp.png",
-    "image": "https://m6.wtf/assets/nmcpPreview.png"
-  },
-  "Marc": {
-    "description": "Given out to Marc, for having the most capes in Minecraft",
-    "users": ["b05881186e75410db2db4d3066b223f7"],
-    "src": "https://m6.wtf/assets/b05881186e75410db2db4d3066b223f7.png",
-    "image": "https://m6.wtf/assets/marcCapePreview.png"
-  },
-  "xinabox": {
-    "description": "Given out to xinabox, a huge influence on the OG community",
-    "users": ["935e160c0a9d49e5a1ef2ccd1d54ff7d"],
-    "src": "https://m6.wtf/assets/935e160c0a9d49e5a1ef2ccd1d54ff7d.png",
-    "image": "https://m6.wtf/assets/xinacape.png"
-  }
-}
-
-
 /* Add NMCP and JSON capes to profile */
-createNMCPCapeCard(tempCapes);
+fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => createNMCPCapeCard(json));
 
 function createNMCPCapeCard(db) {
   createSkinViewer();
@@ -76,27 +54,9 @@ function createNMCPCapeCard(db) {
   })
 
   if (Object.keys(capes).length > 0) {
-    return createCapeCard(capes, "NameMC+ Capes", createJSONCapeCard, true, null)
+    return createCapeCard(capes, "NameMC+ Capes", createThirdPartyCapeCard, true, null)
   }
-  createJSONCapeCard();
-}
-
-
-/* Add custom capes from customCapes.json */
-function createJSONCapeCard(_) {
-  const capeJsonURL = chrome.runtime.getURL('../json/customCapes.json');
-  fetch(capeJsonURL).then(response => response.json()).then(json => {
-    const capes = []
-    Object.entries(json).forEach(obj => {
-      if (obj[1].users.includes(profileUuid)) {
-        capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, `https://namemc.com/custom-cape/${obj[0].toLowerCase().replace(" ", "-")}`));
-      }
-    })
-    if (capes.length > 0) {
-      return createCapeCard(capes, "Custom Capes", createThirdPartyCapeCard)
-    }
-    createThirdPartyCapeCard();
-  })
+  createThirdPartyCapeCard();
 }
 
 
@@ -110,6 +70,10 @@ function createThirdPartyCapeCard(_) {
   chrome.storage.local.get(result => {
     if (!result.otherCapes) return;
     const capes = [];
+
+    if (result.mantle) {
+      // createCapeCard([], "Mantle Capes", console.log("Created Mantle cape card!"), true, "https://mantle.gg");
+    }
 
     if (result.labymod) {
       capes.push({
@@ -128,7 +92,7 @@ function createThirdPartyCapeCard(_) {
     if (result.capesmod) {
       capes.push({
         "name": "MinecraftCapes",
-        "url": "https://minecraftcapes.net/profile/{uuid}/cape"
+        "url": `https://minecraftcapes.net/profile/{uuid}/cape/map?${Date.now()}`
       })
     }
 
@@ -146,7 +110,7 @@ function createThirdPartyCapeCard(_) {
             createCape(capes[i].url, capeDiv, capes[i].name, "", capes[i].url);
             capeCard.style = "";
           }
-        });
+        })
       }
     })
   });
@@ -335,8 +299,6 @@ function createSkinViewer() {
     cape: this.finalCape,
     ears: this.finalEars
   });
-
-  this.skinViewer.loadCape("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgBAMAAABQs2O3AAAAKlBMVEUAAABOTk6NjY2Hh4d7e3tzc3NsbGxZWVlKSkpVVVVoaGiEhIR/f39jY2OSVXT6AAAAAXRSTlMAQObYZgAAAKdJREFUOMtjQAOMgsbGxgz4gCADISDYKCiIX0GHoKAAPgWMQAWClClobBQsx69AYnp5Ah4FnB2SM2vxKphZXj5rAR4F7NOnl6cFYJU6AKHm3kpLC8anYFXaslRnrAoMYAqyQp3xmbA01MUlGqsCBQgV4uri4oRPAatLaIgRVgUboApCXHx24zOBx8ZYSQmfAgYj603YFQTAFChpG+NVwGwEtGIUUBsAADaTIwwcJYk6AAAAAElFTkSuQmCC");
 
   let control = skinview3d.createOrbitControls(this.skinViewer);
   control.enableRotate = true;

@@ -7,7 +7,9 @@ class Setting {
 }
 
 const options = [
+  // main options
   new Setting("otherCapes", document.getElementById("othercapesbutton"), true),
+  new Setting("namemcplusBadges", document.getElementById("badgesbutton"), true),
   new Setting("accountTypes", document.getElementById("acctypebutton"), true),
   new Setting("creationDates", document.getElementById("creationbutton"), true),
   new Setting("blockedNames", document.getElementById("blockedbutton"), true),
@@ -16,8 +18,11 @@ const options = [
   new Setting("hideSeparation", document.getElementById("hideseparationbutton"), false),
   new Setting("mcusername", document.getElementById("mcusernamebutton"), false),
 
-  new Setting("labymod", document.getElementById("labymodbutton"), true),
+  // more capes options
+  new Setting("capePages", document.getElementById("capepagesbutton"), true),
+  // new Setting("mantle", document.getElementById("mantlebutton"), true),
   new Setting("cloaksplus", document.getElementById("cloaksplusbutton"), true),
+  new Setting("labymod", document.getElementById("labymodbutton"), true),
   new Setting("capesmod", document.getElementById("capesmodbutton"), true)
 ]
 
@@ -37,7 +42,7 @@ function restoreOptions() {
   chrome.storage.local.get(function (result) {
     options.forEach(option => {
 
-      if (result[option.name] == undefined) {
+      if (typeof result[option.name] == "undefined") {
         option.button.checked = option.defaultOption;
         toggleSetting(option.name, option.defaultOption);
         console.log(`Option ${option.name} didn't exist`)
@@ -50,5 +55,4 @@ function restoreOptions() {
     })
   });
 }
-
 document.addEventListener('DOMContentLoaded', restoreOptions);

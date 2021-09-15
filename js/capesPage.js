@@ -1,24 +1,3 @@
-const tempCapes = {
-    "Developer": {
-        "description": "Given out to developers of NameMC+",
-        "users": ["88e152f3e54546818cec3e8f85175902", "4a66d3d87eed42e6a479e4139e9041ee", "5787ba858ec44acc8f670e651dc5301d"],
-        "src": "https://m6.wtf/assets/nmcp.png",
-        "image": "https://m6.wtf/assets/nmcpPreview.png"
-    },
-    "Marc": {
-        "description": "Given out to Marc, for having the most capes in Minecraft",
-        "users": ["b05881186e75410db2db4d3066b223f7"],
-        "src": "https://m6.wtf/assets/b05881186e75410db2db4d3066b223f7.png",
-        "image": "https://m6.wtf/assets/marcCapePreview.png"
-    },
-    "xinabox": {
-        "description": "Given out to xinabox, a huge influence on the OG community",
-        "users": ["935e160c0a9d49e5a1ef2ccd1d54ff7d"],
-        "src": "https://m6.wtf/assets/935e160c0a9d49e5a1ef2ccd1d54ff7d.png",
-        "image": "https://m6.wtf/assets/xinacape.png"
-    }
-}
-
 class CapeTemplate {
     /**
      * 
@@ -38,19 +17,26 @@ class CapeTemplate {
     }
 }
 
-const customCapesURL = chrome.runtime.getURL('../json/customCapes.json');
-const capes = fetch(customCapesURL)
-    .then((response) => response.json())
-    .then((json) => {
+const capes = fetch("https://api.namemc.plus/capes")
+    .then(response => response.json())
+    .then(json => {
         console.log(`Address: ${location.href}`)
         if (location.href == "https://namemc.com/capes") {
-            loadCapes(tempCapes, "NameMC+ Capes", "nmcp-cape")
-            loadCapes(json, "Custom Capes", "custom-cape");
+
+            chrome.storage.local.get(result => {
+                if (!result.capePages) return;
+                loadCapes(json, "NameMC+ Capes", "nmcp-cape");
+                fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
+                    loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
+                })
+            })
+
         }
 
         if (location.href.includes("namemc.com/nmcp-cape/")) {
+
             let displayCape = null;
-            Object.entries(tempCapes).forEach(obj => {
+            Object.entries(json).forEach(obj => {
                 if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/nmcp-cape/")[1]) {
                     displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
                 }
@@ -58,49 +44,62 @@ const capes = fetch(customCapesURL)
             if (displayCape == null) return;
             document.querySelector("main > div").remove();
             loadCapeInfo(displayCape, "NameMC+ Cape");
+
         }
-        
-        if (location.href.includes("namemc.com/custom-cape/")) {
+
+        if (location.href.includes("namemc.com/optifine-cape/")) {
+
             let displayCape = null;
-            Object.entries(json).forEach(obj => {
-                if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/custom-cape/")[1]) {
-                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description);
-                }
+            fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
+                Object.entries(SpecialOptifine).forEach(obj => {
+                    if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/optifine-cape/")[1]) {
+                        displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
+                    }
+                })
+                if (displayCape == null) return;
+                document.querySelector("main > div").remove();
+                loadCapeInfo(displayCape, "OptiFine Cape");
             })
-            if (displayCape == null) return;
-            document.querySelector("main > div").remove();
-            loadCapeInfo(displayCape, "Custom Cape");
+
         }
+
         
         if (location.href.includes("namemc.com/cape/")) {
-            const capeInfoURL = chrome.runtime.getURL("../json/capeInfo.json")
-            fetch(capeInfoURL).then(response => response.json()).then(async capeJson => {
-                const capeHash = location.href.split("namemc.com/cape/")[1];
-
+            const capeHash = location.href.split("namemc.com/cape/")[1];
+            fetch(`https://api.namemc.plus/capeInfo/${capeHash}`).then(response => response.json()).then(capeJson => {
+                
                 const descriptionCard = document.createElement("div");
-                descriptionCard.className = "card mb-3";
+                descriptionCard.className = "card";
                 descriptionCard.innerHTML = `
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
                             <strong>Description</strong>
                         </div>
                         <div class="card-body py-2">
-                            ${capeJson.capes[capeHash].description}
+                            ${capeJson.description}
                         </div>
                     </div>
                 `;
 
-                /* const lengthText = document.getElementsByClassName("position-absolute bottom-0 right-0 m-1 text-muted")[0].innerHTML.substr(1);
-                const capeInfo = new CapeTemplate(textureURL(capeHash), parseInt(lengthText), "Cape");
-                createSkinViewer(document.getElementsByClassName("skin-3d")[0].parentElement.parentElement, capeInfo);
-                document.getElementsByClassName("skin-3d")[0].parentElement.remove(); */
+
+                let skin = null;
+                const playerListObjs = document.getElementsByClassName("card-body player-list py-2");
+                if (playerListObjs.length == 1) {
+                    console.log(`Inner text: ${playerListObjs[0].innerHTML.split(">")[1].split("<")[0]}`);
+                    skin = [playerListObjs[0].innerHTML.split(">")[1].split("<")[0]];
+                }
+                const lengthObj = {
+                    skin: skin,
+                    amount: parseInt(document.getElementsByClassName("position-absolute bottom-0 right-0 m-1 text-muted")[0].innerHTML.substr(1))
+                }
+                createSkinViewer(document.getElementsByClassName("skin-3d")[0].parentElement.parentElement, new CapeTemplate(textureURL(capeHash), lengthObj, "Cape"));
+                document.getElementsByClassName("skin-3d")[0].parentElement.remove();
 
                 const insertBeforeDiv = document.getElementsByClassName("card-body player-list py-2")[0].parentElement.parentElement.parentElement.parentElement.childNodes[0];
                 insertBeforeDiv.appendChild(descriptionCard);
             })
         }
     });
-
 
 
 async function loadCapes(json, title, urlPath) {
@@ -143,8 +142,6 @@ async function loadCapes(json, title, urlPath) {
     }
 }
 
-
-
 /**
  * 
  * @param {CapeTemplate} cape 
@@ -163,7 +160,7 @@ async function loadCapeInfo(cape, type) {
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div id="skinViewerDiv" class="card mb-3 card-body position-relative text-center p-0 checkered"></div>
-                <div class="card mb-3">
+                <div class="card">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
                             <strong>Description</strong>
@@ -175,7 +172,7 @@ async function loadCapeInfo(cape, type) {
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card mb-3">
+                <div class="card">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
                             <strong>Profiles (${cape.users.length})</strong>
@@ -198,17 +195,15 @@ async function loadCapeInfo(cape, type) {
     })
 }
 
-
-
 async function createSkinViewer(parent, cape) {
     // Skin
     let featureDiv = document.createElement("div");
     featureDiv.id = "skinviewer";
-    featureDiv.className = "card mb-3";
+    featureDiv.className = "card";
 
     // User count
     featureDiv.innerHTML += `
-        <h5 id="skinViewerDiv" class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length ?? cape.users}</h5>
+        <h5 id="skinViewerDiv" class="position-absolute bottom-0 right-0 m-1 text-muted">★${cape.users.length ?? cape.users.amount}</h5>
     `;
 
     // Add a button for animation
@@ -255,17 +250,23 @@ async function createSkinViewer(parent, cape) {
 
     const usedSkin = skinCalculator(cape.users);
 
-    console.log(`Using cape: ${cape.src}`)
+    console.log(`Using cape: ${cape.src}`);
 
     this.skinViewer = new skinview3d.FXAASkinViewer({
         canvas: document.getElementById("skin_container"),
-        width: 400,
-        height: 362,
-        skin: usedSkin,
+        width: 300,
+        height: 400,
+        skin: usedSkin.url,
         cape: cape.src
     });
 
-    this.skinViewer.loadCape("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAgBAMAAABQs2O3AAAAKlBMVEUAAABOTk6NjY2Hh4d7e3tzc3NsbGxZWVlKSkpVVVVoaGiEhIR/f39jY2OSVXT6AAAAAXRSTlMAQObYZgAAAKdJREFUOMtjQAOMgsbGxgz4gCADISDYKCiIX0GHoKAAPgWMQAWClClobBQsx69AYnp5Ah4FnB2SM2vxKphZXj5rAR4F7NOnl6cFYJU6AKHm3kpLC8anYFXaslRnrAoMYAqyQp3xmbA01MUlGqsCBQgV4uri4oRPAatLaIgRVgUboApCXHx24zOBx8ZYSQmfAgYj603YFQTAFChpG+NVwGwEtGIUUBsAADaTIwwcJYk6AAAAAElFTkSuQmCC");
+    if (usedSkin.player) {
+        fetch(`https://api.ashcon.app/mojang/v2/user/${usedSkin.player}`).then(response => response.json()).then(json => {
+            let skinType = "classic";
+            if (json.textures.slim) skinType = "slim";
+            this.skinViewer.loadSkin(usedSkin.url, skinType)
+        })
+    }
 
     let control = skinview3d.createOrbitControls(this.skinViewer);
     control.enableRotate = true;
@@ -293,11 +294,20 @@ function textureURL(hash) {
 
 
 
-const skinCalculator = (users) => {
-    if (users) {
-        if (users.length == 1) {
-            return `https://www.mc-heads.net/skin/${users[0]}`;
-        }
+const skinCalculator = users => {
+    if (users.length == 1) {
+        return {
+            url: `https://www.mc-heads.net/skin/${users[0]}`,
+            player: users[0]
+        };
+    } else if (users.skin && users.amount == 1) {
+        return {
+            url: `https://www.mc-heads.net/skin/${users.skin}`,
+            player: users.skin
+        };
     }
-    return "https://texture.namemc.com/12/b9/12b92a9206470fe2.png";
+
+    return {
+        url: "https://texture.namemc.com/12/b9/12b92a9206470fe2.png"
+    };
 }
