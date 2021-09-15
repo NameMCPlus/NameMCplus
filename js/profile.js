@@ -2,6 +2,16 @@ var username = document.querySelector("[name='profile:username']").content;
 var profileUUID = document.querySelector(".card-body .row:nth-child(2) samp").innerText;
 var template = document.createElement("template");
 var htmlForBadges = '';
+delta = 5;
+var g = document.querySelector("#header").innerHTML;
+//alert('var g is equal to || ' + g)
+var q = g.includes("namemc-rank namemc-rank-10\" translate=");
+alert('var q is equal to || ' + q)
+if (q == true){
+  delta = 3;
+}
+
+console.log('var delta is equal to || ' + delta)
 
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
@@ -147,7 +157,11 @@ function setStatus(username, profileUUID, badges) {
                 var viewsElement = document.querySelectorAll(".col-lg-4")[3].parentElement;
                 var accountTypeElement = template.content;
                 viewsElement.parentNode.insertBefore(accountTypeElement, viewsElement.nextSibling);
-                document.querySelector("body > main > div > div.col-md.order-md-2 > div:nth-child(5) > div.card-body.py-1").innerHTML += htmlForBadges;
+
+                //document.querySelector("body > main > div > div.col-md.order-md-2 > div:nth-child(5) > div.card-body.py-1").innerHTML += htmlForBadges;
+
+                document.querySelector(`body > main > div > div.col-md.order-md-2 > div:nth-child(${delta}) > div.card-body.py-1`).innerHTML += htmlForBadges;
+                console.log('var delta is equal to || ' + delta)
               });
             });
         });
