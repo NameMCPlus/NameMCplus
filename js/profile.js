@@ -141,7 +141,7 @@ function setStatus(username, profileUUID, badges) {
                   let badgesHTML = "";
                   badges.forEach(badge => {
                     badgesHTML += `
-                        <img width="28" height="28" style="border-radius: 4px" src="${badge.icon}" data-toggle="tooltip" data-html="true" title="<b>${badge.name}</b><br>${badge.description}">
+                        <img width="28" height="28" style="border-radius: 4px; image-rendering: pixelated" src="${badge.icon}" data-toggle="tooltip" data-html="true" title="<b>${badge.name}</b><br>${badge.description}">
                     `
                   })
                   htmlForBadges += `
