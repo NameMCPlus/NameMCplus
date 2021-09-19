@@ -5,7 +5,7 @@ var htmlForBadges = '';
 delta = 5;
 var g = document.querySelector("#header").innerHTML;
 var q = g.includes("namemc-rank namemc-rank-10\" translate=");
-if (q == true){
+if (q == true) {
   delta = 3;
 }
 
@@ -21,14 +21,14 @@ chrome.storage.local.get(function (result) {
       document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4)").remove();
     } else {
       var s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1").innerHTML;
-        if (s.includes("Separation")) {
-          document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
-        }
+      if (s.includes("Separation")) {
+        document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
+      }
 
-    var s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1").innerHTML;
-        if (s.includes("Separation")) {
-          document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
-        }
+      var s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1").innerHTML;
+      if (s.includes("Separation")) {
+        document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
+      }
 
     }
   }
@@ -50,22 +50,23 @@ username = removeAccents(username);
 
 chrome.storage.local.get(function (result) {
   if (result.namemcplusBadges) {
-  fetch(`https://api.namemc.plus/badges/${profileUUID}`)
+    fetch(`https://api.namemc.plus/badges/${profileUUID}`)
       .then((response) => response.json())
       .then((json) => {
-          const badges = [];
-          for (let [key, name] of Object.entries(json)) {
-            var checkForErrors = JSON.stringify(json);
-            if (checkForErrors.includes("404 Not Found") == false) {
-              badges.push(name)
-              console.log(name)
-            }
+        const badges = [];
+        for (let [key, name] of Object.entries(json)) {
+          var checkForErrors = JSON.stringify(json);
+          if (checkForErrors.includes("404 Not Found") == false) {
+            badges.push(name)
+            console.log(name)
           }
-          console.log(JSON.stringify(badges))
-          setStatus(username, profileUUID, badges)
+        }
+        console.log(JSON.stringify(badges))
+        setStatus(username, profileUUID, badges)
       });
   }
 });
+
 function setStatus(username, profileUUID, badges) {
   fetch(`https://api.gapple.pw/cors/username/${username}`)
     .then(response => response.json())
@@ -154,6 +155,21 @@ function setStatus(username, profileUUID, badges) {
                 var accountTypeElement = template.content;
                 viewsElement.parentNode.insertBefore(accountTypeElement, viewsElement.nextSibling);
                 document.querySelector(`body > main > div > div.col-md.order-md-2 > div:nth-child(${delta}) > div.card-body.py-1`).innerHTML += htmlForBadges;
+
+                function discordPopoverRemover() {
+                  var popover = document.querySelector(".popover.show");
+                  try {
+                    if (popover.classList[popover.classList.length - 1] !== "show") {
+                      popover.remove();
+                    }
+                  } catch {}
+                }
+                discordPopoverRemover()
+                $('[data-toggle="popover"]').popover();
+                var discordBtn = document.querySelector('[data-toggle="popover"]');
+                discordBtn.onclick = function () {
+                  discordPopoverRemover()
+                };
               });
             });
         });
@@ -170,6 +186,6 @@ function addMCUNButton() {
   button.classList = "btn btn-sm text-nowrap btn-success";
 
   parentDiv.appendChild(button);
-  const masterDiv = document.getElementsByClassName("row justify-content-end")[0];
-  masterDiv.insertBefore(parentDiv, masterDiv.firstElementChild);
+  const bigUsername = document.querySelector("div.col-auto h1");
+  bigUsername.innerHTML += " " + parentDiv.outerHTML;
 }
