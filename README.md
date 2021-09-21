@@ -35,7 +35,7 @@ Support for other browsers will come in the future!
 # The Basics
 
 - Most features can be toggled from the extension's pop-up menu
-- Some special __capes__ and __badges__ are given out by the developers. Join the [Discord](https://discord.gg/ZwxFpPTpjt) to be alerted when you can earn one!
+- Some special __capes__ and __badges__ are given out for donating to NameMC+ or by the developers themselves. Join the [Discord](https://discord.gg/ZwxFpPTpjt) to be alerted when you can earn one!
 - You can view a user's elytra by going to their skinview and pressing the "Show Elytra" button in the top right corner
 - If you hover over the account type, it's more specific (Migrated from Mojang, Newly Created (Microsoft), etc.)
 - Visiting a cape page will show you a description of how/why the cape was given out
