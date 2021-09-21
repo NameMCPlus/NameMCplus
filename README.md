@@ -8,7 +8,7 @@ Support for other browsers will come in the future!
 
 # Features
 
-- [NEW] View all OptiFine special capes
+- [NEW!] View all OptiFine special capes
 - Custom Capes
 - Badge System
 - Support for __[LabyMod](https://labymod.net)__, __[Cloaks+](https://cloaksplus.com)__, and __[MinecraftCapes Mod](https://minecraftcapes.net)__
