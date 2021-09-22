@@ -110,7 +110,6 @@ function setStatus(username, profileUUID, badges) {
                     tooltip = "Unmigrated (2009 - Late 2012)";
                     break;
                 }
-
                 if (profileUUID == "cc7ba16bb2c540fca18eb87b6949270e") { // homara- breaks the API lol)
                   accountType = "Legacy";
                   tooltip = "Unmigrated (2009 - Late 2012)";
@@ -156,20 +155,22 @@ function setStatus(username, profileUUID, badges) {
                 viewsElement.parentNode.insertBefore(accountTypeElement, viewsElement.nextSibling);
                 document.querySelector(`body > main > div > div.col-md.order-md-2 > div:nth-child(${delta}) > div.card-body.py-1`).innerHTML += htmlForBadges;
 
-                function discordPopoverRemover() {
-                  var popover = document.querySelector(".popover.show");
-                  try {
-                    if (popover.classList[popover.classList.length - 1] !== "show") {
-                      popover.remove();
-                    }
-                  } catch {}
-                }
-                discordPopoverRemover()
-                $('[data-toggle="popover"]').popover();
                 var discordBtn = document.querySelector('[data-toggle="popover"]');
-                discordBtn.onclick = function () {
-                  discordPopoverRemover()
-                };
+                if (discordBtn) {
+                  function discordPopoverRemover() {
+                    var popovers = document.querySelectorAll(".popover.show");
+                    try {
+                      if (popovers[1] || popovers[0].style.willChange.includes("top,")) {
+                        popovers[0].remove();
+                      }
+                    } catch {}
+                  }
+                  $('[data-toggle="popover"]').popover();
+                  discordPopoverRemover();
+                  discordBtn.onclick = function () {
+                    discordPopoverRemover();
+                  };
+                }
               });
             });
         });
