@@ -69,7 +69,7 @@ const capes = fetch("https://api.namemc.plus/capes")
             fetch(`https://api.namemc.plus/capeInfo/${capeHash}`).then(response => response.json()).then(capeJson => {
                 
                 const descriptionCard = document.createElement("div");
-                descriptionCard.className = "card";
+                descriptionCard.className = "card mb-3";
                 descriptionCard.innerHTML = `
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
@@ -160,7 +160,7 @@ async function loadCapeInfo(cape, type) {
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div id="skinViewerDiv" class="card mb-3 card-body position-relative text-center p-0 checkered"></div>
-                <div class="card">
+                <div class="card mb-3">
                     <div class="d-flex flex-column" style="max-height: 25rem">
                         <div class="card-header py-1">
                             <strong>Description</strong>
