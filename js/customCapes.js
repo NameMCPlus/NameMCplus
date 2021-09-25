@@ -280,12 +280,15 @@ function createSkinViewer() {
 
   // Add the canvas
   let featureCanvas = document.createElement("canvas");
-  featureCanvas.id = "skin_container"
+  featureCanvas.id = "skin_container";
   featureBody.appendChild(featureCanvas);
 
   //Get skin
-  let skinHash = $(".skin-3d").attr("data-skin-hash")
+  let skinHash = $(".skin-3d").attr("data-skin-hash");
   let skinUrl = textureURL(skinHash);
+
+  //Get skin model
+  let skinModel = $(".skin-3d").attr("data-model");
 
   //Insert the div
   let profileLeft = document.querySelectorAll(".order-md-1 > .card.mb-3")[1]
@@ -296,6 +299,7 @@ function createSkinViewer() {
     width: 270,
     height: 330,
     skin: skinUrl,
+    model: skinModel,
     cape: this.finalCape,
     ears: this.finalEars
   });
