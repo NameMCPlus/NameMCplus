@@ -311,7 +311,13 @@ function createSkinViewer() {
   this.skinViewer.camera.position.set(0, 10, 50);
   control.update();
 
-  this.skinViewer.playerObject.rotation.y = 6.75
+  if (username == "Dinnerbone" || username == "Grumm") {
+    this.skinViewer.playerObject.rotation.y = -6.75
+    this.skinViewer.scene.rotation.z = Math.PI;
+    this.skinViewer.scene.position.y = -17.5;
+  } else {
+    this.skinViewer.playerObject.rotation.y = 6.75
+  }
 
   document.getElementById("skin_container").addEventListener(
     "contextmenu",
