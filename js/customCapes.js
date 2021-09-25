@@ -345,8 +345,9 @@ function createSkinEvents() {
       if (event.target != undefined) {
         if (event.target.getAttribute("data-skin-hash")) {
           let skinHash = event.target.getAttribute("data-skin-hash")
+          let skinModel = event.target.getAttribute("data-model")
           let skinUrl = "https://texture.namemc.com/" + skinHash.substring(0, 2) + "/" + skinHash.substring(2, 4) + "/" + skinHash + ".png";
-          this.skinViewer.loadSkin(skinUrl)
+          this.skinViewer.loadSkin(skinUrl, skinModel);
         }
       }
     })
