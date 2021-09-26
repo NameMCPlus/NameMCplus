@@ -2,12 +2,11 @@ var username = document.querySelector("[name='profile:username']").content;
 var profileUUID = document.querySelector(".card-body .row:nth-child(2) samp").innerText;
 var template = document.createElement("template");
 var htmlForBadges = '';
-delta = 5;
+var delta = 5;
 var g = document.querySelector("#header").innerHTML;
 var q = g.includes("namemc-rank namemc-rank-10\" translate=");
-if (q == true) {
-  delta = 3;
-}
+
+if (q == true) delta = 3;
 
 $('body').tooltip({
   selector: '[data-toggle=tooltip]'
@@ -63,7 +62,7 @@ function setStatus(username, profileUUID, badges) {
       fetch(`https://api.ashcon.app/mojang/v2/user/${profileUUID}`)
         .then(response => response.json())
         .then(ashcon => {
-          fetch(`https://api.gapple.pw/status/${username}`)
+          fetch(`https://api.gapple.pw/status/${profileUUID}`)
             .then(response => response.json())
             .then(gapple => {
               chrome.storage.local.get(function (result) {
