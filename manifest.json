@@ -64,7 +64,7 @@
       "js": [
         "js/profile.js",
         "js/skinview3d.bundle.js",
-	      "js/customCapes.js"
+	"js/customCapes.js"
       ]
     },
     {
