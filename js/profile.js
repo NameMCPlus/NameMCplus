@@ -15,9 +15,9 @@ $('body').tooltip({
 chrome.storage.local.get(function (result) {
   if (result.mcusername) addMCUNButton();
   if (result.hideSeparation) {
-  document.querySelectorAll("a").forEach(element => {
-    if (element.href == "https://en.wikipedia.org/wiki/Six_degrees_of_separation") element.parentElement.parentElement.parentElement.remove()
-  });
+    document.querySelectorAll("a").forEach(element => {
+      if (element.href == "https://en.wikipedia.org/wiki/Six_degrees_of_separation") element.parentElement.parentElement.parentElement.remove()
+    })
   }
 });
 
