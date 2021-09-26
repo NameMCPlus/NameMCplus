@@ -45,17 +45,20 @@ function createNMCPCapeCard(db) {
   createSkinViewer();
   createSkinEvents();
   createCapeEvents();
-
-  const capes = [];
-  Object.entries(db).forEach(obj => {
-    if (obj[1].users.includes(profileUuid)) {
-      capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, "https://namemc.com/nmcp-cape/" + obj[0].toLowerCase().replace(" ", "-")))
+  chrome.storage.local.get(result => {
+    if (!result.otherCapes) return;
+    if (result.namemcpluscape) {
+      const capes = [];
+      Object.entries(db).forEach(obj => {
+        if (obj[1].users.includes(profileUuid)) {
+          capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, "https://namemc.com/nmcp-cape/" + obj[0].toLowerCase().replace(" ", "-")))
+        }
+      })
+      if (Object.keys(capes).length > 0) {
+        return createCapeCard(capes, "NameMC+ Capes", createThirdPartyCapeCard, true, null)
+      }
     }
-  })
-
-  if (Object.keys(capes).length > 0) {
-    return createCapeCard(capes, "NameMC+ Capes", createThirdPartyCapeCard, true, null)
-  }
+  });
   createThirdPartyCapeCard();
 }
 
@@ -145,7 +148,7 @@ function createCapeCard(capes, title, callback = console.log("Successfully made 
 
   // Render capes
   capes.forEach(cape => {
-    createCape(cape.src, cardDiv.querySelector("div.card-body.text-center"), cape.name, cape.description, cape.redirect ?? capes[i])
+    createCape(cape.src, cardDiv.querySelector("div.card-body.text-center"), cape.name, cape.description, cape.redirect ? ? capes[i])
   })
 
   // Remove cape selected glow
