@@ -17,89 +17,101 @@ class CapeTemplate {
     }
 }
 
-const capes = fetch("https://api.namemc.plus/capes")
-    .then(response => response.json())
-    .then(json => {
-        console.log(`Address: ${location.href}`)
-        if (location.href == "https://namemc.com/capes") {
+console.log(`Address: ${location.href}`)
 
-            chrome.storage.local.get(result => {
-                if (!result.capePages) return;
-                loadCapes(json, "NameMC+ Capes", "nmcp-cape");
-                fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
-                    loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
-                })
-            })
 
-        }
 
-        if (location.href.includes("namemc.com/nmcp-cape/")) {
+// Runs when viewing page with all capes listed
+if (location.href == "https://namemc.com/capes") {
+    chrome.storage.local.get(result => {
+        if (!result.capePages) return;
 
-            let displayCape = null;
-            Object.entries(json).forEach(obj => {
-                if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/nmcp-cape/")[1]) {
-                    displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
-                }
-            })
-            if (displayCape == null) return;
-            document.querySelector("main > div").remove();
-            loadCapeInfo(displayCape, "NameMC+ Cape");
-
-        }
-
-        if (location.href.includes("namemc.com/optifine-cape/")) {
-
-            let displayCape = null;
+        fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => {
+            loadCapes(json, "NameMC+ Capes", "nmcp-cape");
             fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
-                Object.entries(SpecialOptifine).forEach(obj => {
-                    if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/optifine-cape/")[1]) {
-                        displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
-                    }
-                })
-                if (displayCape == null) return;
-                document.querySelector("main > div").remove();
-                loadCapeInfo(displayCape, "OptiFine Cape");
+                loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
             })
+        })
 
+    })
+}
+
+
+
+// Runs when checking a NameMC+ Cape
+if (location.href.includes("namemc.com/nmcp-cape/")) {
+    fetch(`https://api.namemc.plus/capes/${location.href.split("namemc.com/nmcp-cape/")[1]}`).then(response => response.json()).then(json => {
+        if (Object.keys(json).length < 1) return;
+
+        document.querySelector("main > div").remove();
+        if (json.invisible) {
+            json.description += `
+                <br><br>
+                Psst. Hey kid, this is a secret cape.
+                If you think you're the first to find this, join our <b><a href="https://namemc.plus/discord">Discord</a></b> and share your findings!
+            `
         }
 
-        
-        if (location.href.includes("namemc.com/cape/")) {
-            const capeHash = location.href.split("namemc.com/cape/")[1];
-            fetch(`https://api.namemc.plus/capeInfo/${capeHash}`).then(response => response.json()).then(capeJson => {
+        loadCapeInfo(json, "NameMC+ Cape");
+    })
+}
+
+
+
+// Runs when checking for an OptiFine cape
+if (location.href.includes("namemc.com/optifine-cape/")) {
+    let displayCape = null;
+    fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
+        Object.entries(SpecialOptifine).forEach(obj => {
+            if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/optifine-cape/")[1]) {
+                displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
+            }
+        })
+        if (displayCape == null) return;
+        document.querySelector("main > div").remove();
+        loadCapeInfo(displayCape, "OptiFine Cape");
+    })
+}
+
+
+
+// Runs when on a normal cape page
+if (location.href.includes("namemc.com/cape/")) {
+    const capeHash = location.href.split("namemc.com/cape/")[1];
+    fetch(`https://api.namemc.plus/capeInfo/${capeHash}`).then(response => response.json()).then(capeJson => {
                 
-                const descriptionCard = document.createElement("div");
-                descriptionCard.className = "card mb-3";
-                descriptionCard.innerHTML = `
-                    <div class="d-flex flex-column" style="max-height: 25rem">
-                        <div class="card-header py-1">
-                            <strong>Description</strong>
-                        </div>
-                        <div class="card-body py-2">
-                            ${capeJson.description}
-                        </div>
-                    </div>
-                `;
+        const descriptionCard = document.createElement("div");
+        descriptionCard.className = "card mb-3";
+        descriptionCard.innerHTML = `
+            <div class="d-flex flex-column" style="max-height: 25rem">
+                <div class="card-header py-1">
+                    <strong>Description</strong>
+                </div>
+                <div class="card-body py-2">
+                    ${capeJson.description}
+                </div>
+            </div>
+        `;
 
 
-                let skin = null;
-                const playerListObjs = document.getElementsByClassName("card-body player-list py-2");
-                if (playerListObjs.length == 1) {
-                    console.log(`Inner text: ${playerListObjs[0].innerHTML.split(">")[1].split("<")[0]}`);
-                    skin = [playerListObjs[0].innerHTML.split(">")[1].split("<")[0]];
-                }
-                const lengthObj = {
-                    skin: skin,
-                    amount: parseInt(document.getElementsByClassName("position-absolute bottom-0 right-0 m-1 text-muted")[0].innerHTML.substr(1))
-                }
-                createSkinViewer(document.getElementsByClassName("skin-3d")[0].parentElement.parentElement, new CapeTemplate(textureURL(capeHash), lengthObj, "Cape"));
-                document.getElementsByClassName("skin-3d")[0].parentElement.remove();
-
-                const insertBeforeDiv = document.getElementsByClassName("card-body player-list py-2")[0].parentElement.parentElement.parentElement.parentElement.childNodes[0];
-                insertBeforeDiv.appendChild(descriptionCard);
-            })
+        let skin = null;
+        const playerListObjs = document.getElementsByClassName("card-body player-list py-2");
+        if (playerListObjs.length == 1) {
+            console.log(`Inner text: ${playerListObjs[0].innerHTML.split(">")[1].split("<")[0]}`);
+            skin = [playerListObjs[0].innerHTML.split(">")[1].split("<")[0]];
         }
-    });
+        const lengthObj = {
+            skin: skin,
+            amount: parseInt(document.getElementsByClassName("position-absolute bottom-0 right-0 m-1 text-muted")[0].innerHTML.substr(1))
+        }
+        createSkinViewer(document.getElementsByClassName("skin-3d")[0].parentElement.parentElement, new CapeTemplate(textureURL(capeHash), lengthObj, "Cape"));
+        document.getElementsByClassName("skin-3d")[0].parentElement.remove();
+
+        const insertBeforeDiv = document.getElementsByClassName("card-body player-list py-2")[0].parentElement.parentElement.parentElement.parentElement.childNodes[0];
+        insertBeforeDiv.appendChild(descriptionCard);
+    })
+}
+
 
 
 async function loadCapes(json, title, urlPath) {

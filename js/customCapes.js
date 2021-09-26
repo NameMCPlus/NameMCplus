@@ -9,14 +9,12 @@ class CapeTemplate {
   /**
    * 
    * @param {string} src 
-   * @param {string[]} users 
    * @param {string} name 
    * @param {string} description
    * @param {string} redirect
    */
-  constructor(src, users, name, description = null, redirect = null) {
+  constructor(src, name, description = null, redirect = null) {
     this.src = src;
-    this.users = users;
     this.name = name;
     this.description = description;
     this.redirect = redirect;
@@ -39,7 +37,7 @@ String.prototype.addDashes = function () {
 
 
 /* Add NMCP and JSON capes to profile */
-fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => createNMCPCapeCard(json));
+fetch(`https://api.namemc.plus/capes/user/${profileUuid}`).then(response => response.json()).then(json => createNMCPCapeCard(json));
 
 function createNMCPCapeCard(db) {
   createSkinViewer();
@@ -48,9 +46,7 @@ function createNMCPCapeCard(db) {
 
   const capes = [];
   Object.entries(db).forEach(obj => {
-    if (obj[1].users.includes(profileUuid)) {
-      capes.push(new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, "https://namemc.com/nmcp-cape/" + obj[0].toLowerCase().replace(" ", "-")))
-    }
+    capes.push(new CapeTemplate(obj[1].src, obj[0], obj[1].description, "https://namemc.com/nmcp-cape/" + obj[0].toLowerCase().replace(" ", "-")))
   })
 
   if (Object.keys(capes).length > 0) {
@@ -101,9 +97,7 @@ function createThirdPartyCapeCard(_) {
       const capeDiv = capeCard.querySelector("div.card-body.text-center");
 
       for (let i = 0; i < capes.length; i++) {
-        capes[i].url = capes[i].url.replace("{username}", username);
-        capes[i].url = capes[i].url.replace("{uuid}", profileUuid);
-        capes[i].url = capes[i].url.replace("{uuid-dashes}", profileUuid.addDashes());
+        capes[i].url = capes[i].url.replace("{username}", username).replace("{uuid}", profileUuid).replace("{uuid-dashes}", profileUuid.addDashes());
 
         fetch(capes[i].url).then(data => {
           if (data.ok) {
