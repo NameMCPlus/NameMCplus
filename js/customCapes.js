@@ -44,6 +44,9 @@ function createNMCPCapeCard(db) {
   createSkinEvents();
   createCapeEvents();
 
+  chrome.storage.local.get(result => {
+    if (!result.otherCapes) return;
+    if (result.namemcpluscape) {
   const capes = [];
   Object.entries(db).forEach(obj => {
     capes.push(new CapeTemplate(obj[1].src, obj[0], obj[1].description, "https://namemc.com/nmcp-cape/" + obj[0].toLowerCase().replace(" ", "-")))
@@ -52,7 +55,10 @@ function createNMCPCapeCard(db) {
   if (Object.keys(capes).length > 0) {
     return createCapeCard(capes, "NameMC+ Capes", createThirdPartyCapeCard, true, null)
   }
+
   createThirdPartyCapeCard();
+    }
+  });
 }
 
 

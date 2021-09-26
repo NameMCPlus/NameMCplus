@@ -27,7 +27,7 @@ if (location.href == "https://namemc.com/capes") {
         if (!result.capePages) return;
 
         fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => {
-            loadCapes(json, "NameMC+ Capes", "nmcp-cape");
+            if (result.namemcpluscape && result.otherCapes) loadCapes(json, "NameMC+ Capes", "nmcp-cape");
             fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
                 loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
             })
@@ -39,22 +39,20 @@ if (location.href == "https://namemc.com/capes") {
 
 
 // Runs when checking a NameMC+ Cape
-if (location.href.includes("namemc.com/nmcp-cape/")) {
-    fetch(`https://api.namemc.plus/capes/${location.href.split("namemc.com/nmcp-cape/")[1]}`).then(response => response.json()).then(json => {
+chrome.storage.local.get(result => {
+    if (location.href.includes("namemc.com/nmcp-cape/") && result.namemcpluscape && result.otherCapes) {
+        fetch(`https://api.namemc.plus/capes/${location.href.split("namemc.com/nmcp-cape/")[1]}`).then(response => response.json()).then(json => {
         if (Object.keys(json).length < 1) return;
 
         document.querySelector("main > div").remove();
         if (json.invisible) {
-            json.description += `
-                <br><br>
-                Psst. Hey kid, this is a secret cape.
-                If you think you're the first to find this, join our <b><a href="https://namemc.plus/discord">Discord</a></b> and share your findings!
-            `
+            json.description += `${atob("CiAgICAgICAgICAgICAgICA8YnI+PGJyPgogICAgICAgICAgICAgICAgUHNzdC4gSGV5IGtpZCwgdGhpcyBpcyBhIHNlY3JldCBjYXBlLgogICAgICAgICAgICAgICAgSWYgeW91IHRoaW5rIHlvdSdyZSB0aGUgZmlyc3QgdG8gZmluZCB0aGlzLCBqb2luIG91ciA8Yj48YSBocmVmPSJodHRwczovL25hbWVtYy5wbHVzL2Rpc2NvcmQiPkRpc2NvcmQ8L2E+PC9iPiBhbmQgc2hhcmUgeW91ciBmaW5kaW5ncyEKICAgICAgICAgICAg")}`
         }
 
         loadCapeInfo(json, "NameMC+ Cape");
     })
-}
+  }
+})
 
 
 
