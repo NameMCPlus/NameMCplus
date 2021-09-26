@@ -16,21 +16,9 @@ $('body').tooltip({
 chrome.storage.local.get(function (result) {
   if (result.mcusername) addMCUNButton();
   if (result.hideSeparation) {
-    var s2 = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4) > div.card-header.py-1").innerHTML;
-    if (s2.includes("Separation")) {
-      document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(4)").remove();
-    } else {
-      var s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1").innerHTML;
-      if (s.includes("Separation")) {
-        document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
-      }
-
-      var s = document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5) > div.card-header.py-1").innerHTML;
-      if (s.includes("Separation")) {
-        document.querySelector("body > main > div > div.col-md-auto.order-md-1 > div:nth-child(5)").remove();
-      }
-
-    }
+  document.querySelectorAll("a").forEach(element => {
+    if (element.href == "https://en.wikipedia.org/wiki/Six_degrees_of_separation") element.parentElement.parentElement.parentElement.remove()
+  });
   }
 });
 
