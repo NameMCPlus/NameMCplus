@@ -1,4 +1,11 @@
-// Code by Orius, I'm sleep deprived
+const navigationBar = document.querySelector("nav > ul");
 
-const navBar = document.querySelector("nav > ul");
-navBar.remove();
+const testerMenuItem = document.createElement("li");
+testerMenuItem.className = "nav-item";
+testerMenuItem.innerHTML = `
+    <a class="nav-link" href="/plus/tester">
+        <i class="fas fa-rectangle-portrait menu-icon d-none d-xl-inline-block"></i>Tester
+    </a>
+`
+
+navigationBar.appendChild(testerMenuItem);
