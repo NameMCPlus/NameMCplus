@@ -124,6 +124,11 @@ function betterNameMC(username) {
             }
           }
         }
+
+        document.querySelectorAll(".text-muted").forEach(text => {
+          if (text.innerHTML === "") text.remove();
+        });
+
         try {
           const timers = $('.countdown-timer');
           if (timers.length > 0) {
