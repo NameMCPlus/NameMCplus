@@ -46,7 +46,7 @@ chrome.storage.local.get(result => {
 
         document.querySelector("main > div").remove();
         if (json.invisible) {
-            json.description += `${atob("CiAgICAgICAgICAgICAgICA8YnI+PGJyPgogICAgICAgICAgICAgICAgUHNzdC4gSGV5IGtpZCwgdGhpcyBpcyBhIHNlY3JldCBjYXBlLgogICAgICAgICAgICAgICAgSWYgeW91IHRoaW5rIHlvdSdyZSB0aGUgZmlyc3QgdG8gZmluZCB0aGlzLCBqb2luIG91ciA8Yj48YSBocmVmPSJodHRwczovL25hbWVtYy5wbHVzL2Rpc2NvcmQiPkRpc2NvcmQ8L2E+PC9iPiBhbmQgc2hhcmUgeW91ciBmaW5kaW5ncyEKICAgICAgICAgICAg")}`
+            
         }
 
         loadCapeInfo(json, "NameMC+ Cape");
@@ -60,7 +60,7 @@ chrome.storage.local.get(result => {
 if (location.href.includes("namemc.com/optifine-cape/")) {
     let displayCape = null;
     fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
-        Object.entries(SpecialOptifine).forEach(obj => {
+        Object.entries(SpecialOptifine).sort().forEach(obj => {
             if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/optifine-cape/")[1]) {
                 displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
             }
@@ -115,7 +115,7 @@ if (location.href.includes("namemc.com/cape/")) {
 async function loadCapes(json, title, urlPath) {
     const capesDiv = document.querySelector("main > div > div");
 
-    const capes = Object.entries(json);
+    const capes = Object.entries(json).sort((a, b) => b[1].users.length - a[1].users.length);
     for(let i = 0; i < Object.keys(json).length; i++) {
         if (i == 0) {
             capesDiv.innerHTML += `
