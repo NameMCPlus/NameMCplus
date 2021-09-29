@@ -139,7 +139,7 @@ function createCapeCard(capes, title, callback = console.log("Successfully made 
                 ${redirect ? `<a href="${redirect}" target="_blank" rel="nofollow noopener noreferrer">` : ""}${title.split(" ")[0]}${redirect ? `</a>` : ""}${" " + titleArray.join(" ")}${showAmount ? " (" + capes.length + ")" : ""}
             </strong>
         </div>
-        <div class="card-body text-center" style="padding: 3px">
+        <div class="card-body text-center" style="padding: 3px; width: 324px; margin: auto; text-align: center;">
         </div>
     `;
 
