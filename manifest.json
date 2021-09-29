@@ -95,6 +95,7 @@
         "https://*.namemc.com/plus/tester*"
       ],
       "js": [
+        "js/skinview3d.bundle.js",
         "js/tester.js"
       ]
     }
