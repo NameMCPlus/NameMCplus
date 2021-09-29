@@ -1,7 +1,43 @@
 // remove the 404 error
 document.querySelector("main > div").remove();
+document.title = "Tester | NameMC+"
 
-const skinViewer = createSkinViewer(document.querySelector("main"));
+// declare variables
+const skinViewer = null;
+const skinViewerWalk = null;
+
+// create skin viewer
+document.querySelector("main").innerHTML = `
+    <div class="row">
+        <div class="col-md order-md-1"></div>
+        <div class="col-md-auto order-md-2"></div>
+    </div>
+`;
+createSkinViewer(document.querySelector("main > div > div"))
+
+// create skin viewer options parent
+const settingsParent = document.createElement("div");
+settingsParent.className = "card mb-3"
+document.querySelectorAll("main > div > div")[1].appendChild(settingsParent);
+
+
+
+// go crazy, go stupid aaaaah
+settingsParent.innerHTML = `
+    <div class="card-header py-1"><strong>Settings</strong></div>
+    <div class="card-body py-1">
+        <input type="text" class="form-control" id="skin-input" placeholder="Name / UUID" style="font-family: 'Consolas', monospace">
+    </div>
+`;
+
+
+
+// when a user for the skin is entered
+document.getElementById("skin-input").onkeydown = event => {
+    if(event.key != 'Enter') return;
+    const value = document.getElementById("skin-input").value;
+    this.skinViewer.loadSkin(`https://www.mc-heads.net/skin/${value}`, "classic");
+}
 
 
 
