@@ -26,7 +26,14 @@ document.querySelectorAll("main > div > div")[1].appendChild(settingsParent);
 settingsParent.innerHTML = `
     <div class="card-header py-1"><strong>Settings</strong></div>
     <div class="card-body py-1">
+        <label for="skin-input" style="padding-top: 3%;">Skin</label>
         <input type="text" class="form-control" id="skin-input" placeholder="Name / UUID" style="font-family: 'Consolas', monospace">
+        <label for="cape-input" style="padding-top: 3%;">Cape</label>
+        <select class="form-control" id="cape-input">
+            <optgroup label="Official Capes" id="official-capes-group"></optgroup>
+            <optgroup label="OptiFine Capes" id="optifine-capes-group"></optgroup>
+            <optgroup label="NameMC+ Capes" id="namemcplus-capes-group"></optgroup>
+        </select>
     </div>
 `;
 
@@ -36,7 +43,33 @@ settingsParent.innerHTML = `
 document.getElementById("skin-input").onkeydown = event => {
     if(event.key != 'Enter') return;
     const value = document.getElementById("skin-input").value;
-    this.skinViewer.loadSkin(`https://www.mc-heads.net/skin/${value}`, "classic");
+    this.skinViewer.loadSkin(`https://www.mc-heads.net/skin/${value.trim()}`);
+}
+
+
+
+// add cape options
+const selectElement = document.getElementById("cape-input");
+
+fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(json => {
+    let parentElement = document.getElementById("optifine-capes-group")
+    Object.entries(json).forEach(cape => {
+        parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
+    })
+})
+
+fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => {
+    let parentElement = document.getElementById("namemcplus-capes-group")
+    Object.entries(json).forEach(cape => {
+        parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
+    })
+});
+
+
+
+// add select register
+document.getElementById("cape-input").onchange = (event) => {
+    this.skinViewer.loadCape(document.getElementById("cape-input").value)
 }
 
 
