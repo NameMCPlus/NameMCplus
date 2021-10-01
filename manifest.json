@@ -33,7 +33,7 @@
         "css/removeAds.css",
         "css/followBtn.css",
         "css/fixDropdown.css",
-	"css/skinContainer.css"
+	      "css/skinContainer.css"
       ]
     },
     {
@@ -65,7 +65,7 @@
       "js": [
         "js/profile.js",
         "js/skinview3d.bundle.js",
-	"js/customCapes.js"
+	      "js/customCapes.js"
       ]
     },
     {
@@ -92,11 +92,11 @@
     },
     {
       "matches": [
-        "https://*.namemc.com/plus/tester*"
+        "https://*.namemc.com/plus/cape-tester*"
       ],
       "js": [
         "js/skinview3d.bundle.js",
-        "js/tester.js"
+        "js/capeTester.js"
       ]
     }
   ],
