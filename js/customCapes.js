@@ -237,7 +237,7 @@ function createCapeEvents() {
 function createSkinViewer() {
   // Skin
   let featureDiv = document.createElement("div");
-  featureDiv.id = "minecraftcapes-skin";
+  featureDiv.id = "skin-viewer";
   featureDiv.className = "card mb-3";
 
   // Add a button for animation
