@@ -121,8 +121,15 @@ async function loadCapeOptions() {
 
     fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => {
         let parentElement = document.getElementById("namemcplus-capes-group")
-        Object.entries(json).forEach(cape => {
-            parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
+        chrome.storage.local.get(result => {
+            if (result.hiddenCapes) {
+                Object.entries(result.hiddenCapes).forEach(obj => {
+                    json[obj[0]] = obj[1];
+                })
+            }
+            Object.entries(json).sort().forEach(cape => {
+                parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
+            })
         })
     });
 }
