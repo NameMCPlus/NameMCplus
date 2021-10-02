@@ -36,7 +36,8 @@ settingsParent.innerHTML = `
         <input type="text" class="form-control" id="skin-input" placeholder="Name / UUID" style="font-family: 'Consolas', monospace">
         <label for="cape-input" style="padding-top: 3%;">Cape</label>
         <select class="form-control" id="cape-input">
-            <optgroup label="Official Capes" id="official-capes-group"></optgroup>
+            <optgroup label="Java Edition Capes" id="java-capes-group"></optgroup>
+            <optgroup label="Bedrock Edition Capes" id="bedrock-capes-group"></optgroup>
             <optgroup label="OptiFine Capes" id="optifine-capes-group"></optgroup>
             <optgroup label="NameMC+ Capes" id="namemcplus-capes-group"></optgroup>
         </select>
@@ -98,7 +99,14 @@ async function loadCapeOptions() {
     const selectElement = document.getElementById("cape-input");
 
     fetch("https://api.namemc.plus/capeInfo").then(response => response.json()).then(json => {
-        let parentElement = document.getElementById("official-capes-group")
+        let parentElement = document.getElementById("java-capes-group")
+        Object.entries(json).sort().forEach(cape => {
+            parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
+        })
+    })
+
+    fetch("https://api.namemc.plus/bedrockCapes").then(response => response.json()).then(json => {
+        let parentElement = document.getElementById("bedrock-capes-group")
         Object.entries(json).sort().forEach(cape => {
             parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
         })
