@@ -1,6 +1,12 @@
 // remove the 404 error
 document.querySelector("main > div").remove();
 document.title = "Cape Tester | NameMC+"
+document.querySelector("header").innerHTML += `
+    <div class="container pt-3">
+        <h1 class="text-center">Minecraft Cape Tester</h1>
+        <hr>
+    </div>
+`
 
 // declare variables
 const skinViewer = null;
@@ -34,6 +40,8 @@ settingsParent.innerHTML = `
             <optgroup label="OptiFine Capes" id="optifine-capes-group"></optgroup>
             <optgroup label="NameMC+ Capes" id="namemcplus-capes-group"></optgroup>
         </select>
+        <label for="cape-file-input" style="padding-top: 3%;">Custom Cape</label><br>
+        <input type="file" class="form-control" style="padding-bottom: 11%;" id="cape-file-input" accept="image/png, image/gif, image/jpeg" />
     </div>
 `;
 
@@ -79,6 +87,16 @@ fetch("https://api.namemc.plus/capes").then(response => response.json()).then(js
 // add select register
 document.getElementById("cape-input").onchange = (event) => {
     this.skinViewer.loadCape(document.getElementById("cape-input").value)
+}
+
+
+
+// add select file register
+var reader = new FileReader();
+reader.addEventListener("load", () => {this.skinViewer.loadCape(reader.result)}, false);
+
+document.getElementById("cape-file-input").onchange = (event) => {
+    reader.readAsDataURL(document.getElementById("cape-file-input").files[0]);
 }
 
 
