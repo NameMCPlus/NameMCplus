@@ -42,6 +42,7 @@ settingsParent.innerHTML = `
         </select>
         <label for="cape-file-input" style="padding-top: 3%;">Custom Cape</label><br>
         <input type="file" class="form-control" style="padding-bottom: 11%;" id="cape-file-input" accept="image/png, image/gif, image/jpeg" />
+        <div style="padding-bottom: 5%;"></div>
     </div>
 `;
 
