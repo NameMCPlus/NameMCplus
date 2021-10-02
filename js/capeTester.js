@@ -42,7 +42,9 @@ settingsParent.innerHTML = `
         </select>
         <label for="cape-file-input" style="padding-top: 3%;">Custom Cape</label><br>
         <input type="file" class="form-control" style="padding-bottom: 11%;" id="cape-file-input" accept="image/png, image/gif, image/jpeg" />
-        <div style="padding-bottom: 5%;"></div>
+        <div style="padding-top: 5%;"></div>
+        <label for="upside-down-input">Upside Down</label>
+        <input type="checkbox" id="upside-down-input" />
     </div>
 `;
 
@@ -53,35 +55,22 @@ document.getElementById("skin-input").onkeydown = event => {
     if(event.key != 'Enter') return;
     const value = document.getElementById("skin-input").value;
     this.skinViewer.loadSkin(`https://www.mc-heads.net/skin/${value.trim()}`);
-    if (value.trim().toLowerCase() == "dinnerbone" || value.trim().toLowerCase() == "grumm") {
-      this.skinViewer.playerObject.rotation.y = -10
-      this.skinViewer.scene.rotation.z = Math.PI;
-      this.skinViewer.scene.position.y = -17.5;
-    } else {
-      this.skinViewer.playerObject.rotation.y = 10
-      this.skinViewer.scene.rotation.z = 0;
-      this.skinViewer.scene.position.y = 0;
-    }
 }
 
 
 
-// add cape options
-const selectElement = document.getElementById("cape-input");
-
-fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(json => {
-    let parentElement = document.getElementById("optifine-capes-group")
-    Object.entries(json).forEach(cape => {
-        parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
-    })
-})
-
-fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => {
-    let parentElement = document.getElementById("namemcplus-capes-group")
-    Object.entries(json).forEach(cape => {
-        parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
-    })
-});
+// add upside down change register
+document.getElementById("upside-down-input").onchange = (event) => {
+    if (document.getElementById("upside-down-input").checked) {
+        this.skinViewer.playerObject.rotation.y = -10
+        this.skinViewer.scene.rotation.z = Math.PI;
+        this.skinViewer.scene.position.y = -17.5;
+    } else {
+        this.skinViewer.playerObject.rotation.y = 10
+        this.skinViewer.scene.rotation.z = 0;
+        this.skinViewer.scene.position.y = 0;
+    }
+}
 
 
 
@@ -98,6 +87,36 @@ reader.addEventListener("load", () => {this.skinViewer.loadCape(reader.result)},
 
 document.getElementById("cape-file-input").onchange = (event) => {
     reader.readAsDataURL(document.getElementById("cape-file-input").files[0]);
+}
+
+
+
+// add cape options
+loadCapeOptions();
+
+async function loadCapeOptions() {
+    const selectElement = document.getElementById("cape-input");
+
+    fetch("https://api.namemc.plus/capeInfo").then(response => response.json()).then(json => {
+        let parentElement = document.getElementById("official-capes-group")
+        Object.entries(json).sort().forEach(cape => {
+            parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
+        })
+    })
+
+    fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(json => {
+        let parentElement = document.getElementById("optifine-capes-group")
+        Object.entries(json).forEach(cape => {
+            parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
+        })
+    })
+
+    fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => {
+        let parentElement = document.getElementById("namemcplus-capes-group")
+        Object.entries(json).forEach(cape => {
+            parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
+        })
+    });
 }
 
 
