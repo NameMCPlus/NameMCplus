@@ -96,13 +96,12 @@ document.getElementById("cape-file-input").onchange = (event) => {
 loadCapeOptions();
 
 async function loadCapeOptions() {
-    const selectElement = document.getElementById("cape-input");
-
     fetch("https://api.namemc.plus/capeInfo").then(response => response.json()).then(json => {
         let parentElement = document.getElementById("java-capes-group")
         Object.entries(json).sort().forEach(cape => {
             parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
         })
+        this.skinViewer.loadCape(document.getElementById("cape-input").value)
     })
 
     fetch("https://api.namemc.plus/bedrockCapes").then(response => response.json()).then(json => {
@@ -110,6 +109,7 @@ async function loadCapeOptions() {
         Object.entries(json).sort().forEach(cape => {
             parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
         })
+        this.skinViewer.loadCape(document.getElementById("cape-input").value)
     })
 
     fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(json => {
@@ -117,6 +117,7 @@ async function loadCapeOptions() {
         Object.entries(json).forEach(cape => {
             parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
         })
+        this.skinViewer.loadCape(document.getElementById("cape-input").value)
     })
 
     fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => {
@@ -131,6 +132,7 @@ async function loadCapeOptions() {
                 parentElement.innerHTML += `<option value="${cape[1].src}">${cape[0]}</option>`
             })
         })
+        this.skinViewer.loadCape(document.getElementById("cape-input").value)
     });
 }
 
