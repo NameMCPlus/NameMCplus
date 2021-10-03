@@ -21,6 +21,7 @@ const options = [
   // more capes options
   new Setting("capePages", document.getElementById("capepagesbutton"), true),
   new Setting("namemcpluscape", document.getElementById("namemcpluscapebutton"), true),
+  new Setting("optifine", document.getElementById("optifinebutton"), true),
   // new Setting("mantle", document.getElementById("mantlebutton"), true),
   new Setting("cloaksplus", document.getElementById("cloaksplusbutton"), true),
   new Setting("labymod", document.getElementById("labymodbutton"), true),
