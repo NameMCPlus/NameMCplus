@@ -73,15 +73,15 @@ function createThirdPartyCapeCard(_) {
     if (!result.otherCapes) return;
     const capes = [];
 
-    if (result.mantle) {
-      // createCapeCard([], "Mantle Capes", console.log("Created Mantle cape card!"), true, "https://mantle.gg");
+    const optifineCapeCard = Array.from(document.querySelectorAll('a'))
+      .find(el => el.textContent.toLowerCase() === 'optifine');
+
+    if (optifineCapeCard) {
+      optifineCapeCard.parentElement.parentElement.parentElement.remove();
     }
 
-    if (result.labymod) {
-      capes.push({
-        "name": "LabyMod",
-        "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
-      })
+    if (result.mantle) {
+      // createCapeCard([], "Mantle Capes", console.log("Created Mantle cape card!"), true, "https://mantle.gg");
     }
 
     if (result.cloaksplus) {
@@ -91,10 +91,24 @@ function createThirdPartyCapeCard(_) {
       })
     }
 
+    if (result.labymod) {
+      capes.push({
+        "name": "LabyMod",
+        "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
+      })
+    }
+
     if (result.capesmod) {
       capes.push({
         "name": "MinecraftCapes",
         "url": `https://minecraftcapes.net/profile/{uuid}/cape/map?${Date.now()}`
+      })
+    }
+
+    if (result.optifine) {
+      capes.push({
+        "name": "OptiFine",
+        "url": "https://api.gapple.pw/cors/optifine/{username}"
       })
     }
 
