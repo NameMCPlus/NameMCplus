@@ -16,6 +16,7 @@ const options = [
   new Setting("oldLayout", document.getElementById("searchbutton"), false),
   new Setting("hideLocation", document.getElementById("hidelocationbutton"), false),
   new Setting("hideSeparation", document.getElementById("hideseparationbutton"), false),
+  new Setting("browniePoints", document.getElementById("browniepointsbutton"), false),
   new Setting("mcusername", document.getElementById("mcusernamebutton"), false),
 
   // more capes options
