@@ -112,6 +112,16 @@ function createThirdPartyCapeCard(_) {
       })
     }
 
+    if (result.customApis) {
+        const array = result.customApis.split(" ");
+        array.forEach(link => {
+            capes.push({
+                "name": link.split("-")[0].replace(/_/g, " "),
+                "url": link.split("-")[1]
+            })
+        })
+    }
+
     createCapeCard([], "Third-Party Capes", capeCard => {
       capeCard.style = "display: none;";
       const capeDiv = capeCard.querySelector("div.card-body.text-center");
