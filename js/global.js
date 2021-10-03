@@ -1,6 +1,6 @@
 chrome.storage.local.get(result => {
     if (result.browniePoints) {
-        document.title = document.title.replace("NameMC ", "NameMC+ ");
+        document.title = document.title.replace(/NameMC$/g, "NameMC+").replace(/NameMC /g, "NameMC+ ");
         document.querySelector("nav > a").setAttribute("title", "Coding their website for them since 2021!")
         document.querySelector("nav > a > svg").setAttribute("viewBox", "-7 -7 14 14");
         document.querySelector("nav > a > svg > path").setAttribute("d", "M -1 1 L -1 5 L 1 5 L 1 1 L 5 1 L 5 -1 L 1 -1 L 1 -5 L -1 -5 L -1 -1 L -5 -1 L -5 1 L -1 1");
