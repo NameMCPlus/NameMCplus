@@ -54,6 +54,8 @@ chrome.storage.local.get(function (result) {
   }
 });
 
+document.querySelector(".mt-3 div div").classList.remove("col-auto")
+
 function setStatus(username, profileUUID, badges) {
   fetch(`https://api.gapple.pw/cors/username/${username}`)
     .then(response => response.json())
@@ -174,6 +176,6 @@ function addMCUNButton() {
   button.classList = "btn btn-sm text-nowrap btn-success";
 
   parentDiv.appendChild(button);
-  const bigUsername = document.querySelector("div.col-auto h1");
+  const bigUsername = document.querySelector("div h1");
   bigUsername.innerHTML += " " + parentDiv.outerHTML;
 }

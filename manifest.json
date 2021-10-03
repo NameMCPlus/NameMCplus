@@ -1,7 +1,7 @@
 {
   "name": "NameMC+",
   "description": "A browser extension that adds cool features to NameMC!",
-  "version": "3.2",
+  "version": "4.0",
   "author": "M6, Faav, and Orius",
   "icons": {
     "16": "icons/icon16.png",
@@ -33,7 +33,7 @@
         "css/removeAds.css",
         "css/followBtn.css",
         "css/fixDropdown.css",
-	"css/skinContainer.css"
+	      "css/skinContainer.css"
       ]
     },
     {
@@ -42,7 +42,8 @@
       ],
       "js": [
         "js/fixDropdown.js",
-        "js/removeAds.js"
+        "js/removeAds.js",
+        "js/global.js"
       ]
     },
     {
@@ -64,7 +65,7 @@
       "js": [
         "js/profile.js",
         "js/skinview3d.bundle.js",
-	"js/customCapes.js"
+	      "js/customCapes.js"
       ]
     },
     {
@@ -87,6 +88,15 @@
       "js": [
         "js/skinview3d.bundle.js",
         "js/capesPage.js"
+      ]
+    },
+    {
+      "matches": [
+        "https://*.namemc.com/plus/cape-tester*"
+      ],
+      "js": [
+        "js/skinview3d.bundle.js",
+        "js/capeTester.js"
       ]
     }
   ],

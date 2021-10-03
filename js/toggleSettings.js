@@ -16,11 +16,13 @@ const options = [
   new Setting("oldLayout", document.getElementById("searchbutton"), false),
   new Setting("hideLocation", document.getElementById("hidelocationbutton"), false),
   new Setting("hideSeparation", document.getElementById("hideseparationbutton"), false),
+  new Setting("browniePoints", document.getElementById("browniepointsbutton"), false),
   new Setting("mcusername", document.getElementById("mcusernamebutton"), false),
 
   // more capes options
   new Setting("capePages", document.getElementById("capepagesbutton"), true),
   new Setting("namemcpluscape", document.getElementById("namemcpluscapebutton"), true),
+  new Setting("optifine", document.getElementById("optifinebutton"), true),
   // new Setting("mantle", document.getElementById("mantlebutton"), true),
   new Setting("cloaksplus", document.getElementById("cloaksplusbutton"), true),
   new Setting("labymod", document.getElementById("labymodbutton"), true),

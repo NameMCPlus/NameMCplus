@@ -8,11 +8,12 @@ Support for other browsers will come in the future!
 
 # Features
 
-- [NEW!] View all OptiFine special capes
+- [NEW] Cape Tester
 - Custom Capes
 - Badge System
 - Support for __[LabyMod](https://labymod.net)__, __[Cloaks+](https://cloaksplus.com)__, and __[MinecraftCapes Mod](https://minecraftcapes.net)__
 - Renders elytras
+- View all OptiFine special capes
 - Displays user creation dates (Inaccurate for a lot of accounts due to a breaking change on Mojang's end. We are currently fetching dates from Ashcon's API. Please yell at Mojang ([WEB-3367](https://bugs.mojang.com/browse/WEB-3367)) in order for accurate creation dates to return)
 - Shows users' account type (Legacy, Mojang, Microsoft, Migrated Microsoft, etc)
 - Detects if a name is blocked

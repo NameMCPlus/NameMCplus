@@ -73,15 +73,15 @@ function createThirdPartyCapeCard(_) {
     if (!result.otherCapes) return;
     const capes = [];
 
-    if (result.mantle) {
-      // createCapeCard([], "Mantle Capes", console.log("Created Mantle cape card!"), true, "https://mantle.gg");
+    const optifineCapeCard = Array.from(document.querySelectorAll('a'))
+      .find(el => el.textContent.toLowerCase() === 'optifine');
+
+    if (optifineCapeCard) {
+      optifineCapeCard.parentElement.parentElement.parentElement.remove();
     }
 
-    if (result.labymod) {
-      capes.push({
-        "name": "LabyMod",
-        "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
-      })
+    if (result.mantle) {
+      // createCapeCard([], "Mantle Capes", console.log("Created Mantle cape card!"), true, "https://mantle.gg");
     }
 
     if (result.cloaksplus) {
@@ -91,11 +91,35 @@ function createThirdPartyCapeCard(_) {
       })
     }
 
+    if (result.labymod) {
+      capes.push({
+        "name": "LabyMod",
+        "url": "https://api.gapple.pw/cors/labymod/cape/{uuid-dashes}"
+      })
+    }
+
     if (result.capesmod) {
       capes.push({
         "name": "MinecraftCapes",
         "url": `https://minecraftcapes.net/profile/{uuid}/cape/map?${Date.now()}`
       })
+    }
+
+    if (result.optifine) {
+      capes.push({
+        "name": "OptiFine",
+        "url": "https://api.gapple.pw/cors/optifine/{username}"
+      })
+    }
+
+    if (result.customApis) {
+        const array = result.customApis.split(" ");
+        array.forEach(link => {
+            capes.push({
+                "name": link.split("-")[0].replace(/_/g, " "),
+                "url": link.split("-")[1]
+            })
+        })
     }
 
     createCapeCard([], "Third-Party Capes", capeCard => {
@@ -237,7 +261,7 @@ function createCapeEvents() {
 function createSkinViewer() {
   // Skin
   let featureDiv = document.createElement("div");
-  featureDiv.id = "minecraftcapes-skin";
+  featureDiv.id = "skin-viewer";
   featureDiv.className = "card mb-3";
 
   // Add a button for animation

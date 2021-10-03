@@ -27,7 +27,14 @@ if (location.href == "https://namemc.com/capes") {
         if (!result.capePages) return;
 
         fetch("https://api.namemc.plus/capes").then(response => response.json()).then(json => {
-            if (result.namemcpluscape && result.otherCapes) loadCapes(json, "NameMC+ Capes", "nmcp-cape");
+            if (result.namemcpluscape) {
+                if (result.hiddenCapes) {
+                    Object.entries(result.hiddenCapes).forEach(element => {
+                        json[element[0]] = element[1];
+                    });
+                }
+                loadCapes(json, "NameMC+ Capes", "nmcp-cape");
+            }
             fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
                 loadCapes(SpecialOptifine, "OptiFine Capes", "optifine-cape");
             })
@@ -40,18 +47,26 @@ if (location.href == "https://namemc.com/capes") {
 
 // Runs when checking a NameMC+ Cape
 chrome.storage.local.get(result => {
-    if (location.href.includes("namemc.com/nmcp-cape/") && result.namemcpluscape && result.otherCapes) {
-        fetch(`https://api.namemc.plus/capes/${location.href.split("namemc.com/nmcp-cape/")[1]}`).then(response => response.json()).then(json => {
-        if (Object.keys(json).length < 1) return;
+    if (location.href.includes("namemc.com/nmcp-cape/")) {
+        const capeKey = location.href.split("namemc.com/nmcp-cape/")[1];
+        fetch(`https://api.namemc.plus/capes/${capeKey}`).then(response => response.json()).then(json => {
+            if (Object.keys(json).length < 1) return;
 
-        document.querySelector("main > div").remove();
-        if (json.invisible) {
-            json.description += `${atob("CiAgICAgICAgICAgICAgICA8YnI+PGJyPgogICAgICAgICAgICAgICAgUHNzdC4gSGV5IGtpZCwgdGhpcyBpcyBhIHNlY3JldCBjYXBlLgogICAgICAgICAgICAgICAgSWYgeW91IHRoaW5rIHlvdSdyZSB0aGUgZmlyc3QgdG8gZmluZCB0aGlzLCBqb2luIG91ciA8Yj48YSBocmVmPSJodHRwczovL25hbWVtYy5wbHVzL2Rpc2NvcmQiPkRpc2NvcmQ8L2E+PC9iPiBhbmQgc2hhcmUgeW91ciBmaW5kaW5ncyEKICAgICAgICAgICAg")}`
-        }
+            console.log("Hidden capes storage: " + JSON.stringify(result.hiddenCapes))
 
-        loadCapeInfo(json, "NameMC+ Cape");
-    })
-  }
+            document.querySelector("main > div").remove();
+            if (!result.hiddenCapes) result.hiddenCapes = {};
+            if (json.invisible) {
+                const storageObj = result.hiddenCapes;
+                storageObj[json.name] = json;
+                chrome.storage.local.set({hiddenCapes: storageObj});
+                json.description += 
+                "<br><br>Congratulations, you found a <b>hidden cape!</b><br>This cape can now be viewed from the capes page.";
+            }
+
+            loadCapeInfo(json, "NameMC+ Cape");
+        })
+    }
 })
 
 
@@ -60,7 +75,7 @@ chrome.storage.local.get(result => {
 if (location.href.includes("namemc.com/optifine-cape/")) {
     let displayCape = null;
     fetch("https://api.namemc.plus/OFcapes").then(response => response.json()).then(SpecialOptifine => {
-        Object.entries(SpecialOptifine).forEach(obj => {
+        Object.entries(SpecialOptifine).sort().forEach(obj => {
             if (obj[0].toLowerCase().replace(" ", "-") == location.href.split("namemc.com/optifine-cape/")[1]) {
                 displayCape = new CapeTemplate(obj[1].src, obj[1].users, obj[0], obj[1].description, null, obj[1].image);
             }
@@ -115,7 +130,7 @@ if (location.href.includes("namemc.com/cape/")) {
 async function loadCapes(json, title, urlPath) {
     const capesDiv = document.querySelector("main > div > div");
 
-    const capes = Object.entries(json);
+    const capes = Object.entries(json).sort((a, b) => b[1].users.length - a[1].users.length);
     for(let i = 0; i < Object.keys(json).length; i++) {
         if (i == 0) {
             capesDiv.innerHTML += `
