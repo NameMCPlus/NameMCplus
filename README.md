@@ -1,4 +1,7 @@
-# NameMC+
+# NameMC+ (DISCONTINUED)
+USE THE BETTER VERSION [NAMEMC EXTRAS](https://github.com/bribes/NameMC-Extras)!
+
+
 A browser extension that adds cool features to NameMC!
 
 [Website](https://namemc.plus) - [API](https://api.namemc.plus) - [Discord](https://namemc.plus/discord)
